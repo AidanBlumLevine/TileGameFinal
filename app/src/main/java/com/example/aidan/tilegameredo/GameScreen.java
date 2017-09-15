@@ -48,41 +48,16 @@ public class GameScreen extends AppCompatActivity {
             Double angle = Math.toDegrees(Math.atan2(e1.getY() - e2.getY(), e2.getX() - e1.getX()));
 
             if (angle > 45 && angle <= 135) {
-                if (!tilesMoving()) {
-                    tileSort("Up");
-                    for (Tile t : tiles) {
-                        t.pushUp();
-                    }
-                }
-            } else if (angle >= 135 && angle < 180 || angle < -135 && angle > -180) {
-                tileSort("Left");
-                if (!tilesMoving()) {
-                    for (Tile t : tiles) {
-                        t.pushLeft();
-                    }
-                }
-            } else if (angle < -45 && angle >= -135) {
-                if (!tilesMoving()) {
-                    tileSort("Down");
-                    for (Tile t : tiles) {
-                        t.pushDown();
-                    }
-                }
-            } else if (angle > -45 && angle <= 45) {
-                if (!tilesMoving()) {
-                    if(firstPlay){
-                        firstPlay=false;
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("firstPlay", false);
-                        editor.commit();
+                Game.swipe(1);
 
-                    }
-                    tileSort("Right");
-                    for (Tile t : tiles) {
-                        t.pushRight();
-                    }
-                }
+            } else if (angle >= 135 && angle < 180 || angle < -135 && angle > -180) {
+                Game.swipe(4);
+            } else if (angle < -45 && angle >= -135) {
+                Game.swipe(3);
+
+            } else if (angle > -45 && angle <= 45) {
+                Game.swipe(2);
+
             }
             return false;
         }
