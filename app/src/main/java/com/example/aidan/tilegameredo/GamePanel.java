@@ -2,12 +2,9 @@ package com.example.aidan.tilegameredo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.preference.PreferenceManager;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -58,10 +55,10 @@ public class GamePanel extends SurfaceView implements Runnable{
     }
 
     public void pause() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(super.getContext());
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("defaultLevel", defaultLevel);
-        editor.putInt("customLevel", customLevel);
+        editor.putInt("defaultLevel", Game.getDefaultLevel());
+        editor.putInt("customLevel", Game.getCustomLevel());
         playing = false;
         try {
             gameThread.join();
@@ -72,7 +69,6 @@ public class GamePanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                sideBar.released();
                 Game.touch(-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:

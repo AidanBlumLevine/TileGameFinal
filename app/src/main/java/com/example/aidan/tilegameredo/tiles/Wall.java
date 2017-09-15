@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.example.aidan.tilegameredo.GamePanel;
+import com.example.aidan.tilegameredo.Game;
 import com.example.aidan.tilegameredo.Tile;
 
 
@@ -13,11 +13,11 @@ public class Wall extends Tile {
 
     public Wall(int xPos, int yPos,Bitmap img) {
         super(xPos, yPos,img);
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()*GamePanel.getSizeMultiplier()),(int)(GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()*GamePanel.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
 
     }
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,super.getX()*GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()/30+GamePanel.getPlayingField().left,super.getY()*GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()/30+GamePanel.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left,super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,paint);
     }
     @Override
     public void pushLeft() {
@@ -42,7 +42,7 @@ public class Wall extends Tile {
 
     @Override
     public void updateSize() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()*GamePanel.getSizeMultiplier()),(int)(GamePanel.getPlayingField().height()/GamePanel.getTilesInLevel()*GamePanel.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
     }
 
     @Override
@@ -53,6 +53,11 @@ public class Wall extends Tile {
     @Override
     public Bitmap getScaledTexture() {
         return scaledTexture;
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
     }
 
 }

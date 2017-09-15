@@ -3,18 +3,43 @@ package com.example.aidan.tilegameredo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 
+import com.example.aidan.tilegameredo.particles.endParticle;
+import com.example.aidan.tilegameredo.particles.fadeParticle;
+import com.example.aidan.tilegameredo.tiles.Box;
+import com.example.aidan.tilegameredo.tiles.Crate;
+import com.example.aidan.tilegameredo.tiles.DoubleCrate;
+import com.example.aidan.tilegameredo.tiles.EmptyCrate;
+import com.example.aidan.tilegameredo.tiles.Spike;
+import com.example.aidan.tilegameredo.tiles.Wall;
+
+import java.util.ArrayList;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 public class Game {
 
-    private static Rect playingField;
     private static final int fps=30;
-    private static int touchX,touchY;
+    private final static double sizeMultiplier = 0.97;
+
+    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth;
+    private static boolean firstPlay,playing;
+
+    private static String levelPack = "default";
+    private static Rect playingField;
+    private static LevelGenerator levelGen;
+    private static Menu menu;
+    private static ArrayList<Tile> tiles = new ArrayList<>();;
+    private static Context context;
 
     public static void load(Context context){
+        Game.context = context;
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         defaultLevel = settings.getInt("defaultLevel", 1);
@@ -27,15 +52,51 @@ public class Game {
 
         playingField = new Rect(40, (height - width + 2 * 40) / 2, width - 40, (height + width - 2 * 40) / 2);
 
-        levelGen = new LevelGenerator();
-        sideBar = new Menu(playingField,width,height,context);
+        levelGen = new LevelGenerator(context);
+        menu = new Menu(playingField,width,height,context);
 
-        status = "playing";
-        //CHECK IF THIS IS RIGHT THIBNG TO DO
         playAgain();
     }
 
     public static void draw(Canvas canvas, Paint paint){
+        canvas.drawColor(Color.WHITE);
+        paint.setAlpha(80);
+        canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
+
+        paint.setARGB(180,255,255,255);
+        canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
+        paint.reset();
+
+        canvas.save();
+        canvas.translate((float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2,(float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2);
+        for (int i = 0; i < tiles.size(); i++) {
+            if (!(tiles.get(i) instanceof EmptyCrate) && !(tiles.get(i) instanceof Wall)) {
+                tiles.get(i).paint(canvas, paint);
+            }
+            if (!tilesMoving() && tiles.get(i).isDead()) {
+                tiles.remove(i);
+                i--;
+            }
+        }
+        for (Tile t : tiles) {
+            if (t instanceof EmptyCrate || t instanceof Wall) {
+                t.paint(canvas, paint);
+            }
+        }
+        paint.reset();
+        ParticleManager.paint(canvas, paint);
+        canvas.restore();
+        paint.reset();
+        menu.paint(canvas, paint);
+        paint.reset();
+
+        if(tiles.isEmpty()){
+            if(levelPack.equals("default")){
+                canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDefaultEnd(context),playingField.width(),playingField.height(),false),playingField.left,playingField.top,paint);
+            } else {
+                canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getCustomEnd(context),playingField.width(),playingField.height(),false),playingField.left,playingField.top,paint);
+            }
+        }
 
     }
 
@@ -71,7 +132,6 @@ public class Game {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("firstPlay", false);
                     editor.commit();
-
                 }
                 tileSort("Right");
                 for (Tile t : tiles) {
@@ -137,19 +197,20 @@ public class Game {
     }
 
     public static void levelComplete(int x, int y, int size) {
-        if (status.equals("playing")) {
-            status = "over";
-            if(levelPack.equals("default")){
-                defaultLevel++;
-            } else {
-                customLevel++;
+        playing = false;
+        if(levelPack.equals("default")){
+            defaultLevel++;
+            if(maxLevel<defaultLevel){
+                maxLevel=defaultLevel;
             }
-            Overlay.setTarget(x, y,size);
+        } else {
+            customLevel++;
         }
-
+        endParticle f = new endParticle(x,y,size);
     }
 
     public static void playAgain() {
+        playing = true;
         tiles.clear();
         if(levelPack.equals("default")) {
             tiles.addAll(levelGen.getLevel(defaultLevel, context));
@@ -222,16 +283,8 @@ public class Game {
         }
     }
 
-    public static String getStatus() {
-        return status;
-    }
-
     public static void setLevelWidth(int levelSize) {
         levelWidth = levelSize;
-    }
-
-    public static void setStatus(String string) {
-        status = string;
     }
 
     public static double getSizeMultiplier() {
@@ -242,8 +295,8 @@ public class Game {
         return playingField;
     }
 
-    public static int getTilesInLevel() {
-        return numberOfTilesInLevel;
+    public static int getLevelWidth() {
+        return levelWidth;
     }
 
     public static int getTouchX() {
@@ -277,7 +330,67 @@ public class Game {
     }
 
     public static void touch(int x, int y) {
+        if(x==-1 && y==-1){
+            menu.released();
+        }
         touchX =x;
         touchY =y;
     }
+
+    public static int getFps() {
+        return fps;
+    }
+
+    public static void setLevelPack(String levelPack) {
+        Game.levelPack = levelPack;
+    }
+
+    public static int getDefaultLevel() {
+        return defaultLevel;
+    }
+
+    public static int getCustomLevel() {
+        return customLevel;
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static boolean isPlaying() {
+        return playing;
+    }
+
+    public static String getLevelPack() {
+        return levelPack;
+    }
+
+    public static int getLevel() {
+        if(levelPack.equals("default")){
+            return defaultLevel;
+        }
+        return customLevel;
+    }
+
+    public static int getNextLevelId() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        int i=1;
+        while(!settings.getString("customlevel"+i, "").equals("")){
+            i++;
+        }
+        return i;
+    }
 }
+//check menu buttons
+
+//old=================================
+
+//name tipping crates ++
+
+//check all grey buttons +
+
+//new font for everything ++
+
+//new arrow +++
+
+//buttons are small on ipad homsecreen ++++

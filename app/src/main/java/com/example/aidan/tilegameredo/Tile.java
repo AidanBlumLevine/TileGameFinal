@@ -41,4 +41,5 @@ public abstract class Tile {
         this.y=y;
     }
 
+    public abstract boolean isDead();
 }
