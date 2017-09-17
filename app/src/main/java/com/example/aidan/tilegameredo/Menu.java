@@ -47,7 +47,7 @@ public class Menu {
         buttonForward = new Rect(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer, width - leftRightBuffer, playingField.bottom + topBottomBuffer + boxSize);
         buttonBack = new Rect(leftRightBuffer, playingField.bottom + topBottomBuffer, leftRightBuffer + boxSize, playingField.bottom + topBottomBuffer + boxSize);
         buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer, leftRightBuffer + boxSize, topBottomBuffer + boxSize);
-        buttonTrash = new Rect(playingField.right-leftRightBuffer-boxSize, topBottomBuffer, playingField.right-leftRightBuffer, topBottomBuffer + boxSize);
+        buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer, width-leftRightBuffer, topBottomBuffer + boxSize);
     }
 
     public void paint(Canvas canvas, Paint paint) {

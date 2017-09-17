@@ -29,7 +29,7 @@ public class Game {
     private static final int fps=30;
     private final static double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth;
+    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1;
     private static boolean firstPlay,playing;
 
     private static String levelPack = "default";
@@ -218,6 +218,7 @@ public class Game {
     public static void playAgain() {
         playing = true;
         tiles.clear();
+        ParticleManager.clear();
         if(levelPack.equals("default")) {
             tiles.addAll(levelGen.getLevel(defaultLevel, context));
         } else {
@@ -386,8 +387,14 @@ public class Game {
         }
         return i;
     }
+
+    public static void setPlaying(boolean playing) {
+        Game.playing = playing;
+    }
 }
 //check menu buttons
+
+//fix icons on top of editor
 
 //old=================================
 
@@ -399,4 +406,3 @@ public class Game {
 
 //new arrow +++
 
-//buttons are small on ipad homsecreen ++++

@@ -28,7 +28,7 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
 
 public class EditorMenu {
     private String selectedItem = "null";
-    private int difX,difY,boxSize;
+    private int boxSize;
     private Rect box,crate,doubleCrate,emptyCrate,spike,wall,spike2,spike3,spike4,doubleCrate2,
             buttonSave,buttonTopBack,buttonSizeUp,buttonSizeDown;
     private Bitmap boxImg,crateImg,doubleCrate1Img,doubleCrate2Img,emptyCrateImg,spikeImg,wallImg,
@@ -42,9 +42,10 @@ public class EditorMenu {
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        int buffer = 30;
+        int buffer = 20;
         int height = LevelEditor.getPlayingField().top;
         int tileSize = (height-3*buffer)/2;
+        int centeringBuffer = (screenWidth-buffer*7-tileSize*6)/2;
 
         int bottomSpaceHeight = screenHeight - LevelEditor.getPlayingField().bottom;
         int topBottomBuffer = bottomSpaceHeight / 8;
@@ -57,24 +58,24 @@ public class EditorMenu {
         buttonSizeUp = new Rect(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2,LevelEditor.getPlayingField().bottom + leftRightBuffer, LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2+smallBoxSize, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize);
         buttonSizeDown = new Rect(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize, LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2+smallBoxSize, LevelEditor.getPlayingField().bottom + leftRightBuffer+2*smallBoxSize);
 
-        box = new Rect(buffer,buffer,tileSize+buffer,tileSize+buffer);
-        crate = new Rect(2*buffer+tileSize,buffer,2*buffer+2*tileSize,buffer+tileSize);
-        doubleCrate2 = new Rect((int)(1.5*buffer),2*buffer+tileSize,2*(tileSize+(int)(.7*buffer)),2*(tileSize+buffer));
-        doubleCrate = new Rect(3*buffer+2*tileSize,(int)(1.5*buffer),3*tileSize+3*buffer,2*tileSize+2*(int)(.7*buffer));
+        box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
+        crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
+        doubleCrate2 = new Rect((int)(1.5*buffer)+centeringBuffer,2*buffer+tileSize,2*(tileSize+(int)(.7*buffer))+centeringBuffer,2*(tileSize+buffer));
+        doubleCrate = new Rect(3*buffer+2*tileSize+centeringBuffer,(int)(1.5*buffer),3*tileSize+3*buffer+centeringBuffer,2*tileSize+2*(int)(.7*buffer));
 
-        emptyCrate = new Rect(4*buffer+3*tileSize,buffer,4*(tileSize+buffer),tileSize+buffer);
-        wall = new Rect(4*buffer+3*tileSize,2*buffer+tileSize,4*(tileSize+buffer),2*(tileSize+buffer));
+        emptyCrate = new Rect(4*buffer+3*tileSize+centeringBuffer,buffer,4*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
+        wall = new Rect(4*buffer+3*tileSize+centeringBuffer,2*buffer+tileSize,4*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
 
-        spike = new Rect(5*buffer+4*tileSize,buffer,5*(tileSize+buffer),tileSize+buffer);
-        spike2 = new Rect(5*buffer+4*tileSize,2*buffer+tileSize,5*(tileSize+buffer),2*(tileSize+buffer));
+        spike = new Rect(5*buffer+4*tileSize+centeringBuffer,buffer,5*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
+        spike2 = new Rect(5*buffer+4*tileSize+centeringBuffer,2*buffer+tileSize,5*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
 
-        spike3 = new Rect(6*buffer+5*tileSize,buffer,6*(tileSize+buffer),tileSize+buffer);
-        spike4 = new Rect(6*buffer+5*tileSize,2*buffer+tileSize,6*(tileSize+buffer),2*(tileSize+buffer));
+        spike3 = new Rect(6*buffer+5*tileSize+centeringBuffer,buffer,6*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
+        spike4 = new Rect(6*buffer+5*tileSize+centeringBuffer,2*buffer+tileSize,6*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
 
         boxImgRaw = ImageLoader.getBoxImage(context);
         crateImgRaw = ImageLoader.getCrateImage(context);
-        doubleCrate1ImgRaw = ImageLoader.getDoubleCrateImage(context);
-        doubleCrate2ImgRaw = ImageLoader.getDoubleCrate2Image(context);
+        doubleCrate1ImgRaw = ImageLoader.getDoubleCrate2Image(context);
+        doubleCrate2ImgRaw = ImageLoader.getDoubleCrateImage(context);
         emptyCrateImgRaw = ImageLoader.getEmptyCrateImage(context);
         spikeImgRaw = ImageLoader.getSpikeImage(context);
         wallImgRaw = ImageLoader.getWallImage(context);
@@ -109,48 +110,46 @@ public class EditorMenu {
         canvas.restore();
 
         if(selectedItem.equals("box")){
-            canvas.drawBitmap(boxImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(boxImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("crate")){
-            canvas.drawBitmap(crateImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(crateImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("doubleCrate")){
-            canvas.drawBitmap(doubleCrate1Img,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(doubleCrate1Img,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("doubleCrate2")){
-            canvas.drawBitmap(doubleCrate2Img,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(doubleCrate2Img,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("emptyCrate")){
-            canvas.drawBitmap(emptyCrateImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(emptyCrateImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("wall")){
-            canvas.drawBitmap(wallImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(wallImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("spike")){
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("spike2")){
             canvas.save();
-            canvas.rotate(90,LevelEditor.getTouchX()+difX+spike2.width()/2,LevelEditor.getTouchY()+difY+spike2.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.rotate(90,LevelEditor.getTouchX()-box.width()/2+spike2.width()/2,LevelEditor.getTouchY()-box.width()/2+spike2.height()/2);
+            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
         if(selectedItem.equals("spike3")){
             canvas.save();
-            canvas.rotate(180,LevelEditor.getTouchX()+difX+spike3.width()/2,LevelEditor.getTouchY()+difY+spike3.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.rotate(180,LevelEditor.getTouchX()-box.width()/2+spike3.width()/2,LevelEditor.getTouchY()-box.width()/2+spike3.height()/2);
+            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
         if(selectedItem.equals("spike4")){
             canvas.save();
-            canvas.rotate(270,LevelEditor.getTouchX()+difX+spike4.width()/2,LevelEditor.getTouchY()+difY+spike4.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()+difX,LevelEditor.getTouchY()+difY,paint);
+            canvas.rotate(270,LevelEditor.getTouchX()-box.width()/2+spike4.width()/2,LevelEditor.getTouchY()-box.width()/2+spike4.height()/2);
+            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setStrokeWidth(boxSize/4.66f);
-//        paint.setStrokeCap(Paint.Cap.ROUND);
-//        paint.setStrokeJoin(Paint.Join.ROUND);
 
         canvas.save();
         canvas.scale(hoverTopBack/1.5f, hoverTopBack/1.5f, buttonTopBack.exactCenterX(), buttonTopBack.exactCenterY());
@@ -335,13 +334,13 @@ public class EditorMenu {
                 if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbCrate) {
                     selectedItem = "crate";
                 }
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate) {
-                    if (((DumbDoubleCrate) LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition() == 1) {
-                        selectedItem = "doubleCrate2";
-                    } else {
-                        selectedItem = "doubleCrate";
-                    }
-
+                if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==1) || (LevelEditor.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30-30, boxY * 30)).getPosition()==1)){
+                    selectedItem = "doubleCrate2";
+                    LevelEditor.removeTile(boxX * 30-30, boxY * 30);
+                }
+                if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==2) || (LevelEditor.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30-30)).getPosition()==2)){
+                    selectedItem = "doubleCrate";
+                    LevelEditor.removeTile(boxX * 30, boxY * 30-30);
                 }
                 if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbEmptyCrate) {
                     selectedItem = "emptyCrate";
@@ -361,61 +360,38 @@ public class EditorMenu {
                     selectedItem = "wall";
                 }
 
-                difX = -(LevelEditor.getPlayingField().width() / LevelEditor.getTilesInLevel()) / 2;
-                difY = -(LevelEditor.getPlayingField().height() / LevelEditor.getTilesInLevel()) / 2;
-
                 LevelEditor.removeTile(boxX * 30, boxY * 30);
             }
         }
         if(box.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "box";
-            difX = box.left-LevelEditor.getTouchX();
-            difY = box.top-LevelEditor.getTouchY();
         }
         if(crate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "crate";
-            difX = crate.left-LevelEditor.getTouchX();
-            difY = crate.top-LevelEditor.getTouchY();
         }
         if(doubleCrate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "doubleCrate";
-            difX = doubleCrate.left-LevelEditor.getTouchX();
-            difY = doubleCrate.top-LevelEditor.getTouchY();
         }
         if(doubleCrate2.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "doubleCrate2";
-            difX = doubleCrate2.left-LevelEditor.getTouchX();
-            difY = doubleCrate2.top-LevelEditor.getTouchY();
         }
         if(wall.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "wall";
-            difX = wall.left-LevelEditor.getTouchX();
-            difY = wall.top-LevelEditor.getTouchY();
         }
         if(emptyCrate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "emptyCrate";
-            difX = emptyCrate.left-LevelEditor.getTouchX();
-            difY = emptyCrate.top-LevelEditor.getTouchY();
         }
         if(spike.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "spike";
-            difX = spike.left-LevelEditor.getTouchX();
-            difY = spike.top-LevelEditor.getTouchY();
         }
         if(spike2.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "spike2";
-            difX = spike2.left-LevelEditor.getTouchX();
-            difY = spike2.top-LevelEditor.getTouchY();
         }
         if(spike3.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "spike3";
-            difX = spike3.left-LevelEditor.getTouchX();
-            difY = spike3.top-LevelEditor.getTouchY();
         }
         if(spike4.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             selectedItem = "spike4";
-            difX = spike4.left-LevelEditor.getTouchX();
-            difY = spike4.top-LevelEditor.getTouchY();
         }
     }
 

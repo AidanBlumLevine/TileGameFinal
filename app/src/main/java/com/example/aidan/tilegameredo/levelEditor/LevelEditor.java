@@ -128,11 +128,11 @@ public class LevelEditor {
     }
 
     public static void touch(int x, int y, int type) {
-        touchX=x;
-        touchY=y;
         if(type==-1){
             editorMenu.released();
         }
+        touchX=x;
+        touchY=y;
         if(type==1){
             editorMenu.pressed();
         }

@@ -78,6 +78,8 @@ public class GamePanel extends SurfaceView implements Runnable{
             case MotionEvent.ACTION_DOWN:
                 Game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
                 break;
+            case MotionEvent.ACTION_MOVE:
+                Game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
         }
         return true;
     }

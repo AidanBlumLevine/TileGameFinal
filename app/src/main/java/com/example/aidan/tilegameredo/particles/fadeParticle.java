@@ -14,6 +14,7 @@ public class fadeParticle extends Particle{
 
     public fadeParticle(){
         super(0,0,255);
+        Game.setPlaying(false);
         mode=1;
     }
     public void paint(Canvas canvas, Paint paint){
