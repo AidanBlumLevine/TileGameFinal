@@ -26,10 +26,10 @@ public class endParticle extends Particle{
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
             super.setTime(255);
+            Game.playAgain();
         }
         if (super.getTime() <= 0 && mode==3) {
             mode=4;
-            Game.playAgain();
         }
         if(mode==1 || mode==2) {
             int height = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -40,7 +40,11 @@ public class endParticle extends Particle{
             path.lineTo(0, height);
             path.lineTo(width, height);
             path.lineTo(width, 0);
-            path.addCircle((super.getX()), (super.getY()), Math.max((float) super.getTime(), targetSize), Path.Direction.CW);
+            if(mode==2){
+                path.addCircle((super.getX()), (super.getY()), targetSize, Path.Direction.CW);
+            } else {
+                path.addCircle((super.getX()), (super.getY()), Math.max((float) super.getTime(), targetSize), Path.Direction.CW);
+            }
             canvas.drawPath(path, paint);
         }
         if(mode==2){

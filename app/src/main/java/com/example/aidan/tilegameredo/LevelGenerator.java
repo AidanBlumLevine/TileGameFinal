@@ -94,28 +94,28 @@ public class LevelGenerator {
 
                     } else if(tagname.equalsIgnoreCase("tile") && correctLevel){
                         if(type.equals("Wall")) {
-                            Bitmap img = BitmapFactory.decodeResource(context.getResources(),R.drawable.wallpixelated);
+                            Bitmap img = ImageLoader.getWallImage(context);
                             level.add(new Wall(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,img));
                         } else if(type.equals("Crate")){
-                            Bitmap img = BitmapFactory.decodeResource(context.getResources(),R.drawable.cratepixelated);
+                            Bitmap img = ImageLoader.getCrateImage(context);
                             level.add(new Crate(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,img));
                         } else if(type.equals("EmptyCrate")){
-                            Bitmap img = BitmapFactory.decodeResource(context.getResources(),R.drawable.emptycratepixelated);
+                            Bitmap img = ImageLoader.getEmptyCrateImage(context);
                             level.add(new EmptyCrate(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,img));
                         } else if(type.equals("Box")){
-                            Bitmap img = BitmapFactory.decodeResource(context.getResources(),R.drawable.boxpixelated);
+                            Bitmap img = ImageLoader.getBoxImage(context);
                             level.add(new Box(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,img));
 
                         } else if(type.equals("DoubleCrate")){
                             Bitmap img;
                             if(Integer.valueOf(position.trim())==1) {
-                                img = BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate1pixelated);
+                                img =ImageLoader.getDoubleCrateImage(context);
                             } else {
-                                img = BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate2pixelated);
+                                img = ImageLoader.getDoubleCrate2Image(context);
                             }
                             level.add(new DoubleCrate(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,Integer.valueOf(position.trim()),img));
                         } else if(type.equals("Spike")){
-                            Bitmap img = BitmapFactory.decodeResource(context.getResources(), R.drawable.spikespixelated);
+                            Bitmap img = ImageLoader.getSpikeImage(context);
                             level.add(new Spike(Integer.valueOf(posX)*30,Integer.valueOf(posY)*30,Integer.valueOf(position.trim()),img));
                         }
                     }
@@ -162,19 +162,19 @@ public class LevelGenerator {
         for(int i=1;i<s.split(":").length;i++){
             if(s.split(":")[2]!=null) {
                 if (s.split(":")[i].split(",")[0].equals("box"))
-                    level.add(new Box(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), BitmapFactory.decodeResource(context.getResources(), R.drawable.boxpixelated)));
+                    level.add(new Box(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getBoxImage(context)));
                 if (s.split(":")[i].split(",")[0].equals("crate"))
-                    level.add(new Crate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), BitmapFactory.decodeResource(context.getResources(), R.drawable.cratepixelated)));
+                    level.add(new Crate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getCrateImage(context)));
                 if (s.split(":")[i].split(",")[0].equals("emptyCrate"))
-                    level.add(new EmptyCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), BitmapFactory.decodeResource(context.getResources(), R.drawable.emptycratepixelated)));
+                    level.add(new EmptyCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getEmptyCrateImage(context)));
                 if (s.split(":")[i].split(",")[0].equals("wall"))
-                    level.add(new Wall(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), BitmapFactory.decodeResource(context.getResources(), R.drawable.wallpixelated)));
+                    level.add(new Wall(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getWallImage(context)));
                 if (s.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(s.split(":")[i].split(",")[3]) == 1)
-                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate1pixelated)));
+                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrateImage(context)));
                 if (s.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(s.split(":")[i].split(",")[3]) == 2)
-                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate2pixelated)));
+                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrate2Image(context)));
                 if (s.split(":")[i].split(",")[0].equals("spike"))
-                    level.add(new Spike(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), BitmapFactory.decodeResource(context.getResources(), R.drawable.spikespixelated)));
+                    level.add(new Spike(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getSpikeImage(context)));
             }
         }
         return level;

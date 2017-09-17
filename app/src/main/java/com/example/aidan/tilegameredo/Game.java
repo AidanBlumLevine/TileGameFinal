@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.particles.endParticle;
 import com.example.aidan.tilegameredo.particles.fadeParticle;
@@ -67,6 +68,9 @@ public class Game {
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
         paint.reset();
 
+        menu.paint(canvas, paint);
+        paint.reset();
+
         canvas.save();
         canvas.translate((float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2,(float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2);
         for (int i = 0; i < tiles.size(); i++) {
@@ -86,8 +90,6 @@ public class Game {
         paint.reset();
         ParticleManager.paint(canvas, paint);
         canvas.restore();
-        paint.reset();
-        menu.paint(canvas, paint);
         paint.reset();
 
         if(tiles.isEmpty()){
@@ -202,6 +204,10 @@ public class Game {
             defaultLevel++;
             if(maxLevel<defaultLevel){
                 maxLevel=defaultLevel;
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("maxLevel", maxLevel);
+                editor.commit();
             }
         } else {
             customLevel++;

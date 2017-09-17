@@ -5,9 +5,12 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 
 public class GamePanel extends SurfaceView implements Runnable{
     private volatile Boolean playing;
@@ -59,6 +62,7 @@ public class GamePanel extends SurfaceView implements Runnable{
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("defaultLevel", Game.getDefaultLevel());
         editor.putInt("customLevel", Game.getCustomLevel());
+        editor.commit();
         playing = false;
         try {
             gameThread.join();

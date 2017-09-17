@@ -1,8 +1,90 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
-/**
- * Created by Aidan on 9/14/2017.
- */
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.preference.PreferenceManager;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
-public class LevelEditorPanel {
+import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.LevelGenerator;
+import com.example.aidan.tilegameredo.Tile;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
+
+import java.util.ArrayList;
+
+public class LevelEditorPanel extends SurfaceView implements Runnable {
+
+    volatile Boolean playing;
+    private Thread gameThread = null;
+    private static long lastTime;
+    private android.graphics.Canvas canvas;
+    private Paint paint;
+    private SurfaceHolder surfaceHolder;
+
+    public LevelEditorPanel(Context context) {
+        super(context);
+
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceHolder = getHolder();
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        LevelEditor.load(context);
+    }
+
+    @Override
+    public void run() {
+        while (playing) {
+            if(System.nanoTime()-lastTime>=1000000000/LevelEditor.getFps()) {
+                draw();
+                LevelEditor.update();
+                lastTime = System.nanoTime();
+            }
+        }
+    }
+
+    private void draw() {
+        if (surfaceHolder.getSurface().isValid()) {
+            canvas = surfaceHolder.lockCanvas();
+            LevelEditor.draw(canvas,paint,super.getContext());
+            surfaceHolder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    public void pause() {
+        playing = false;
+        try {
+            gameThread.join();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void resume() {
+        playing = true;
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_UP:
+                LevelEditor.touch(-1,-1,-1);
+                break;
+            case MotionEvent.ACTION_DOWN:
+                LevelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                LevelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
+        }
+        return true;
+    }
+
 }
