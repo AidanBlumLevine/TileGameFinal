@@ -44,7 +44,7 @@ public class EditorMenu {
 
         int buffer = 20;
         int height = LevelEditor.getPlayingField().top;
-        int tileSize = (height-3*buffer)/2;
+        int tileSize = Math.min((height-3*buffer)/2,(screenWidth-7*buffer)/6);
         int centeringBuffer = (screenWidth-buffer*7-tileSize*6)/2;
 
         int bottomSpaceHeight = screenHeight - LevelEditor.getPlayingField().bottom;

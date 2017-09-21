@@ -110,47 +110,48 @@ public class Game {
 
     public static void swipe(int direction){
         //1 ^ 2> 3\  4<
-        if(direction==1) {
-            if (!tilesMoving()) {
-                tileSort("Up");
-                for (Tile t : tiles) {
-                    t.pushUp();
+        if(playing) {
+            if (direction == 1) {
+                if (!tilesMoving()) {
+                    tileSort("Up");
+                    for (Tile t : tiles) {
+                        t.pushUp();
+                    }
                 }
             }
-        }
-        if(direction==4) {
-            if (!tilesMoving()) {
-                tileSort("Left");
-                for (Tile t : tiles) {
-                    t.pushLeft();
+            if (direction == 4) {
+                if (!tilesMoving()) {
+                    tileSort("Left");
+                    for (Tile t : tiles) {
+                        t.pushLeft();
+                    }
                 }
             }
-        }
-        if(direction==2) {
-            if (!tilesMoving()) {
-                if(firstPlay){
-                    firstPlay=false;
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("firstPlay", false);
-                    editor.commit();
-                }
-                tileSort("Right");
-                for (Tile t : tiles) {
-                    t.pushRight();
+            if (direction == 2) {
+                if (!tilesMoving()) {
+                    if (firstPlay) {
+                        firstPlay = false;
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("firstPlay", false);
+                        editor.commit();
+                    }
+                    tileSort("Right");
+                    for (Tile t : tiles) {
+                        t.pushRight();
+                    }
                 }
             }
-        }
 
-        if(direction==3) {
-            if (!tilesMoving()) {
-                tileSort("Down");
-                for (Tile t : tiles) {
-                    t.pushDown();
+            if (direction == 3) {
+                if (!tilesMoving()) {
+                    tileSort("Down");
+                    for (Tile t : tiles) {
+                        t.pushDown();
+                    }
                 }
             }
         }
-
     }
 
     public static boolean isSolidTile(int x, int y) {

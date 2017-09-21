@@ -124,7 +124,7 @@ public class LevelEditor {
     }
 
     public static void changeSize(int i) {
-        levelWidth=Math.max(3,levelWidth+i);
+        levelWidth=Math.min(25,Math.max(3,levelWidth+i));
     }
 
     public static void touch(int x, int y, int type) {
