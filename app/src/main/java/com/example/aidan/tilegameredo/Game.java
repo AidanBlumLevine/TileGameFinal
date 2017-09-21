@@ -26,7 +26,7 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class Game {
 
-    private static final int fps=90;
+    private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
     private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1;

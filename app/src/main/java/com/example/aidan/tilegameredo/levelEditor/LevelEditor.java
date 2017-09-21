@@ -17,7 +17,7 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
 import java.util.ArrayList;
 
 public class LevelEditor {
-    private static final int fps=90;
+    private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
     private static int levelWidth = 12;
