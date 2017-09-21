@@ -397,6 +397,10 @@ public class Game {
 
 //fix icons on top of editor
 
+//doublecrates die on spikes they dont touhc
+
+//doublecrates destroy blocks next to click
+
 //old=================================
 
 //name tipping crates ++
