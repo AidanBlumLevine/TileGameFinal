@@ -336,11 +336,15 @@ public class EditorMenu {
                 }
                 if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==1) || (LevelEditor.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30-30, boxY * 30)).getPosition()==1)){
                     selectedItem = "doubleCrate2";
-                    LevelEditor.removeTile(boxX * 30-30, boxY * 30);
+                    if((LevelEditor.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate)) {
+                        LevelEditor.removeTile(boxX * 30 - 30, boxY * 30);
+                    }
                 }
                 if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==2) || (LevelEditor.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30-30)).getPosition()==2)){
                     selectedItem = "doubleCrate";
-                    LevelEditor.removeTile(boxX * 30, boxY * 30-30);
+                    if((LevelEditor.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate)) {
+                        LevelEditor.removeTile(boxX * 30, boxY * 30 - 30);
+                    }
                 }
                 if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbEmptyCrate) {
                     selectedItem = "emptyCrate";

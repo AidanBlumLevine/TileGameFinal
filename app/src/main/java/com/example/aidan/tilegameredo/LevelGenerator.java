@@ -75,7 +75,11 @@ public class LevelGenerator {
                         position = text;
                     } else if(tagname.equalsIgnoreCase("size")){
                         Game.setLevelWidth(Integer.valueOf(text.trim()));
-                    } else if(tagname.equalsIgnoreCase("border") && correctLevel){
+                    } else if(tagname.equalsIgnoreCase("stars")){
+                        Game.setStarLevels(new int[]{Integer.valueOf(text.trim().split(",")[0]),
+                                                     Integer.valueOf(text.trim().split(",")[1]),
+                                                     Integer.valueOf(text.trim().split(",")[2])});
+                    }else if(tagname.equalsIgnoreCase("border") && correctLevel){
                         int x = Integer.valueOf(text.split(",")[0].trim());
                         int y = Integer.valueOf(text.split(",")[1].trim());
                         Bitmap img = BitmapFactory.decodeResource(context.getResources(),R.drawable.wallpixelated);

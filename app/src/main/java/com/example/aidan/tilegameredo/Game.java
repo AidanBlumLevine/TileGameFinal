@@ -38,6 +38,7 @@ public class Game {
     private static Menu menu;
     private static ArrayList<Tile> tiles = new ArrayList<>();
     private static Context context;
+    private static int[] starLevels= new int[3];
 
     public static void load(Context context){
         Game.context = context;
@@ -392,14 +393,18 @@ public class Game {
     public static void setPlaying(boolean playing) {
         Game.playing = playing;
     }
+
+    public static void setStarLevels(int[] starLevels) {
+        Game.starLevels = starLevels;
+    }
 }
 //check menu buttons
-
-//fix icons on top of editor
 
 //doublecrates die on spikes they dont touhc
 
 //doublecrates destroy blocks next to click
+
+//are you sure you want to delete
 
 //old=================================
 

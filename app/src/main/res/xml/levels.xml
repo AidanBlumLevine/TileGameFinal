@@ -2,6 +2,9 @@
 <Levels>
     <level1>
         <info>
+            <stars>
+                1,5,9
+            </stars>
             <Size>
                 5
             </Size>
@@ -100,6 +103,9 @@
     </level1>
     <level2>
         <info>
+            <stars>
+                3,5,7
+            </stars>
             <Size>
                 6
             </Size>
@@ -209,6 +215,9 @@
     </level2>
     <level3>
         <info>
+            <stars>
+                3,4,6
+            </stars>
             <Size>
                 5
             </Size>
@@ -277,6 +286,9 @@
     </level3>
     <level4>
         <info>
+            <stars>
+                4,6,8
+            </stars>
             <Size>
                 7
             </Size>
@@ -420,6 +432,9 @@
     </level4>
     <level5>
         <info>
+            <stars>
+                5,9,15
+            </stars>
             <Size>
                 8
             </Size>
@@ -508,6 +523,9 @@
     </level5>
     <level6>
         <info>
+            <stars>
+                11,15,20
+            </stars>
             <Size>
                 6
             </Size>
@@ -588,6 +606,9 @@
     </level6>
     <level7>
         <info>
+            <stars>
+                11,15,20
+            </stars>
             <Size>
                 6
             </Size>
@@ -701,6 +722,9 @@
     </level7>
     <level8>
         <info>
+            <stars>
+                10,15,20
+            </stars>
             <Size>
                 6
             </Size>
@@ -828,6 +852,9 @@
     </level8>
     <level9>
         <info>
+            <stars>
+                38,50,60
+            </stars>
             <Size>
                 8
             </Size>
@@ -1057,6 +1084,9 @@
     </level9>
     <level10>
         <info>
+            <stars>
+                8,12,16
+            </stars>
             <Size>
                 8
             </Size>
@@ -1400,6 +1430,9 @@
     </level10>
     <level11>
         <info>
+            <stars>
+                8,12,16
+            </stars>
             <Size>
                 8
             </Size>
@@ -1601,6 +1634,9 @@
     </level11>
     <level12>
         <info>
+            <stars>
+                5,6,8
+            </stars>
             <Size>
                 7
             </Size>
@@ -2056,19 +2092,5 @@
         </tile>
 
     </level13>
-    <level14>
 
-    </level14>
-    <level15>
-
-    </level15>
-    <level16>
-
-    </level16>
-    <level17>
-
-    </level17>
-    <level18>
-
-    </level18>
 </Levels>

@@ -31,12 +31,12 @@ public class fadeParticle extends Particle{
         if(mode==1){
             paint.setColor(Color.BLACK);
             paint.setAlpha((int)super.getTime()*-1+255);
-            canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),paint);
+            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
         if(mode==2){
             paint.setColor(Color.BLACK);
             paint.setAlpha((int)super.getTime());
-            canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),paint);
+            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
     }
 

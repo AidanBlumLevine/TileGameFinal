@@ -3,6 +3,7 @@ package com.example.aidan.tilegameredo.tiles;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.Game;
 import com.example.aidan.tilegameredo.Tile;
@@ -54,6 +55,7 @@ public class DoubleCrate extends Tile {
     public void paint(Canvas canvas, Paint paint) {
         canvas.drawBitmap(scaledTexture,(int)oldX * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, (int)oldY * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, paint);
     }
+
     public void update(){
         if(oldX<super.getX()){
 
@@ -68,15 +70,16 @@ public class DoubleCrate extends Tile {
         if(oldY>super.getY()){
             oldY-=moveSpeed*1000/Game.getFps();
         }
-        if(position==1 && (Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX+30, (int)oldY)){
+        if(position==1 && ((Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX+30, (int)oldY))){
             if(!dead){
                 dissolveParticle p = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
                 dissolveParticle p2 = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
             }
             dead=true;
         }
-        if(position==2 && (Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX, (int)oldY+30)){
+        if(position==2 && ((Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX, (int)oldY+30))){
             if(!dead){
+                Log.e("s",(int)oldX+","+ (int)oldY);
                 dissolveParticle p = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
                 dissolveParticle p2 = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
             }

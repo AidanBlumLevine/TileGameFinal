@@ -36,10 +36,10 @@ public class endParticle extends Particle{
             int width = Resources.getSystem().getDisplayMetrics().widthPixels;
             paint.setColor(Color.BLACK);
             Path path = new Path();
-            path.lineTo(0, 0);
-            path.lineTo(0, height);
+            path.lineTo(-20, -20);
+            path.lineTo(-20, height);
             path.lineTo(width, height);
-            path.lineTo(width, 0);
+            path.lineTo(width, -120);
             if(mode==2){
                 path.addCircle((super.getX()), (super.getY()), targetSize, Path.Direction.CW);
             } else {
@@ -50,12 +50,12 @@ public class endParticle extends Particle{
         if(mode==2){
             paint.setColor(Color.BLACK);
             paint.setAlpha((int)super.getTime()*-1+255);
-            canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),paint);
+            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
         if(mode==3){
             paint.setColor(Color.BLACK);
             paint.setAlpha((int)super.getTime());
-            canvas.drawRect(0,0,canvas.getWidth(),canvas.getHeight(),paint);
+            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
     }
 

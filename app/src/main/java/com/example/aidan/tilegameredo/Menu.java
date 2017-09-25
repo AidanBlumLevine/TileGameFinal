@@ -1,6 +1,7 @@
 package com.example.aidan.tilegameredo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.aidan.tilegameredo.particles.fadeParticle;
@@ -236,18 +238,40 @@ public class Menu {
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
             if (buttonTrash.contains(Game.getTouchX(), Game.getTouchY()) && !Game.getLevelPack().equals("default")  && nextId>1) {
-                int lastLevel = nextId-1;
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = settings.edit();
-                for(int i=Game.getLevel();i<lastLevel;i++){
-                    editor.putString("customlevel"+i,settings.getString("customlevel"+(i+1),""));
-                }
-                editor.remove("customlevel"+lastLevel);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                deleteLevel();
+                                break;
 
-                editor.commit();
-                fadeParticle f = new fadeParticle();
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure you want to delete?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+
             }
         }
+    }
+    private static void deleteLevel(){
+        int nextId = Game.getNextLevelId();
+        int lastLevel = nextId-1;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(Game.getContext());
+        SharedPreferences.Editor editor = settings.edit();
+        for(int i=Game.getLevel();i<lastLevel;i++){
+            editor.putString("customlevel"+i,settings.getString("customlevel"+(i+1),""));
+        }
+        editor.remove("customlevel"+lastLevel);
+
+        editor.commit();
+        fadeParticle f = new fadeParticle();
     }
 
     public static Path triangle(float x, float y, float length, boolean dir){
