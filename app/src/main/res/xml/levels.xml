@@ -723,7 +723,7 @@
     <level8>
         <info>
             <stars>
-                10,15,20
+                6,8,10
             </stars>
             <Size>
                 6
@@ -853,7 +853,7 @@
     <level9>
         <info>
             <stars>
-                38,50,60
+                10,15,20
             </stars>
             <Size>
                 8
@@ -1085,7 +1085,7 @@
     <level10>
         <info>
             <stars>
-                8,12,16
+                38,50,60
             </stars>
             <Size>
                 8
@@ -1635,7 +1635,7 @@
     <level12>
         <info>
             <stars>
-                5,6,8
+                5,8,10
             </stars>
             <Size>
                 7
@@ -1791,6 +1791,9 @@
     </level12>
     <level13>
         <info>
+            <stars>
+                13?
+            </stars>
             <Size>
                 8
             </Size>
