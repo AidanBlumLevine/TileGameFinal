@@ -29,7 +29,7 @@ public class Game {
     private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1;
+    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1,swipes,leastSwipes;
     private static boolean firstPlay,playing;
 
     private static String levelPack = "default";
@@ -112,6 +112,7 @@ public class Game {
     public static void swipe(int direction){
         //1 ^ 2> 3\  4<
         if(playing) {
+            swipes++;
             if (direction == 1) {
                 if (!tilesMoving()) {
                     tileSort("Up");
@@ -201,16 +202,23 @@ public class Game {
     }
 
     public static void levelComplete(int x, int y, int size) {
+
+
         playing = false;
         if(levelPack.equals("default")){
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = settings.edit();
+
+            if(swipes<leastSwipes) {
+                editor.putInt("leastSwipes" + defaultLevel, swipes);
+            }
+
             defaultLevel++;
             if(maxLevel<defaultLevel){
                 maxLevel=defaultLevel;
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("maxLevel", maxLevel);
-                editor.commit();
             }
+            editor.commit();
         } else {
             customLevel++;
         }
@@ -218,13 +226,27 @@ public class Game {
     }
 
     public static void playAgain() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        if(levelPack.equals("default")) {
+            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
+        }
+        if(leastSwipes<=starLevels[0]){
+            menu.setStars(3);
+        } else if(leastSwipes<=starLevels[1]){
+            menu.setStars(2);
+        } else if(leastSwipes<=starLevels[2]){
+            menu.setStars(1);
+        } else {
+            menu.setStars(0);
+        }
+
+        swipes = 0;
         playing = true;
         tiles.clear();
         ParticleManager.clear();
         if(levelPack.equals("default")) {
             tiles.addAll(levelGen.getLevel(defaultLevel, context));
         } else {
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
             String levelString = settings.getString("customlevel"+customLevel, "");
             if(!levelString.equals("")){
                 tiles.addAll(LevelGenerator.decodeLevel(levelString));

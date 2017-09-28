@@ -29,7 +29,8 @@ public class Menu {
     private Rect buttonBack;
     private Rect buttonForward;
     private Rect buttonMiddle;
-    private int boxSize;
+    private Rect starArea;
+    private int boxSize,stars;
     private Bitmap arrow;
     private int swipeDisplayValue=0;
     private Context context;
@@ -50,6 +51,7 @@ public class Menu {
         buttonBack = new Rect(leftRightBuffer, playingField.bottom + topBottomBuffer, leftRightBuffer + boxSize, playingField.bottom + topBottomBuffer + boxSize);
         buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer, leftRightBuffer + boxSize, topBottomBuffer + boxSize);
         buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer, width-leftRightBuffer, topBottomBuffer + boxSize);
+        starArea = new Rect(width/2-boxSize,topBottomBuffer,width/2+boxSize,topBottomBuffer + boxSize/2);
     }
 
     public void paint(Canvas canvas, Paint paint) {
@@ -145,6 +147,17 @@ public class Menu {
         canvas.drawRect(buttonMiddle,paint);
         canvas.restore();
         update();
+
+        if(stars>2){
+            canvas.drawRect(starArea.left,starArea.centerY()-starArea.height()/2,starArea.left+starArea.height(),starArea.centerY()+starArea.height()/2,paint);
+        }
+        if(stars>1){
+            canvas.drawRect(starArea.centerX()-starArea.height()/2,starArea.centerY()-starArea.height()/2,starArea.centerX()+starArea.height()/2,starArea.centerY()+starArea.height()/2,paint);
+        }
+        if(stars>0){
+            canvas.drawRect(starArea.right-starArea.height(),starArea.centerY()-starArea.height()/2,starArea.right-starArea.height(),starArea.centerY()+starArea.height()/2,paint);
+
+        }
     }
 
     public void update() {
@@ -308,5 +321,9 @@ public class Menu {
         curve.moveTo(x-length, y+length);
         curve.lineTo(x+length, y-length);
         return curve;
+    }
+
+    public void setStars(int stars) {
+        this.stars = stars;
     }
 }
