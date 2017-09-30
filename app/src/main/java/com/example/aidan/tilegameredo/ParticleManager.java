@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.aidan.tilegameredo.particles.Particle;
+import com.example.aidan.tilegameredo.particles.endParticle;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,8 @@ public class ParticleManager {
         particles.add(particle);
     }
 
-    public static void clear() {
+    public static void clear(Particle ignored) {
         particles.clear();
+        particles.add(ignored);
     }
 }

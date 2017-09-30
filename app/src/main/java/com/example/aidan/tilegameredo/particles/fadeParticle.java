@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 import com.example.aidan.tilegameredo.Game;
+import com.example.aidan.tilegameredo.ParticleManager;
 
 public class fadeParticle extends Particle{
 
@@ -38,6 +39,7 @@ public class fadeParticle extends Particle{
             paint.setAlpha((int)super.getTime());
             canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
+        paint.reset();
     }
 
     @Override

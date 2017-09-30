@@ -5,20 +5,29 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.Game;
+import com.example.aidan.tilegameredo.ParticleManager;
 
 public class endParticle extends Particle{
 
     private int targetSize,mode;
+    private boolean starsShown = false;
 
     public endParticle(int tX,int tY,int tS){
-        super(tX,tY,1000);
+        super(tX,tY,1500);
         targetSize=tS;
         mode=1;
+
     }
     public void paint(Canvas canvas, Paint paint){
         super.setTime(super.getTime()-1000/Game.getFps());
+        if(!starsShown && super.getTime()<500){
+            Game.updateStars();
+            starsParticle s = new starsParticle();
+            starsShown=true;
+        }
         if (super.getTime() <= targetSize && mode==1) {
             mode=2;
             super.setTime(255);

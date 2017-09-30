@@ -30,7 +30,7 @@ public class Menu {
     private Rect buttonForward;
     private Rect buttonMiddle;
     private Rect starArea;
-    private int boxSize,stars;
+    private int boxSize;
     private Bitmap arrow;
     private int swipeDisplayValue=0;
     private Context context;
@@ -51,7 +51,7 @@ public class Menu {
         buttonBack = new Rect(leftRightBuffer, playingField.bottom + topBottomBuffer, leftRightBuffer + boxSize, playingField.bottom + topBottomBuffer + boxSize);
         buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer, leftRightBuffer + boxSize, topBottomBuffer + boxSize);
         buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer, width-leftRightBuffer, topBottomBuffer + boxSize);
-        starArea = new Rect(width/2-boxSize,topBottomBuffer,width/2+boxSize,topBottomBuffer + boxSize/2);
+        starArea = new Rect(width/2-boxSize,topBottomBuffer*2,width/2+boxSize,topBottomBuffer*2 + boxSize/2);
     }
 
     public void paint(Canvas canvas, Paint paint) {
@@ -148,15 +148,14 @@ public class Menu {
         canvas.restore();
         update();
 
-        if(stars>2){
-            canvas.drawRect(starArea.left,starArea.centerY()-starArea.height()/2,starArea.left+starArea.height(),starArea.centerY()+starArea.height()/2,paint);
+        if(Game.getStars()>2){
+            canvas.drawRect(starArea.left,starArea.top,starArea.left+starArea.height(),starArea.bottom,paint);
         }
-        if(stars>1){
-            canvas.drawRect(starArea.centerX()-starArea.height()/2,starArea.centerY()-starArea.height()/2,starArea.centerX()+starArea.height()/2,starArea.centerY()+starArea.height()/2,paint);
+        if(Game.getStars()>1){
+            canvas.drawRect(starArea.centerX()-starArea.height()/2,starArea.top,starArea.centerX()+starArea.height()/2,starArea.bottom,paint);
         }
-        if(stars>0){
-            canvas.drawRect(starArea.right-starArea.height(),starArea.centerY()-starArea.height()/2,starArea.right-starArea.height(),starArea.centerY()+starArea.height()/2,paint);
-
+        if(Game.getStars()>0){
+            canvas.drawRect(starArea.right-starArea.height(),starArea.top,starArea.right,starArea.bottom,paint);
         }
     }
 
@@ -267,12 +266,13 @@ public class Menu {
                 };
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure you want to delete?").setPositiveButton("Yes", dialogClickListener)
+                builder.setMessage("Are you sure you want to delete this level?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
 
             }
         }
     }
+
     private static void deleteLevel(){
         int nextId = Game.getNextLevelId();
         int lastLevel = nextId-1;
@@ -321,9 +321,5 @@ public class Menu {
         curve.moveTo(x-length, y+length);
         curve.lineTo(x+length, y-length);
         return curve;
-    }
-
-    public void setStars(int stars) {
-        this.stars = stars;
     }
 }

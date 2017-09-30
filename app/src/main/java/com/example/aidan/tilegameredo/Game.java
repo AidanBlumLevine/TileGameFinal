@@ -11,8 +11,10 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.particles.Particle;
 import com.example.aidan.tilegameredo.particles.endParticle;
 import com.example.aidan.tilegameredo.particles.fadeParticle;
+import com.example.aidan.tilegameredo.particles.starsParticle;
 import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.Crate;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
@@ -29,7 +31,7 @@ public class Game {
     private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1,swipes,leastSwipes;
+    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1,swipes,leastSwipes,stars;
     private static boolean firstPlay,playing;
 
     private static String levelPack = "default";
@@ -211,8 +213,8 @@ public class Game {
 
             if(swipes<leastSwipes) {
                 editor.putInt("leastSwipes" + defaultLevel, swipes);
+                leastSwipes=swipes;
             }
-
             defaultLevel++;
             if(maxLevel<defaultLevel){
                 maxLevel=defaultLevel;
@@ -227,23 +229,8 @@ public class Game {
 
     public static void playAgain() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        if(levelPack.equals("default")) {
-            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
-        }
-        if(leastSwipes<=starLevels[0]){
-            menu.setStars(3);
-        } else if(leastSwipes<=starLevels[1]){
-            menu.setStars(2);
-        } else if(leastSwipes<=starLevels[2]){
-            menu.setStars(1);
-        } else {
-            menu.setStars(0);
-        }
-
-        swipes = 0;
         playing = true;
         tiles.clear();
-        ParticleManager.clear();
         if(levelPack.equals("default")) {
             tiles.addAll(levelGen.getLevel(defaultLevel, context));
         } else {
@@ -257,7 +244,11 @@ public class Game {
                 }
             }
         }
-
+        if(levelPack.equals("default")) {
+            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
+        }
+        updateStars();
+        swipes = 0;
     }
 
     private static void tileSort(String sort) {
@@ -419,14 +410,28 @@ public class Game {
     public static void setStarLevels(int[] starLevels) {
         Game.starLevels = starLevels;
     }
+
+    public static int getStars() {
+        return stars;
+    }
+
+    public static void updateStars(){
+        if(leastSwipes<=starLevels[0]){
+            stars=3;
+        } else if(leastSwipes<=starLevels[1]){
+            stars=2;
+        } else if(leastSwipes<=starLevels[2]){
+            stars=1;
+        } else {
+            stars=0;
+        }
+    }
 }
-//check menu buttons
+//make stars part of end{article while solid black
 
-//doublecrates die on spikes they dont touhc
+//make end particle only be as big as needed
 
-//doublecrates destroy blocks next to click
-
-//are you sure you want to delete
+//add sounds
 
 //old=================================
 
