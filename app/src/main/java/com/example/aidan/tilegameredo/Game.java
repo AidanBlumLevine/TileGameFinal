@@ -9,22 +9,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.example.aidan.tilegameredo.particles.Particle;
 import com.example.aidan.tilegameredo.particles.endParticle;
-import com.example.aidan.tilegameredo.particles.fadeParticle;
-import com.example.aidan.tilegameredo.particles.starsParticle;
-import com.example.aidan.tilegameredo.tiles.Box;
-import com.example.aidan.tilegameredo.tiles.Crate;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
 import com.example.aidan.tilegameredo.tiles.EmptyCrate;
 import com.example.aidan.tilegameredo.tiles.Spike;
 import com.example.aidan.tilegameredo.tiles.Wall;
 
 import java.util.ArrayList;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class Game {
 
@@ -427,8 +419,7 @@ public class Game {
         }
     }
 }
-//make stars part of end{article while solid black
-
+//fix layout
 //make end particle only be as big as needed
 
 //add sounds
