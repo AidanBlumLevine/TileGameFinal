@@ -46,7 +46,7 @@ public class Game {
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        playingField = new Rect(40, (height - width + 2 * 40) / 2, width - 40, (height + width - 2 * 40) / 2);
+        playingField = new Rect(40, (height - width + 2 * 40) / 2+80, width - 40, (height + width - 2 * 40) / 2+80);
 
         levelGen = new LevelGenerator(context);
         menu = new Menu(playingField,width,height,context);
@@ -106,7 +106,6 @@ public class Game {
     public static void swipe(int direction){
         //1 ^ 2> 3\  4<
         if(playing) {
-            swipes++;
             if (direction == 1) {
                 if (!tilesMoving()) {
                     tileSort("Up");
@@ -146,6 +145,9 @@ public class Game {
                         t.pushDown();
                     }
                 }
+            }
+            if(tilesMoving()){
+                swipes++;
             }
         }
     }
@@ -418,7 +420,15 @@ public class Game {
             stars=0;
         }
     }
+
+    public static int getSwipes() {
+        return swipes;
+    }
 }
+//fix white dot in corner of end particel
+//make not all swipes count
+//make text position relative
+//make buttons and grey buttons, bronze silver empty greyed out(for menu) and gold crates for stars
 //fix layout
 //make end particle only be as big as needed
 

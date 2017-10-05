@@ -2,6 +2,7 @@ package com.example.aidan.tilegameredo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,18 +45,20 @@ public class GameScreen extends AppCompatActivity {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float vX, float vY) {
 
             Double angle = Math.toDegrees(Math.atan2(e1.getY() - e2.getY(), e2.getX() - e1.getX()));
+            //Log.e("distance",Math.sqrt((e1.getY() - e2.getY())*(e1.getY() - e2.getY())+(e2.getX() - e1.getX())*(e2.getX() - e1.getX()))+"");
+            if(Math.sqrt((e1.getY() - e2.getY())*(e1.getY() - e2.getY())+(e2.getX() - e1.getX())*(e2.getX() - e1.getX()))>60){
+                if (angle > 45 && angle <= 135) {
+                    Game.swipe(1);
 
-            if (angle > 45 && angle <= 135) {
-                Game.swipe(1);
+                } else if (angle >= 135 && angle < 180 || angle < -135 && angle > -180) {
+                    Game.swipe(4);
+                } else if (angle < -45 && angle >= -135) {
+                    Game.swipe(3);
 
-            } else if (angle >= 135 && angle < 180 || angle < -135 && angle > -180) {
-                Game.swipe(4);
-            } else if (angle < -45 && angle >= -135) {
-                Game.swipe(3);
+                } else if (angle > -45 && angle <= 45) {
+                    Game.swipe(2);
 
-            } else if (angle > -45 && angle <= 45) {
-                Game.swipe(2);
-
+                }
             }
             return false;
         }

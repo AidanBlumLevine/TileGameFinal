@@ -49,8 +49,8 @@ public class Menu {
         buttonMiddle = new Rect((width - boxSize) / 2, playingField.bottom + topBottomBuffer, (width - boxSize) / 2 + boxSize, playingField.bottom + topBottomBuffer + boxSize);
         buttonForward = new Rect(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer, width - leftRightBuffer, playingField.bottom + topBottomBuffer + boxSize);
         buttonBack = new Rect(leftRightBuffer, playingField.bottom + topBottomBuffer, leftRightBuffer + boxSize, playingField.bottom + topBottomBuffer + boxSize);
-        buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer, leftRightBuffer + boxSize, topBottomBuffer + boxSize);
-        buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer, width-leftRightBuffer, topBottomBuffer + boxSize);
+        buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer/4, leftRightBuffer + boxSize, topBottomBuffer/4 + boxSize);
+        buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer/4, width-leftRightBuffer, topBottomBuffer/4 + boxSize);
         starArea = new Rect(width/2-boxSize,topBottomBuffer*2,width/2+boxSize,topBottomBuffer*2 + boxSize/2);
     }
 
@@ -157,6 +157,10 @@ public class Menu {
         if(Game.getStars()>0){
             canvas.drawRect(starArea.right-starArea.height(),starArea.top,starArea.right,starArea.bottom,paint);
         }
+
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(100);
+        canvas.drawText(Game.getSwipes()+"",100,300,paint);
     }
 
     public void update() {
