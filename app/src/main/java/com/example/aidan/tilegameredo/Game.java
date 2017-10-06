@@ -426,9 +426,7 @@ public class Game {
     }
 }
 //fix white dot in corner of end particel
-//make not all swipes count
-//make text position relative
-//make buttons and grey buttons, bronze silver empty greyed out(for menu) and gold crates for stars
+//make buttons and grey buttons,
 //fix layout
 //make end particle only be as big as needed
 
