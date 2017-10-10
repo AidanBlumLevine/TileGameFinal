@@ -8,7 +8,10 @@ import android.graphics.BitmapFactory;
 import java.util.ArrayList;
 
 public class ImageLoader {
-    private static Bitmap glowCenter,background,defaultEnd,customEnd,boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,doubleCrateImg,doubleCrateImg2;
+    private static Bitmap glowCenter,background,defaultEnd,customEnd,
+            boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,
+            doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
+            buttonLeft,buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown;
     private static ArrayList<Bitmap> clouds;
 
     public static Bitmap getGlowCenter(Context context) {
@@ -97,5 +100,61 @@ public class ImageLoader {
             emptyCrateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.emptycratepixelated);
         }
         return emptyCrateImg;
+    }
+
+    public static Bitmap getButtonReset(Context context) {
+        if (buttonReset == null) {
+            buttonReset = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonReset;
+    }
+
+    public static Bitmap getButtonRight(Context context) {
+        if (buttonRight == null) {
+            buttonRight = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonright);
+        }
+        return buttonRight;
+    }
+
+    public static Bitmap getButtonLeft(Context context) {
+        if (buttonLeft == null) {
+            buttonLeft = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonleft);
+        }
+        return buttonLeft;
+    }
+
+    public static Bitmap getButtonBack(Context context) {
+        if (buttonTopBack == null) {
+            buttonTopBack = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonup);
+        }
+        return buttonTopBack;
+    }
+
+    public static Bitmap getButtonTrash(Context context) {
+        if (buttonTrash == null) {
+            buttonTrash = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonTrash;
+    }
+
+    public static Bitmap getButtonSave(Context context) {
+        if (buttonSave == null) {
+            buttonSave = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonSave;
+    }
+
+    public static Bitmap getButtonSizeUp(Context context) {
+        if (buttonSizeUp == null) {
+            buttonSizeUp = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonSizeUp;
+    }
+
+    public static Bitmap getButtonSizeDown(Context context) {
+        if (buttonSizeDown == null) {
+            buttonSizeDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonSizeDown;
     }
 }

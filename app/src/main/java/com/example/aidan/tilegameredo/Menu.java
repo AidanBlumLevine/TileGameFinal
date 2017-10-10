@@ -19,16 +19,12 @@ import com.example.aidan.tilegameredo.particles.fadeParticle;
 
 
 public class Menu {
-    private float hoverForward = 1;
-    private float hoverBack= 1;
-    private float hoverMiddle= 1;
-    private float hoverTopBack= 1;
-    private float hoverTrash= 1;
-    private Rect buttonTrash;
-    private Rect buttonTopBack;
-    private Rect buttonBack;
-    private Rect buttonForward;
-    private Rect buttonMiddle;
+
+    private Button buttonTrash;
+    private Button buttonTopBack;
+    private Button buttonBack;
+    private Button buttonForward;
+    private Button buttonMiddle;
     private Rect starArea;
     private int boxSize;
     private Bitmap arrow;
@@ -46,11 +42,12 @@ public class Menu {
         int leftRightBuffer = width / 18;
         boxSize = bottomSpaceHeight - topBottomBuffer * 2;
 
-        buttonMiddle = new Rect((width - boxSize) / 2, playingField.bottom + topBottomBuffer, (width - boxSize) / 2 + boxSize, playingField.bottom + topBottomBuffer + boxSize);
-        buttonForward = new Rect(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer, width - leftRightBuffer, playingField.bottom + topBottomBuffer + boxSize);
-        buttonBack = new Rect(leftRightBuffer, playingField.bottom + topBottomBuffer, leftRightBuffer + boxSize, playingField.bottom + topBottomBuffer + boxSize);
-        buttonTopBack = new Rect(leftRightBuffer, topBottomBuffer/4, leftRightBuffer + boxSize, topBottomBuffer/4 + boxSize);
-        buttonTrash = new Rect(width-leftRightBuffer-boxSize, topBottomBuffer/4, width-leftRightBuffer, topBottomBuffer/4 + boxSize);
+        buttonMiddle = new Button((width - boxSize) / 2, playingField.bottom + topBottomBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
+        buttonForward = new Button(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),boxSize,boxSize,false));
+        buttonBack = new Button(leftRightBuffer, playingField.bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonLeft(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(leftRightBuffer, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
+        buttonTrash = new Button(width-leftRightBuffer-boxSize, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
+
         starArea = new Rect(width/2-boxSize,topBottomBuffer*2,width/2+boxSize,topBottomBuffer*2 + boxSize/2);
     }
 
@@ -64,88 +61,12 @@ public class Menu {
                 swipeDisplayValue=0;
             }
         }
+        buttonBack.draw(canvas,paint);
+        buttonForward.draw(canvas,paint);
+        buttonMiddle.draw(canvas,paint);
+        buttonTopBack.draw(canvas,paint);
+        buttonTrash.draw(canvas,paint);
 
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(boxSize/4.66f);
-//        paint.setStrokeCap(Paint.Cap.ROUND);
-//        paint.setStrokeJoin(Paint.Join.ROUND);
-        canvas.save();
-
-        //triangle1
-        canvas.scale(hoverForward/1.5f, hoverForward/1.5f, buttonForward.exactCenterX(), buttonForward.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        canvas.drawPath(triangle(buttonForward.centerX(),buttonForward.centerY(),boxSize/2.5f,false),paint);
-        canvas.rotate((float)Math.toDegrees(hoverForward*11+1.5f), buttonForward.exactCenterX(), buttonForward.exactCenterY());
-        if((Game.getLevel()!=Game.getMaxLevel() && Game.getLevelPack().equals("default")) || ((Game.getLevel()<Game.getNextLevelId()-1) && Game.getLevelPack().equals("custom"))) {
-            paint.setColor(Color.argb(200, 255, 204, 0));
-        } else {
-            paint.setColor(Color.argb(200, 192, 192, 192));
-        }
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonForward,paint);
-        canvas.restore();
-        canvas.save();
-
-
-        //triangle2
-        canvas.scale(hoverBack/1.5f, hoverBack/1.5f, buttonBack.exactCenterX(), buttonBack.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawPath(triangle(buttonBack.centerX(),buttonBack.centerY(),boxSize/2.5f,true),paint);
-        canvas.rotate((float)Math.toDegrees(hoverBack*-11-1.5f), buttonBack.exactCenterX(), buttonBack.exactCenterY());
-        if(Game.getLevel()>1) {
-            paint.setColor(Color.argb(200, 255, 204, 0));
-        } else {
-            paint.setColor(Color.argb(200, 192, 192, 192));
-        }
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonBack,paint);
-        canvas.restore();
-        canvas.save();
-
-        //home
-
-        canvas.scale(hoverTopBack/1.5f, hoverTopBack/1.5f, buttonTopBack.exactCenterX(), buttonTopBack.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.save();
-        canvas.rotate(90,buttonTopBack.centerX(),buttonTopBack.centerY());
-        canvas.drawPath(triangle(buttonTopBack.centerX(),buttonTopBack.centerY(),boxSize/2.5f,true),paint);
-        canvas.restore();
-        paint.setColor(Color.argb(200, 255, 204, 0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonTopBack,paint);
-        canvas.restore();
-        canvas.save();
-
-        //trash
-        canvas.save();
-        canvas.scale(hoverTrash/1.5f, hoverTrash/1.5f, buttonTrash.exactCenterX(), buttonTrash.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        canvas.drawPath(trashPath(buttonTrash.centerX(),buttonTrash.centerY(),boxSize/3.5f),paint);
-        if(Game.getLevelPack().equals("custom") && Game.getNextLevelId()>1) {
-            paint.setColor(Color.argb(200, 255, 204, 0));
-        } else {
-            paint.setColor(Color.argb(200, 192, 192, 192));
-        }
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonTrash,paint);
-        canvas.restore();
-
-
-        //reset
-        canvas.scale(hoverMiddle/1.5f, hoverMiddle/1.5f, buttonMiddle.exactCenterX(), buttonMiddle.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStrokeWidth(boxSize/6.4f);
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawPath(resetPath(buttonMiddle.centerX(),buttonMiddle.centerY(),boxSize/3.5f),paint);
-        paint.setStrokeWidth(boxSize/8f);
-        canvas.drawPath(triangle(buttonMiddle.centerX(),buttonMiddle.centerY()-boxSize/3.5f,boxSize/5,true),paint);
-        paint.setColor(Color.argb(200,255,204,0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonMiddle,paint);
-        canvas.restore();
         update();
 
         if(Game.getStars()>2){
@@ -164,96 +85,35 @@ public class Menu {
     }
 
     public void update() {
-        if(buttonForward.contains(Game.getTouchX(), Game.getTouchY())){
-            if(hoverForward<1.3){
-                hoverForward+=(1.3-hoverForward)/100*1000/Game.getFps()+.0001;
-            }
-        }
-        else if(hoverForward>1){
-            hoverForward-=.001*1000/Game.getFps();
-        }
-        if(hoverForward<1){
-            hoverForward=1;
-        }
-        if(hoverForward>1.3){
-            hoverForward=1.3f;
-        }
-        if(buttonBack.contains(Game.getTouchX(), Game.getTouchY())){
-            if(hoverBack<1.3){
-                hoverBack+=(1.3-hoverBack)/100*1000/Game.getFps()+.0001;
-            }
-        }
-        else if(hoverBack>1){
-            hoverBack-=.001*1000/Game.getFps();
-        }
-        if(hoverBack<1){
-            hoverBack=1;
-        }
-        if(hoverBack>1.3){
-            hoverBack=1.3f;
-        }
-        if(buttonTopBack.contains(Game.getTouchX(), Game.getTouchY())){
-            if(hoverTopBack<1.3){
-                hoverTopBack+=(1.3-hoverTopBack)/100*1000/Game.getFps()+.0001;
-            }
-        } else if(hoverTopBack>1){
-            hoverTopBack-=.001*1000/Game.getFps();
-        }
-        if(hoverTopBack<1){
-            hoverTopBack=1;
-        }
-        if(hoverTopBack>1.3){
-            hoverTopBack=1.3f;
-        }
-        if(buttonTrash.contains(Game.getTouchX(), Game.getTouchY())){
-            if(hoverTrash<1.3){
-                hoverTrash+=(1.3-hoverTrash)/100*1000/Game.getFps()+.0001;
-            }
-        } else if(hoverTrash>1){
-            hoverTrash-=.001*1000/Game.getFps();
-        }
-        if(hoverTrash<1){
-            hoverTrash=1;
-        }
-        if(hoverTrash>1.3){
-            hoverTrash=1.3f;
-        }
-        if(buttonMiddle.contains(Game.getTouchX(), Game.getTouchY())){
-            if(hoverMiddle<1.3){
-                hoverMiddle+=(1.3-hoverMiddle)/100*1000/Game.getFps()+.0001;
-            }
-        }
-        else if(hoverMiddle>1){
-            hoverMiddle-=.001*1000/Game.getFps();
-        }
-        if(hoverMiddle<1){
-            hoverMiddle=1;
-        }
-        if(hoverMiddle>1.3){
-            hoverMiddle=1.3f;
-        }
+        int tX=Game.getTouchX();
+        int tY=Game.getTouchY();
+        buttonBack.touch(tX,tY);
+        buttonForward.touch(tX,tY);
+        buttonMiddle.touch(tX,tY);
+        buttonTopBack.touch(tX,tY);
+        buttonTrash.touch(tX,tY);
     }
 
     public void released() {
         if(Game.isPlaying()) {
             int nextId = Game.getNextLevelId();
-            if (buttonMiddle.top<Game.getTouchY() && buttonMiddle.bottom>Game.getTouchY() && buttonMiddle.left<Game.getTouchX() && buttonMiddle.right>Game.getTouchX()) {
+            if (buttonMiddle.getHover()) {
                 fadeParticle f = new fadeParticle();
             }
-            if (buttonBack.contains(Game.getTouchX(), Game.getTouchY()) && Game.getLevel()!=1) {
+            if (buttonBack.hover && Game.getLevel()!=1) {
                 Game.levelChange(-1);
                 fadeParticle f = new fadeParticle();
             }
-            if (buttonForward.contains(Game.getTouchX(), Game.getTouchY()) && !(Game.getLevelPack().equals("default") && Game.getLevel()==Game.getMaxLevel()) && !(Game.getLevelPack().equals("custom") && Game.getLevel()>=nextId-1)) {
+            if (buttonForward.hover && !(Game.getLevelPack().equals("default") && Game.getLevel()==Game.getMaxLevel()) && !(Game.getLevelPack().equals("custom") && Game.getLevel()>=nextId-1)) {
                 Game.levelChange(1);
                 fadeParticle f = new fadeParticle();
             }
-            if (buttonTopBack.contains(Game.getTouchX(), Game.getTouchY())) {
+            if (buttonTopBack.hover) {
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if (buttonTrash.contains(Game.getTouchX(), Game.getTouchY()) && !Game.getLevelPack().equals("default")  && nextId>1) {
+            if (buttonTrash.hover && !Game.getLevelPack().equals("default")  && nextId>1) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -263,7 +123,6 @@ public class Menu {
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
                                 break;
                         }
                     }
@@ -289,41 +148,5 @@ public class Menu {
 
         editor.commit();
         fadeParticle f = new fadeParticle();
-    }
-
-    public static Path triangle(float x, float y, float length, boolean dir){
-        Path triangle = new Path();
-        if(dir){
-            triangle.moveTo(x-length/2f, y);
-            triangle.lineTo(x+length/1.8f, y+length/1.8f);
-            triangle.lineTo(x+length/1.8f, y-length/1.8f);
-            triangle.close();
-        } else {
-            triangle.moveTo(x+length/2f, y);
-            triangle.lineTo(x-length/1.8f, y+length/1.8f);
-            triangle.lineTo(x-length/1.8f, y-length/1.8f);
-            triangle.close();
-        }
-
-        return triangle;
-    }
-
-    public Path resetPath(float x, float y,float length){
-        Path curve = new Path();
-        curve.moveTo(x-length, y-length);
-        curve.lineTo(x-length, y+length);
-        curve.lineTo(x+length, y+length);
-        curve.lineTo(x+length, y-length);
-        curve.lineTo(x+length/2, y-length);
-        return curve;
-    }
-
-    public Path trashPath(float x, float y,float length){
-        Path curve = new Path();
-        curve.moveTo(x-length, y-length);
-        curve.lineTo(x+length, y+length);
-        curve.moveTo(x-length, y+length);
-        curve.lineTo(x+length, y-length);
-        return curve;
     }
 }

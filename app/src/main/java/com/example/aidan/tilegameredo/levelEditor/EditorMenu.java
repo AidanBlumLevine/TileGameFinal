@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.Button;
 import com.example.aidan.tilegameredo.HomeScreen;
 import com.example.aidan.tilegameredo.ImageLoader;
 import com.example.aidan.tilegameredo.Menu;
@@ -29,12 +30,12 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
 public class EditorMenu {
     private String selectedItem = "null";
     private int boxSize;
-    private Rect box,crate,doubleCrate,emptyCrate,spike,wall,spike2,spike3,spike4,doubleCrate2,
-            buttonSave,buttonTopBack,buttonSizeUp,buttonSizeDown;
+    private Button buttonSave,buttonTopBack,buttonSizeUp,buttonSizeDown;
+    private Rect box,crate,doubleCrate,emptyCrate,spike,wall,spike2,spike3,spike4,doubleCrate2;
+
     private Bitmap boxImg,crateImg,doubleCrate1Img,doubleCrate2Img,emptyCrateImg,spikeImg,wallImg,
             boxImgRaw,crateImgRaw,doubleCrate1ImgRaw,doubleCrate2ImgRaw,emptyCrateImgRaw,spikeImgRaw,wallImgRaw;
     private Context context;
-    private float hoverTopBack= 1,hoverSave= 1,hoverSizeUp= 1,hoverSizeDown= 1;
 
     public EditorMenu(Context context){
         this.context = context;
@@ -52,11 +53,11 @@ public class EditorMenu {
         int leftRightBuffer = screenWidth / 18;
 
         boxSize = bottomSpaceHeight - topBottomBuffer * 2;
-        buttonTopBack = new Rect(leftRightBuffer, LevelEditor.getPlayingField().bottom + topBottomBuffer, leftRightBuffer + boxSize, LevelEditor.getPlayingField().bottom + topBottomBuffer + boxSize);
-        buttonSave = new Rect(screenWidth-leftRightBuffer-boxSize, LevelEditor.getPlayingField().bottom + topBottomBuffer, screenWidth-leftRightBuffer, LevelEditor.getPlayingField().bottom + topBottomBuffer + boxSize);
+        buttonTopBack = new Button(leftRightBuffer, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
+        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSave(context),boxSize,boxSize,false));
         int smallBoxSize = boxSize/2;
-        buttonSizeUp = new Rect(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2,LevelEditor.getPlayingField().bottom + leftRightBuffer, LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2+smallBoxSize, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize);
-        buttonSizeDown = new Rect(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize, LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2+smallBoxSize, LevelEditor.getPlayingField().bottom + leftRightBuffer+2*smallBoxSize);
+        buttonSizeUp = new Button(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2,LevelEditor.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeDown = new Button(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
 
         box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
         crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
@@ -148,105 +149,18 @@ public class EditorMenu {
             canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setStrokeWidth(boxSize/4.66f);
 
-        canvas.save();
-        canvas.scale(hoverTopBack/1.5f, hoverTopBack/1.5f, buttonTopBack.exactCenterX(), buttonTopBack.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        canvas.rotate(90,buttonTopBack.centerX(),buttonTopBack.centerY());
-        canvas.drawPath(Menu.triangle(buttonTopBack.centerX(),buttonTopBack.centerY(),boxSize/2.5f,true),paint);
-        paint.setColor(Color.argb(200, 255, 204, 0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonTopBack,paint);
-        canvas.restore();
-        canvas.save();
-        paint.setStrokeWidth(boxSize/9f);
-        canvas.scale(hoverSave/1.5f, hoverSave/1.5f, buttonSave.exactCenterX(), buttonSave.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawPath(savePath(buttonSave.centerX(),buttonSave.centerY(),boxSize/3.5f),paint);
-        paint.setColor(Color.argb(200, 255, 204, 0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonSave,paint);
-        canvas.restore();
-        paint.setStrokeWidth(boxSize/4.66f);
-        canvas.save();
-        canvas.scale(hoverSizeUp/1.5f, hoverSizeUp/1.5f, buttonSizeUp.exactCenterX(), buttonSizeUp.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.rotate(90,buttonSizeUp.centerX(),buttonSizeUp.centerY());
-        canvas.drawPath(Menu.triangle(buttonSizeUp.centerX(),buttonSizeUp.centerY(),boxSize/50f,true),paint);
-        paint.setColor(Color.argb(200, 255, 204, 0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonSizeUp,paint);
-        canvas.restore();
+        buttonSave.draw(canvas,paint);
+        buttonSizeDown.draw(canvas,paint);
+        buttonSizeUp.draw(canvas,paint);
+        buttonTopBack.draw(canvas,paint);
 
-        canvas.save();
-        canvas.scale(hoverSizeDown/1.5f, hoverSizeDown/1.5f, buttonSizeDown.exactCenterX(), buttonSizeDown.exactCenterY());
-        paint.setColor(Color.argb(255,40,25,55));
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.rotate(-90,buttonSizeDown.centerX(),buttonSizeDown.centerY());
-        canvas.drawPath(Menu.triangle(buttonSizeDown.centerX(),buttonSizeDown.centerY(),boxSize/50f,true),paint);
-        paint.setColor(Color.argb(200, 255, 204, 0));
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(buttonSizeDown,paint);
-        canvas.restore();
-        paint.reset();
-
-        if(buttonTopBack.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())){
-            if(hoverTopBack<1.3){
-                hoverTopBack+=(1.3-hoverTopBack)/100*1000/LevelEditor.getFps()+.0001;
-            }
-        } else if(hoverTopBack>1){
-            hoverTopBack-=.001*1000/LevelEditor.getFps();
-        }
-        if(hoverTopBack<1){
-            hoverTopBack=1;
-        }
-        if(hoverTopBack>1.3){
-            hoverTopBack=1.3f;
-        }
-        if(buttonSave.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())){
-            if(hoverSave<1.3){
-                hoverSave+=(1.3-hoverSave)/100*1000/LevelEditor.getFps()+.0001;
-            }
-        } else if(hoverSave>1){
-            hoverSave-=.001*1000/LevelEditor.getFps();
-        }
-        if(hoverSave<1){
-            hoverSave=1;
-        }
-        if(hoverSave>1.3){
-            hoverSave=1.3f;
-        }
-
-        if(buttonSizeUp.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())){
-            if(hoverSizeUp<1.3){
-                hoverSizeUp+=(1.3-hoverSizeUp)/100*1000/LevelEditor.getFps()+.0001;
-            }
-        } else if(hoverSizeUp>1){
-            hoverSizeUp-=.001*1000/LevelEditor.getFps();
-        }
-        if(hoverSizeUp<1){
-            hoverSizeUp=1;
-        }
-        if(hoverSizeUp>1.3){
-            hoverSizeUp=1.3f;
-        }
-        if(buttonSizeDown.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())){
-            if(hoverSizeDown<1.3){
-                hoverSizeDown+=(1.3-hoverSizeDown)/100*1000/LevelEditor.getFps()+.0001;
-            }
-        } else if(hoverSizeDown>1){
-            hoverSizeDown-=.001*1000/LevelEditor.getFps();
-        }
-        if(hoverSizeDown<1){
-            hoverSizeDown=1;
-        }
-        if(hoverSizeDown>1.3){
-            hoverSizeDown=1.3f;
-        }
+        int tX=LevelEditor.getTouchX();
+        int tY=LevelEditor.getTouchY();
+        buttonSave.touch(tX,tY);
+        buttonSizeDown.touch(tX,tY);
+        buttonSizeUp.touch(tX,tY);
+        buttonTopBack.touch(tX,tY);
     }
 
     private Path savePath(int x, int y, float size) {
@@ -308,17 +222,17 @@ public class EditorMenu {
         }
         selectedItem = "none";
 
-        if (buttonTopBack.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())) {
+        if (buttonTopBack.getHover()) {
             Intent i = new Intent(context,HomeScreen.class);
             context.startActivity(i);
             ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         }
-        if (buttonSave.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())) {
+        if (buttonSave.getHover()) {
             LevelEditor.save();
         }
-        if (buttonSizeDown.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())) {
+        if (buttonSizeDown.getHover()) {
             sizeChange(false);
-        }if (buttonSizeUp.contains(LevelEditor.getTouchX(), LevelEditor.getTouchY())) {
+        }if (buttonSizeUp.getHover()) {
             sizeChange(true);
         }
     }
