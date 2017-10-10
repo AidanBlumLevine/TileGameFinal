@@ -11,7 +11,8 @@ public class ImageLoader {
     private static Bitmap glowCenter,background,defaultEnd,customEnd,
             boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,
             doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
-            buttonLeft,buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown;
+            buttonLeft,buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
+            goldCrate,silverCrate,bronzeCrate,emptyStarCrate;
     private static ArrayList<Bitmap> clouds;
 
     public static Bitmap getGlowCenter(Context context) {
@@ -156,5 +157,33 @@ public class ImageLoader {
             buttonSizeDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
         }
         return buttonSizeDown;
+    }
+
+    public static Bitmap getGoldCrate(Context context) {
+        if (goldCrate == null) {
+            goldCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.goldcrate);
+        }
+        return goldCrate;
+    }
+
+    public static Bitmap getSilverCrate(Context context) {
+        if (silverCrate == null) {
+            silverCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.silvercrate);
+        }
+        return silverCrate;
+    }
+
+    public static Bitmap getBronzeCrate(Context context) {
+        if (bronzeCrate == null) {
+            bronzeCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.bronzecrate);
+        }
+        return bronzeCrate;
+    }
+
+    public static Bitmap getEmptyStarCrate(Context context) {
+        if (emptyStarCrate == null) {
+            emptyStarCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.emptystarcrate);
+        }
+        return emptyStarCrate;
     }
 }

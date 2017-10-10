@@ -409,20 +409,24 @@ public class Game {
         return stars;
     }
 
-    public static void updateStars(){
-        if(leastSwipes<=starLevels[0]){
-            stars=3;
-        } else if(leastSwipes<=starLevels[1]){
-            stars=2;
-        } else if(leastSwipes<=starLevels[2]){
-            stars=1;
+    public static void updateStars() {
+        if (leastSwipes <= starLevels[0]) {
+            stars = 3;
+        } else if (leastSwipes <= starLevels[1]) {
+            stars = 2;
+        } else if (leastSwipes <= starLevels[2]) {
+            stars = 1;
         } else {
-            stars=0;
+            stars = 0;
         }
     }
 
     public static int getSwipes() {
         return swipes;
+    }
+
+    public static int[] getStarLevels() {
+        return starLevels;
     }
 }
 //fix white dot in corner of end particel

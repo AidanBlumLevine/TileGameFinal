@@ -70,13 +70,18 @@ public class Menu {
         update();
 
         if(Game.getStars()>2){
-            canvas.drawRect(starArea.left,starArea.top,starArea.left+starArea.height(),starArea.bottom,paint);
+            canvas.drawBitmap(ImageLoader.getGoldCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+        } else if(Game.getSwipes()<=Game.getStarLevels()[0]){
+            paint.setAlpha(100);
+            canvas.drawBitmap(ImageLoader.getGoldCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+        } else {
+            canvas.drawBitmap(ImageLoader.getEmptyStarCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
         }
         if(Game.getStars()>1){
-            canvas.drawRect(starArea.centerX()-starArea.height()/2,starArea.top,starArea.centerX()+starArea.height()/2,starArea.bottom,paint);
+            canvas.drawBitmap(ImageLoader.getSilverCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
         }
         if(Game.getStars()>0){
-            canvas.drawRect(starArea.right-starArea.height(),starArea.top,starArea.right,starArea.bottom,paint);
+            canvas.drawBitmap(ImageLoader.getBronzeCrate(context),starArea.right-starArea.height(),starArea.top,paint);
         }
 
         paint.setColor(Color.BLACK);
