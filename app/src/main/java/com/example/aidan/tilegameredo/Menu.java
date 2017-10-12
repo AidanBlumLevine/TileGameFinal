@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.particles.fadeParticle;
 
@@ -27,7 +28,7 @@ public class Menu {
     private Button buttonMiddle;
     private Rect starArea;
     private int boxSize;
-    private Bitmap arrow;
+    private Bitmap arrow,goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private int swipeDisplayValue=0;
     private Context context;
 
@@ -40,7 +41,7 @@ public class Menu {
         int bottomSpaceHeight = height - playingField.bottom;
         int topBottomBuffer = (height - playingField.bottom) / 8;
         int leftRightBuffer = width / 18;
-        boxSize = bottomSpaceHeight - topBottomBuffer * 2;
+        boxSize = bottomSpaceHeight - topBottomBuffer * 3;
 
         buttonMiddle = new Button((width - boxSize) / 2, playingField.bottom + topBottomBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
         buttonForward = new Button(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),boxSize,boxSize,false));
@@ -49,6 +50,12 @@ public class Menu {
         buttonTrash = new Button(width-leftRightBuffer-boxSize, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
 
         starArea = new Rect(width/2-boxSize,topBottomBuffer*2,width/2+boxSize,topBottomBuffer*2 + boxSize/2);
+
+        goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+        silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+        bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+        emptyCrate = Bitmap.createScaledBitmap(ImageLoader.getEmptyStarCrate(context),starArea.height(),starArea.height(),false);
+
     }
 
     public void paint(Canvas canvas, Paint paint) {
@@ -70,18 +77,33 @@ public class Menu {
         update();
 
         if(Game.getStars()>2){
-            canvas.drawBitmap(ImageLoader.getGoldCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+            canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
         } else if(Game.getSwipes()<=Game.getStarLevels()[0]){
-            paint.setAlpha(100);
-            canvas.drawBitmap(ImageLoader.getGoldCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+            paint.setAlpha(120);
+            canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
+            paint.reset();
         } else {
-            canvas.drawBitmap(ImageLoader.getEmptyStarCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+            canvas.drawBitmap(emptyCrate,starArea.right-starArea.height(),starArea.top,paint);
         }
+
         if(Game.getStars()>1){
-            canvas.drawBitmap(ImageLoader.getSilverCrate(context),starArea.centerX()-starArea.height()/2,starArea.top,paint);
+            canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
+        } else if(Game.getSwipes()<=Game.getStarLevels()[1]){
+            paint.setAlpha(120);
+            canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
+            paint.reset();
+        } else {
+            canvas.drawBitmap(emptyCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
         }
+
         if(Game.getStars()>0){
-            canvas.drawBitmap(ImageLoader.getBronzeCrate(context),starArea.right-starArea.height(),starArea.top,paint);
+            canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
+        } else if(Game.getSwipes()<=Game.getStarLevels()[2]){
+            paint.setAlpha(120);
+            canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
+            paint.reset();
+        } else {
+            canvas.drawBitmap(emptyCrate,starArea.left,starArea.top,paint);
         }
 
         paint.setColor(Color.BLACK);

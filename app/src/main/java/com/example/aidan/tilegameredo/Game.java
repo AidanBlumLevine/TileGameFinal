@@ -106,6 +106,8 @@ public class Game {
     public static void swipe(int direction){
         //1 ^ 2> 3\  4<
         if(playing) {
+            boolean couldSwipe = !tilesMoving();
+
             if (direction == 1) {
                 if (!tilesMoving()) {
                     tileSort("Up");
@@ -146,7 +148,7 @@ public class Game {
                     }
                 }
             }
-            if(tilesMoving()){
+            if(tilesMoving() && couldSwipe){
                 swipes++;
             }
         }

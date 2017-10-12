@@ -52,7 +52,7 @@ public class EditorMenu {
         int topBottomBuffer = bottomSpaceHeight / 8;
         int leftRightBuffer = screenWidth / 18;
 
-        boxSize = bottomSpaceHeight - topBottomBuffer * 2;
+        boxSize = bottomSpaceHeight - topBottomBuffer * 3;
         buttonTopBack = new Button(leftRightBuffer, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
         buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSave(context),boxSize,boxSize,false));
         int smallBoxSize = boxSize/2;
