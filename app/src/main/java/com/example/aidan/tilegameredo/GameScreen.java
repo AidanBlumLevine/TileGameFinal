@@ -1,5 +1,7 @@
 package com.example.aidan.tilegameredo;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,6 +17,10 @@ public class GameScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
         panel = new GamePanel(this,b.getString("pack"));
+        //panel = new GamePanel(this,"default");
+        Intent in = getIntent();
+        Uri data = in.getData();
+        Log.e("url",data.getEncodedPath());
         final GestureDetector gestureDetector = new GestureDetector(this, new SwipeGestureDetector());
         View.OnTouchListener gestureListener = new View.OnTouchListener() {
             @Override

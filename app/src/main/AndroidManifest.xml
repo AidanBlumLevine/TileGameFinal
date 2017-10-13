@@ -11,13 +11,29 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameScreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tilegame"
+                    android:host="play"
+                    android:pathPrefix="/"/>
+            </intent-filter>
+            <!-- Accept adb data flag -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tilegame"
+                    android:host="play"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".HomeScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
