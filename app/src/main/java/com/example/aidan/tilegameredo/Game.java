@@ -23,25 +23,22 @@ public class Game {
     private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,defaultLevel,customLevel,maxLevel,levelWidth=1,swipes,leastSwipes,stars;
-    private static boolean firstPlay,playing;
+    private static int touchX,touchY,levelWidth=1,swipes,leastSwipes,stars;
+    private static boolean playing;
 
-    private static String levelPack = "default";
     private static Rect playingField;
-    private static LevelGenerator levelGen;
     private static Menu menu;
     private static ArrayList<Tile> tiles = new ArrayList<>();
     private static Context context;
     private static int[] starLevels= new int[3];
 
-    public static void load(Context context){
+    public static void load(Context context,String level,int[] starLevels){
         Game.context = context;
-
+        Game.starLevels = starLevels;
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        defaultLevel = settings.getInt("defaultLevel", 1);
-        customLevel = settings.getInt("customLevel", 1);
-        maxLevel = settings.getInt("maxLevel", 1);
-        firstPlay = settings.getBoolean("firstPlay",true);
+        //defaultLevel = settings.getInt("defaultLevel", 1);
+        //customLevel = settings.getInt("customLevel", 1);
+        //firstPlay = settings.getBoolean("firstPlay",true);
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -431,6 +428,13 @@ public class Game {
         return starLevels;
     }
 }
+New system ====
+levelGenerator gets .load(), then can return level and stars ect
+levels are stored as strings with names, when you save you choose a name (cant use ,). there is another string with all the names
+levels are stars|starlevel1,starlevel2,starlevel3|width|type,x,y:type,x,y
+====
+
+
 //fix white dot in corner of end particel
 //make buttons and grey buttons,
 //fix layout

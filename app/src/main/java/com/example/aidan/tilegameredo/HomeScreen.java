@@ -99,8 +99,7 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void playGame(View view) {
-        Intent i = new Intent(this, GameScreen.class);
-        i.putExtra("pack","default");
+        Intent i = new Intent(this, SelectorScreen.class);
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
     }
@@ -110,13 +109,4 @@ public class HomeScreen extends AppCompatActivity {
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
     }
-
-    public void playCustom(View view) {
-        Intent i = new Intent(this, GameScreen.class);
-        i.putExtra("pack","custom");
-        startActivity(i);
-        overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
-
-    }
-
 }

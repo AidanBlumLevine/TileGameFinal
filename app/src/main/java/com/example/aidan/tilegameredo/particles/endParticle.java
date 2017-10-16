@@ -43,8 +43,8 @@ public class endParticle extends Particle{
         if(mode==1 || mode==2) {
             paint.setColor(Color.BLACK);
             Path path = new Path();
-            path.lineTo(-20, -20);
-            path.lineTo(-20, height);
+            path.lineTo(-50, -50);
+            path.lineTo(-50, height);
             path.lineTo(width, height);
             path.lineTo(width, -120);
             if(mode==2){

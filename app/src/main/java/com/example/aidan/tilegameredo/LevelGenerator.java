@@ -35,6 +35,10 @@ public class LevelGenerator {
         LevelGenerator.context = context;
     }
 
+    public static ArrayList<String> getAllCustomLevels() {
+        return;
+    }
+
     public ArrayList<Tile> getLevel(int waveId, Context context) {
         ArrayList<Tile> level = new ArrayList<Tile>();
 
@@ -140,9 +144,9 @@ public class LevelGenerator {
         return level;
     }
 
-    public static String encodeLevel(ArrayList<Tile> tiles, int size) {
+    public static String encodeLevel(ArrayList<Tile> tiles, int size,int stars,int[] starLevels) {
         String levelString;
-        levelString = size+":";
+        levelString = stars+"|"+starLevels[0]+","+starLevels[1]+","+starLevels[2]+"|"+size+"|";
         for(Tile t:tiles) {
             if(t instanceof DumbBox)
                 levelString += "box,"+t.getX()+","+t.getY()+":";
@@ -162,8 +166,8 @@ public class LevelGenerator {
 
     public static ArrayList<Tile> decodeLevel(String s){
         ArrayList<Tile> level = new ArrayList<Tile>();
-        Game.setLevelWidth(Integer.valueOf(s.split(":")[0]));
-        for(int i=1;i<s.split(":").length;i++){
+        //Game.setLevelWidth(Integer.valueOf(s.split(":")[0]));
+        for(int i=0;i<s.split(":").length;i++){
             if(s.split(":")[2]!=null) {
                 if (s.split(":")[i].split(",")[0].equals("box"))
                     level.add(new Box(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getBoxImage(context)));
