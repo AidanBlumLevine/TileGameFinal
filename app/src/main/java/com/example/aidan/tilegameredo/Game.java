@@ -23,32 +23,36 @@ public class Game {
     private static final int fps=100;
     private final static double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,levelWidth=1,swipes,leastSwipes,stars;
+    private static int touchX,touchY,levelWidth,swipes,leastSwipes,stars;
     private static boolean playing;
-
+    private static Level level;
     private static Rect playingField;
     private static Menu menu;
     private static ArrayList<Tile> tiles = new ArrayList<>();
     private static Context context;
     private static int[] starLevels= new int[3];
 
-    public static void load(Context context,String level,int[] starLevels){
+    public static void load(Context context,Level level){
         Game.context = context;
-        Game.starLevels = starLevels;
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        //defaultLevel = settings.getInt("defaultLevel", 1);
-        //customLevel = settings.getInt("customLevel", 1);
-        //firstPlay = settings.getBoolean("firstPlay",true);
+        Game.level=level;
+
+        starLevels = level.getStarLevels();
+        tiles = level.getTiles();
+        stars = level.getStars();
+        levelWidth = level.getWidth();
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         playingField = new Rect(40, (height - width + 2 * 40) / 2+80, width - 40, (height + width - 2 * 40) / 2+80);
 
-        levelGen = new LevelGenerator(context);
         menu = new Menu(playingField,width,height,context);
 
-        playAgain();
+//        if(levelPack.equals("default")) {
+//            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
+//        }
+        updateStars();
+        swipes = 0;
     }
 
     public static void draw(Canvas canvas, Paint paint){
@@ -83,15 +87,6 @@ public class Game {
         ParticleManager.paint(canvas, paint);
         canvas.restore();
         paint.reset();
-
-        if(tiles.isEmpty()){
-            if(levelPack.equals("default")){
-                canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDefaultEnd(context),playingField.width(),playingField.height(),false),playingField.left,playingField.top,paint);
-            } else {
-                canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getCustomEnd(context),playingField.width(),playingField.height(),false),playingField.left,playingField.top,paint);
-            }
-        }
-
     }
 
     public static void update(){
@@ -123,13 +118,6 @@ public class Game {
             }
             if (direction == 2) {
                 if (!tilesMoving()) {
-                    if (firstPlay) {
-                        firstPlay = false;
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("firstPlay", false);
-                        editor.commit();
-                    }
                     tileSort("Right");
                     for (Tile t : tiles) {
                         t.pushRight();
@@ -197,52 +185,10 @@ public class Game {
     }
 
     public static void levelComplete(int x, int y, int size) {
-
-
         playing = false;
-        if(levelPack.equals("default")){
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-            SharedPreferences.Editor editor = settings.edit();
-
-            if(swipes<leastSwipes) {
-                editor.putInt("leastSwipes" + defaultLevel, swipes);
-                leastSwipes=swipes;
-            }
-            defaultLevel++;
-            if(maxLevel<defaultLevel){
-                maxLevel=defaultLevel;
-                editor.putInt("maxLevel", maxLevel);
-            }
-            editor.commit();
-        } else {
-            customLevel++;
-        }
         endParticle f = new endParticle(x,y,size);
     }
 
-    public static void playAgain() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        playing = true;
-        tiles.clear();
-        if(levelPack.equals("default")) {
-            tiles.addAll(levelGen.getLevel(defaultLevel, context));
-        } else {
-            String levelString = settings.getString("customlevel"+customLevel, "");
-            if(!levelString.equals("")){
-                tiles.addAll(LevelGenerator.decodeLevel(levelString));
-            } else {
-                customLevel=Math.max(customLevel-1,0);
-                if(customLevel>0){
-                    playAgain();
-                }
-            }
-        }
-        if(levelPack.equals("default")) {
-            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
-        }
-        updateStars();
-        swipes = 0;
-    }
 
     private static void tileSort(String sort) {
         if (sort.equals("Right")) {
@@ -322,26 +268,8 @@ public class Game {
         return touchY;
     }
 
-    public static void levelChange(int i) {
-        if(levelPack.equals("default")) {
-            if (defaultLevel + i <= maxLevel) {
-                defaultLevel += i;
-            }
-        } else {
-            customLevel += i;
-        }
-    }
-
-    public static int getMaxLevel(){
-        return maxLevel;
-    }
-
     public static int getFPS() {
         return fps;
-    }
-
-    public static boolean firstPlay() {
-        return firstPlay;
     }
 
     public static void touch(int x, int y) {
@@ -356,44 +284,12 @@ public class Game {
         return fps;
     }
 
-    public static void setLevelPack(String levelPack) {
-        Game.levelPack = levelPack;
-    }
-
-    public static int getDefaultLevel() {
-        return defaultLevel;
-    }
-
-    public static int getCustomLevel() {
-        return customLevel;
-    }
-
     public static Context getContext() {
         return context;
     }
 
     public static boolean isPlaying() {
         return playing;
-    }
-
-    public static String getLevelPack() {
-        return levelPack;
-    }
-
-    public static int getLevel() {
-        if(levelPack.equals("default")){
-            return defaultLevel;
-        }
-        return customLevel;
-    }
-
-    public static int getNextLevelId() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        int i=1;
-        while(!settings.getString("customlevel"+i, "").equals("")){
-            i++;
-        }
-        return i;
     }
 
     public static void setPlaying(boolean playing) {
@@ -423,13 +319,17 @@ public class Game {
     public static int getSwipes() {
         return swipes;
     }
+    public static Level getLevel() {
+        return level;
+    }
 
     public static int[] getStarLevels() {
         return starLevels;
     }
 }
-New system ====
-levelGenerator gets .load(), then can return level and stars ect
+New system
+
+     ====
 levels are stored as strings with names, when you save you choose a name (cant use ,). there is another string with all the names
 levels are stars|starlevel1,starlevel2,starlevel3|width|type,x,y:type,x,y
 ====

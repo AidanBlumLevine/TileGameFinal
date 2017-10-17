@@ -1,6 +1,8 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,7 +13,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.example.aidan.tilegameredo.Button;
 import com.example.aidan.tilegameredo.HomeScreen;
@@ -228,7 +232,28 @@ public class EditorMenu {
             ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         }
         if (buttonSave.getHover()) {
-            LevelEditor.save();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Title");
+
+            final EditText input = new EditText(context);
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            builder.setView(input);
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    LevelEditor.save(input.getText().toString());
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+
         }
         if (buttonSizeDown.getHover()) {
             sizeChange(false);

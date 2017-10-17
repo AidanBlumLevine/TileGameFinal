@@ -20,16 +20,14 @@ public class GamePanel extends SurfaceView implements Runnable{
     private static android.graphics.Canvas canvas;
     private static Paint paint;
 
-    public GamePanel(Context context, String levelPack){
+    public GamePanel(Context context,Level level){
         super(context);
-
-        Game.setLevelPack(levelPack);
 
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        Game.load(context);
+        Game.load(context,level);
     }
 
     private void draw() {
@@ -58,11 +56,6 @@ public class GamePanel extends SurfaceView implements Runnable{
     }
 
     public void pause() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(super.getContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("defaultLevel", Game.getDefaultLevel());
-        editor.putInt("customLevel", Game.getCustomLevel());
-        editor.commit();
         playing = false;
         try {
             gameThread.join();

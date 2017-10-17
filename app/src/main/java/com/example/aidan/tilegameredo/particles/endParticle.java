@@ -29,16 +29,8 @@ public class endParticle extends Particle{
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
-            super.setTime(255);
             Game.updateStars();
-        }
-        if(super.getTime()<=0 && mode==3){
-            mode=4;
-            Game.playAgain();
-            super.setTime(255);
-        }
-        if (super.getTime() <= 0 && mode==4) {
-            mode=5;
+            go to end screen
         }
         if(mode==1 || mode==2) {
             paint.setColor(Color.BLACK);
@@ -59,32 +51,10 @@ public class endParticle extends Particle{
             paint.setAlpha((int)super.getTime()*-1+255);
             canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
-        if(mode==3){
-            paint.setColor(Color.BLACK);
-            paint.setAlpha(255);
-            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
-            int starAlpha = (int)(255*(Math.min(Math.sin(super.getTime()/255*Math.PI),.8)+.2));
-            paint.setColor(Color.YELLOW);
-            paint.setAlpha(starAlpha);
-            if(Game.getStars()>1){
-                canvas.drawRect(width/2-100,height/2-100,width/2+100,height/2+100,paint);
-            }
-            if(Game.getStars()>0){
-                canvas.drawRect(width/2-350,height/2-100,width/2-150,height/2+100,paint);
-            }
-            if(Game.getStars()>2){
-                canvas.drawRect(width/2+150,height/2-100,width/2+350,height/2+100,paint);
-            }
-        }
-        if(mode==4){
-            paint.setColor(Color.BLACK);
-            paint.setAlpha((int)super.getTime());
-            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
-        }
     }
 
     @Override
     public boolean isDone() {
-        return mode==5;
+        return mode==3;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -8,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.widget.EditText;
 
 import com.example.aidan.tilegameredo.ImageLoader;
 import com.example.aidan.tilegameredo.LevelGenerator;
@@ -104,13 +108,11 @@ public class LevelEditor {
         }
     }
 
-    public static void save(){
-        String levelString = LevelGenerator.encodeLevel(tiles,editorMenu.getSize());
+    public static void save(String name){
+        String levelString = LevelGenerator.encodeLevel(tiles,editorMenu.getSize(),0,new int[]{0,0,0},name);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         int levelNumber = getNextLevelId();
-        editor.putString("customlevel"+levelNumber, levelString);
-        editor.putInt("customLevel",levelNumber);
         editor.commit();
     }
 

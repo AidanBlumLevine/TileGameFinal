@@ -28,16 +28,12 @@ public class Menu {
     private Button buttonMiddle;
     private Rect starArea;
     private int boxSize;
-    private Bitmap arrow,goldCrate,silverCrate,bronzeCrate,emptyCrate;
-    private int swipeDisplayValue=0;
+    private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private Context context;
 
     public Menu(Rect playingField,int width, int height, Context context){
         this.context=context;
-        if(Game.firstPlay()){
-            int imageHeight = Game.getPlayingField().height()/5;
-            arrow  = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),R.drawable.arrow),imageHeight,(int)(imageHeight*.7),false);
-        }
+
         int bottomSpaceHeight = height - playingField.bottom;
         int topBottomBuffer = (height - playingField.bottom) / 8;
         int leftRightBuffer = width / 18;
@@ -59,15 +55,6 @@ public class Menu {
     }
 
     public void paint(Canvas canvas, Paint paint) {
-        if(Game.firstPlay() && Game.getLevelPack().equals("default")){
-            swipeDisplayValue+=300/Game.getFps();
-            paint.setAlpha((int)(Math.cos(Math.toRadians(swipeDisplayValue))*100)+105);
-            canvas.drawBitmap(arrow,Game.getPlayingField().centerX()-Game.getPlayingField().height()/10-90+swipeDisplayValue,Game.getPlayingField().centerY()-arrow.getHeight()/2,paint);
-            paint.reset();
-            if(swipeDisplayValue>180){
-                swipeDisplayValue=0;
-            }
-        }
         buttonBack.draw(canvas,paint);
         buttonForward.draw(canvas,paint);
         buttonMiddle.draw(canvas,paint);
@@ -114,8 +101,6 @@ public class Menu {
     public void update() {
         int tX=Game.getTouchX();
         int tY=Game.getTouchY();
-        buttonBack.touch(tX,tY);
-        buttonForward.touch(tX,tY);
         buttonMiddle.touch(tX,tY);
         buttonTopBack.touch(tX,tY);
         buttonTrash.touch(tX,tY);
@@ -123,16 +108,7 @@ public class Menu {
 
     public void released() {
         if(Game.isPlaying()) {
-            int nextId = Game.getNextLevelId();
             if (buttonMiddle.getHover()) {
-                fadeParticle f = new fadeParticle();
-            }
-            if (buttonBack.hover && Game.getLevel()!=1) {
-                Game.levelChange(-1);
-                fadeParticle f = new fadeParticle();
-            }
-            if (buttonForward.hover && !(Game.getLevelPack().equals("default") && Game.getLevel()==Game.getMaxLevel()) && !(Game.getLevelPack().equals("custom") && Game.getLevel()>=nextId-1)) {
-                Game.levelChange(1);
                 fadeParticle f = new fadeParticle();
             }
             if (buttonTopBack.hover) {
@@ -140,7 +116,7 @@ public class Menu {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if (buttonTrash.hover && !Game.getLevelPack().equals("default")  && nextId>1) {
+            if (buttonTrash.hover && !LevelSelector.getTab().equals("default")) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -163,17 +139,17 @@ public class Menu {
         }
     }
 
-    private static void deleteLevel(){
-        int nextId = Game.getNextLevelId();
-        int lastLevel = nextId-1;
+    private void deleteLevel(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(Game.getContext());
         SharedPreferences.Editor editor = settings.edit();
-        for(int i=Game.getLevel();i<lastLevel;i++){
-            editor.putString("customlevel"+i,settings.getString("customlevel"+(i+1),""));
-        }
-        editor.remove("customlevel"+lastLevel);
-
+        Level deleteLevel = Game.getLevel();
+        editor.remove(deleteLevel.getName());
+        String newNamesList = settings.getString(LevelSelector.getTab()+"LevelNames","");
+        newNamesList.replace(deleteLevel.getName()+",","");
+        editor.putString(LevelSelector.getTab()+"LevelNames",newNamesList);
         editor.commit();
-        fadeParticle f = new fadeParticle();
+        Intent i = new Intent(context,HomeScreen.class);
+        context.startActivity(i);
+        ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
     }
 }

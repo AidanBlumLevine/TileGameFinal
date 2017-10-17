@@ -1,30 +1,33 @@
+
 package com.example.aidan.tilegameredo;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
+        import android.content.Context;
+        import android.content.SharedPreferences;
+        import android.content.res.Resources;
+        import android.content.res.XmlResourceParser;
+        import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
+        import android.preference.PreferenceManager;
+        import android.util.Log;
 
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbCrate;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbEmptyCrate;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbSpike;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
-import com.example.aidan.tilegameredo.tiles.Box;
-import com.example.aidan.tilegameredo.tiles.Crate;
-import com.example.aidan.tilegameredo.tiles.DoubleCrate;
-import com.example.aidan.tilegameredo.tiles.EmptyCrate;
-import com.example.aidan.tilegameredo.tiles.Spike;
-import com.example.aidan.tilegameredo.tiles.Wall;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbCrate;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbEmptyCrate;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbSpike;
+        import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
+        import com.example.aidan.tilegameredo.tiles.Box;
+        import com.example.aidan.tilegameredo.tiles.Crate;
+        import com.example.aidan.tilegameredo.tiles.DoubleCrate;
+        import com.example.aidan.tilegameredo.tiles.EmptyCrate;
+        import com.example.aidan.tilegameredo.tiles.Spike;
+        import com.example.aidan.tilegameredo.tiles.Wall;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
+        import org.xmlpull.v1.XmlPullParser;
+        import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-import java.util.ArrayList;
+        import java.io.IOException;
+        import java.util.ArrayList;
 
 
 public class LevelGenerator {
@@ -35,11 +38,36 @@ public class LevelGenerator {
         LevelGenerator.context = context;
     }
 
-    public static ArrayList<String> getAllCustomLevels() {
-        return;
+    public static ArrayList<String> getAllLevels(String pack) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        String levelNameList = settings.getString(pack+"LevelNames","");
+        ArrayList<String> levels = new ArrayList<String>();
+        for(String s:levelNameList.split(",")){
+            levels.add(settings.getString(s+pack,""));
+        }
+        return levels;
+    }
+    public static String encodeLevel(ArrayList<Tile> tiles, int size,int stars,int[] starLevels,String name) {
+        String levelString;
+        levelString = name+"|"+stars+"|"+starLevels[0]+","+starLevels[1]+","+starLevels[2]+"|"+size+"|";
+        for(Tile t:tiles) {
+            if(t instanceof DumbBox)
+                levelString += "box,"+t.getX()+","+t.getY()+":";
+            if(t instanceof DumbCrate)
+                levelString += "crate,"+t.getX()+","+t.getY()+":";
+            if(t instanceof DumbEmptyCrate)
+                levelString += "emptyCrate,"+t.getX()+","+t.getY()+":";
+            if(t instanceof DumbWall)
+                levelString += "wall,"+t.getX()+","+t.getY()+":";
+            if(t instanceof DumbDoubleCrate)
+                levelString += "doubleCrate,"+t.getX()+","+t.getY()+","+((DumbDoubleCrate) t).getPosition()+":";
+            if(t instanceof DumbSpike)
+                levelString += "spike,"+t.getX()+","+t.getY()+","+((DumbSpike) t).getPosition()+":";
+        }
+        return levelString;
     }
 
-    public ArrayList<Tile> getLevel(int waveId, Context context) {
+    public ArrayList<Tile> getLevel(int waveId) {
         ArrayList<Tile> level = new ArrayList<Tile>();
 
         Resources res = context.getResources();
@@ -81,8 +109,8 @@ public class LevelGenerator {
                         Game.setLevelWidth(Integer.valueOf(text.trim()));
                     } else if(tagname.equalsIgnoreCase("stars")){
                         Game.setStarLevels(new int[]{Integer.valueOf(text.trim().split(",")[0]),
-                                                     Integer.valueOf(text.trim().split(",")[1]),
-                                                     Integer.valueOf(text.trim().split(",")[2])});
+                                Integer.valueOf(text.trim().split(",")[1]),
+                                Integer.valueOf(text.trim().split(",")[2])});
                     }else if(tagname.equalsIgnoreCase("border") && correctLevel){
                         int x = Integer.valueOf(text.split(",")[0].trim());
                         int y = Integer.valueOf(text.split(",")[1].trim());
@@ -143,48 +171,5 @@ public class LevelGenerator {
         Log.e("Test","Cannot find level");
         return level;
     }
-
-    public static String encodeLevel(ArrayList<Tile> tiles, int size,int stars,int[] starLevels) {
-        String levelString;
-        levelString = stars+"|"+starLevels[0]+","+starLevels[1]+","+starLevels[2]+"|"+size+"|";
-        for(Tile t:tiles) {
-            if(t instanceof DumbBox)
-                levelString += "box,"+t.getX()+","+t.getY()+":";
-            if(t instanceof DumbCrate)
-                levelString += "crate,"+t.getX()+","+t.getY()+":";
-            if(t instanceof DumbEmptyCrate)
-                levelString += "emptyCrate,"+t.getX()+","+t.getY()+":";
-            if(t instanceof DumbWall)
-                levelString += "wall,"+t.getX()+","+t.getY()+":";
-            if(t instanceof DumbDoubleCrate)
-                levelString += "doubleCrate,"+t.getX()+","+t.getY()+","+((DumbDoubleCrate) t).getPosition()+":";
-            if(t instanceof DumbSpike)
-                levelString += "spike,"+t.getX()+","+t.getY()+","+((DumbSpike) t).getPosition()+":";
-        }
-        return levelString;
-    }
-
-    public static ArrayList<Tile> decodeLevel(String s){
-        ArrayList<Tile> level = new ArrayList<Tile>();
-        //Game.setLevelWidth(Integer.valueOf(s.split(":")[0]));
-        for(int i=0;i<s.split(":").length;i++){
-            if(s.split(":")[2]!=null) {
-                if (s.split(":")[i].split(",")[0].equals("box"))
-                    level.add(new Box(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getBoxImage(context)));
-                if (s.split(":")[i].split(",")[0].equals("crate"))
-                    level.add(new Crate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getCrateImage(context)));
-                if (s.split(":")[i].split(",")[0].equals("emptyCrate"))
-                    level.add(new EmptyCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getEmptyCrateImage(context)));
-                if (s.split(":")[i].split(",")[0].equals("wall"))
-                    level.add(new Wall(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), ImageLoader.getWallImage(context)));
-                if (s.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(s.split(":")[i].split(",")[3]) == 1)
-                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrateImage(context)));
-                if (s.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(s.split(":")[i].split(",")[3]) == 2)
-                    level.add(new DoubleCrate(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrate2Image(context)));
-                if (s.split(":")[i].split(",")[0].equals("spike"))
-                    level.add(new Spike(Integer.valueOf(s.split(":")[i].split(",")[1]), Integer.valueOf(s.split(":")[i].split(",")[2]), Integer.valueOf(s.split(":")[i].split(",")[3]), ImageLoader.getSpikeImage(context)));
-            }
-        }
-        return level;
-    }
 }
+
