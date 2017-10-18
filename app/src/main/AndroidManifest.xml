@@ -20,7 +20,6 @@
                     android:host="play"
                     android:pathPrefix="/"/>
             </intent-filter>
-            <!-- Accept adb data flag -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -39,6 +38,9 @@
         </activity>
         <activity
             android:name=".levelEditor.LevelEditorScreen"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".SelectorScreen"
             android:screenOrientation="portrait"></activity>
     </application>
 

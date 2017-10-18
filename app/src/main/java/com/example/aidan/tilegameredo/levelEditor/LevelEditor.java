@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.example.aidan.tilegameredo.ImageLoader;
@@ -112,17 +113,9 @@ public class LevelEditor {
         String levelString = LevelGenerator.encodeLevel(tiles,editorMenu.getSize(),0,new int[]{0,0,0},name);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-        int levelNumber = getNextLevelId();
+        editor.putString("customLevelNames",settings.getString("customLevelNames","")+name+",");
+        editor.putString(name+"custom",levelString);
         editor.commit();
-    }
-
-    public static int getNextLevelId() {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        int i=1;
-        while(!settings.getString("customlevel"+i, "").equals("")){
-            i++;
-        }
-        return i;
     }
 
     public static void changeSize(int i) {

@@ -186,7 +186,7 @@ public class Game {
 
     public static void levelComplete(int x, int y, int size) {
         playing = false;
-        endParticle f = new endParticle(x,y,size);
+        endParticle f = new endParticle(x,y,size,context);
     }
 
 
@@ -327,14 +327,13 @@ public class Game {
         return starLevels;
     }
 }
-New system
-
-     ====
-levels are stored as strings with names, when you save you choose a name (cant use ,). there is another string with all the names
-levels are stars|starlevel1,starlevel2,starlevel3|width|type,x,y:type,x,y
-====
 
 
+//make play only work when level is selected
+//make scrolling work
+//make tabs
+
+//old==============================================
 //fix white dot in corner of end particel
 //make buttons and grey buttons,
 //fix layout

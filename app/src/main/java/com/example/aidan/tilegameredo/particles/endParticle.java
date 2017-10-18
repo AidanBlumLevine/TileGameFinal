@@ -1,21 +1,29 @@
 package com.example.aidan.tilegameredo.particles;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.aidan.tilegameredo.Game;
+import com.example.aidan.tilegameredo.HomeScreen;
 import com.example.aidan.tilegameredo.ParticleManager;
+import com.example.aidan.tilegameredo.R;
+import com.example.aidan.tilegameredo.SelectorScreen;
 
 public class endParticle extends Particle{
 
     private int targetSize,mode,height,width;
+    private Context context;
 
-    public endParticle(int tX,int tY,int tS){
+    public endParticle(int tX, int tY, int tS, Context context){
         super(tX,tY,1500);
+        this.context=context;
         targetSize=tS;
         mode=1;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -30,7 +38,9 @@ public class endParticle extends Particle{
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
             Game.updateStars();
-            go to end screen
+            Intent i = new Intent(context,SelectorScreen.class);
+            context.startActivity(i);
+            ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         }
         if(mode==1 || mode==2) {
             paint.setColor(Color.BLACK);

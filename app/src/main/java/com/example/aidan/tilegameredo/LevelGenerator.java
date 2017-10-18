@@ -32,18 +32,12 @@ package com.example.aidan.tilegameredo;
 
 public class LevelGenerator {
 
-    private static Context context;
-
-    public LevelGenerator(Context context){
-        LevelGenerator.context = context;
-    }
-
-    public static ArrayList<String> getAllLevels(String pack) {
+    public static ArrayList<Level> getAllLevels(String pack,Context context) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String levelNameList = settings.getString(pack+"LevelNames","");
-        ArrayList<String> levels = new ArrayList<String>();
+        ArrayList<Level> levels = new ArrayList<Level>();
         for(String s:levelNameList.split(",")){
-            levels.add(settings.getString(s+pack,""));
+            levels.add(new Level(context,s+pack));
         }
         return levels;
     }
@@ -67,7 +61,7 @@ public class LevelGenerator {
         return levelString;
     }
 
-    public ArrayList<Tile> getLevel(int waveId) {
+    public ArrayList<Tile> getLevel(int waveId,Context context) {
         ArrayList<Tile> level = new ArrayList<Tile>();
 
         Resources res = context.getResources();

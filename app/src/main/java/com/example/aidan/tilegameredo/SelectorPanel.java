@@ -41,7 +41,7 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     @Override
     public void run() {
         while (running) {
-                LevelSelector.update();
+                draw();
         }
     }
 
@@ -62,13 +62,13 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                LevelSelector.touch(-1,-1);
+                LevelSelector.touch(-1,-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
                 break;
             case MotionEvent.ACTION_MOVE:
-                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
         }
         return true;
     }

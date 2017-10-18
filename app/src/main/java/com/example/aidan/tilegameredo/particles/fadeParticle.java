@@ -1,5 +1,6 @@
 package com.example.aidan.tilegameredo.particles;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 import com.example.aidan.tilegameredo.Game;
+import com.example.aidan.tilegameredo.LevelSelector;
 import com.example.aidan.tilegameredo.ParticleManager;
 
 public class fadeParticle extends Particle{
@@ -23,7 +25,7 @@ public class fadeParticle extends Particle{
         if (super.getTime() <= 0 && mode==1) {
             mode=2;
             super.setTime(255);
-            levelSelecotr.playagain
+            LevelSelector.playAgain();
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;

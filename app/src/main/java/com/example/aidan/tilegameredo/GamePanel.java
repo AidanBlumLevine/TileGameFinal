@@ -20,14 +20,12 @@ public class GamePanel extends SurfaceView implements Runnable{
     private static android.graphics.Canvas canvas;
     private static Paint paint;
 
-    public GamePanel(Context context,Level level){
+    public GamePanel(Context context){
         super(context);
 
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        Game.load(context,level);
     }
 
     private void draw() {

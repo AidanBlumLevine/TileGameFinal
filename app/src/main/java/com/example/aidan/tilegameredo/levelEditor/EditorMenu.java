@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,10 +13,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.aidan.tilegameredo.Button;
 import com.example.aidan.tilegameredo.HomeScreen;
@@ -167,22 +171,6 @@ public class EditorMenu {
         buttonTopBack.touch(tX,tY);
     }
 
-    private Path savePath(int x, int y, float size) {
-        Path p = new Path();
-        p.moveTo(x-size,y-size);
-        p.lineTo(x-size,y+size);
-        p.lineTo(x+size,y+size);
-        p.lineTo(x+size,y-size/2);
-        p.lineTo(x+size/2,y-size);
-        p.close();
-        p.moveTo(x-size,y);
-        p.lineTo(x+size,y);
-        p.moveTo(x+size/3f,y-size/4);
-        p.lineTo(x+size/3f,y-size/1.5f);
-
-        return p;
-    }
-
     public void released() {
         if(LevelEditor.getPlayingField().contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
             int boxX = (int)((LevelEditor.getTouchX()-LevelEditor.getPlayingField().left)/(LevelEditor.getPlayingField().width()/(double)LevelEditor.getTilesInLevel()));
@@ -233,16 +221,32 @@ public class EditorMenu {
         }
         if (buttonSave.getHover()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Title");
+            builder.setTitle("Choose a title for your level");
+
+            InputFilter[] FilterArray = new InputFilter[1];
+            FilterArray[0] = new InputFilter.LengthFilter(20);
+
 
             final EditText input = new EditText(context);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setFilters(FilterArray);
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
             builder.setView(input);
 
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    LevelEditor.save(input.getText().toString());
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+
+                    if(input.getText().toString().contains(",")){
+                        dialog.cancel();
+                        Toast.makeText(context, "Name cannot contain \",\"", Toast.LENGTH_LONG).show();
+                    } else if(!settings.getString(input.getText()+"custom","").equals("")){
+                        dialog.cancel();
+                        Toast.makeText(context, "That name is already taken", Toast.LENGTH_LONG).show();
+                    } else {
+                        LevelEditor.save(input.getText().toString());
+                        Toast.makeText(context, "Level saved", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

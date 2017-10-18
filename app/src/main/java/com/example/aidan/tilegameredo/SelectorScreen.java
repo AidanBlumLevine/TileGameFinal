@@ -16,7 +16,6 @@ public class SelectorScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         panel = new SelectorPanel(this);
-
         setContentView(panel);
     }
 

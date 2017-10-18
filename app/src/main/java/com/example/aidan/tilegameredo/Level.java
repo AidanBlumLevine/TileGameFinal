@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class Level {
     private String level;
-    private int width,stars;
-    private int[] starLevels;
     private Context context;
     public Level(Context context,String name){
         this.context=context;
@@ -27,7 +25,7 @@ public class Level {
         return level;
     }
     public ArrayList<Tile> getTiles() {
-        String tiles = level.split("|")[4];
+        String tiles = level.split("\\|")[4];
         ArrayList<Tile> levelTiles = new ArrayList<Tile>();
         for(int i=0;i<tiles.split(":").length;i++){
             if(tiles.split(":")[2]!=null) {
@@ -50,17 +48,17 @@ public class Level {
         return levelTiles;
     }
     public int getWidth(){
-        return Integer.valueOf(level.split("|")[3]);
+        return Integer.valueOf(level.split("\\|")[3]);
     }
     public int getStars(){
-        return Integer.valueOf(level.split("|")[1]);
+        return Integer.valueOf(level.split("\\|")[1]);
     }
     public int[] getStarLevels(){
-        return new int[]{Integer.valueOf(level.split("|")[2].split(",")[0]),
-                        Integer.valueOf(level.split("|")[2].split(",")[1]),
-                        Integer.valueOf(level.split("|")[2].split(",")[2])};
+        return new int[]{Integer.valueOf(level.split("\\|")[2].split("\\,")[0]),
+                        Integer.valueOf(level.split("\\|")[2].split("\\,")[1]),
+                        Integer.valueOf(level.split("\\|")[2].split("\\,")[2])};
     }
     public String getName(){
-        return level.split("|")[0];
+        return level.split("\\|")[0];
     }
 }
