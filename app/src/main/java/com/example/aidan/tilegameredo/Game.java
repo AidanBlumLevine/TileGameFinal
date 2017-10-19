@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.particles.endParticle;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
@@ -32,22 +33,21 @@ public class Game {
     private static Context context;
     private static int[] starLevels= new int[3];
 
-    public static void load(Context context,Level level){
-        Game.context = context;
+    public static void load(Level level){
         Game.level=level;
-
-        starLevels = level.getStarLevels();
-        tiles = level.getTiles();
-        stars = level.getStars();
-        levelWidth = level.getWidth();
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         playingField = new Rect(40, (height - width + 2 * 40) / 2+80, width - 40, (height + width - 2 * 40) / 2+80);
 
-        menu = new Menu(playingField,width,height,context);
+        levelWidth = level.getWidth();
+        starLevels = level.getStarLevels();
+        tiles = level.getTiles(context);
+        stars = level.getStars();
 
+        menu = new Menu(playingField,width,height,context);
+        playing = true;
 //        if(levelPack.equals("default")) {
 //            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
 //        }
@@ -189,7 +189,6 @@ public class Game {
         endParticle f = new endParticle(x,y,size,context);
     }
 
-
     private static void tileSort(String sort) {
         if (sort.equals("Right")) {
             for (int i = 1; i < tiles.size(); i++) {
@@ -326,8 +325,13 @@ public class Game {
     public static int[] getStarLevels() {
         return starLevels;
     }
+
+    public static void setContext(Context context) {
+        Game.context = context;
+    }
 }
 
+UNSTATICIFY EVERYTHING and check all warnings
 
 //make play only work when level is selected
 //make scrolling work
@@ -338,7 +342,7 @@ public class Game {
 //make buttons and grey buttons,
 //fix layout
 //make end particle only be as big as needed
-
+//fix transitions
 //add sounds
 
 //old=================================

@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
+import com.example.aidan.tilegameredo.particles.Particle;
 
 public class GamePanel extends SurfaceView implements Runnable{
     private volatile Boolean playing;
@@ -22,7 +23,8 @@ public class GamePanel extends SurfaceView implements Runnable{
 
     public GamePanel(Context context){
         super(context);
-
+        Game.setContext(context);
+        Game.load(LevelSelector.getLevel());
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -58,6 +60,7 @@ public class GamePanel extends SurfaceView implements Runnable{
         try {
             gameThread.join();
         } catch (Exception e) {}
+        ParticleManager.clear();
     }
 
     @Override

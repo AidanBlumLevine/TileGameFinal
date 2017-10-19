@@ -18,13 +18,13 @@ import android.util.Log;
 
 import com.example.aidan.tilegameredo.particles.fadeParticle;
 
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
 
 public class Menu {
 
     private Button buttonTrash;
     private Button buttonTopBack;
-    private Button buttonBack;
-    private Button buttonForward;
     private Button buttonMiddle;
     private Rect starArea;
     private int boxSize;
@@ -40,8 +40,6 @@ public class Menu {
         boxSize = bottomSpaceHeight - topBottomBuffer * 3;
 
         buttonMiddle = new Button((width - boxSize) / 2, playingField.bottom + topBottomBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
-        buttonForward = new Button(width - leftRightBuffer - boxSize, playingField.bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),boxSize,boxSize,false));
-        buttonBack = new Button(leftRightBuffer, playingField.bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonLeft(context),boxSize,boxSize,false));
         buttonTopBack = new Button(leftRightBuffer, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
         buttonTrash = new Button(width-leftRightBuffer-boxSize, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
 
@@ -55,8 +53,6 @@ public class Menu {
     }
 
     public void paint(Canvas canvas, Paint paint) {
-        buttonBack.draw(canvas,paint);
-        buttonForward.draw(canvas,paint);
         buttonMiddle.draw(canvas,paint);
         buttonTopBack.draw(canvas,paint);
         buttonTrash.draw(canvas,paint);
@@ -111,12 +107,12 @@ public class Menu {
             if (buttonMiddle.getHover()) {
                 fadeParticle f = new fadeParticle();
             }
-            if (buttonTopBack.hover) {
-                Intent i = new Intent(context,HomeScreen.class);
+            if (buttonTopBack.getHover()) {
+                Intent i = new Intent(context,SelectorScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if (buttonTrash.hover && !LevelSelector.getTab().equals("default")) {
+            if (buttonTrash.getHover()) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -140,15 +136,15 @@ public class Menu {
     }
 
     private void deleteLevel(){
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(Game.getContext());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
         Level deleteLevel = Game.getLevel();
         editor.remove(deleteLevel.getName());
         String newNamesList = settings.getString(LevelSelector.getTab()+"LevelNames","");
-        newNamesList.replace(deleteLevel.getName()+",","");
-        editor.putString(LevelSelector.getTab()+"LevelNames",newNamesList);
+        editor.putString(LevelSelector.getTab()+"LevelNames",newNamesList.replace(deleteLevel.getName()+",",""));
+        editor.remove(deleteLevel.getName()+LevelSelector.getTab());
         editor.commit();
-        Intent i = new Intent(context,HomeScreen.class);
+        Intent i = new Intent(context,SelectorScreen.class);
         context.startActivity(i);
         ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
     }

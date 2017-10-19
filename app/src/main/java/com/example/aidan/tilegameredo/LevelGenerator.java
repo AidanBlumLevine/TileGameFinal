@@ -33,11 +33,13 @@ package com.example.aidan.tilegameredo;
 public class LevelGenerator {
 
     public static ArrayList<Level> getAllLevels(String pack,Context context) {
+        ArrayList<Level> levels = new ArrayList<Level>();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         String levelNameList = settings.getString(pack+"LevelNames","");
-        ArrayList<Level> levels = new ArrayList<Level>();
-        for(String s:levelNameList.split(",")){
-            levels.add(new Level(context,s+pack));
+        if(levelNameList!="") {
+            for (String s : levelNameList.split(",")) {
+                levels.add(new Level(context, s + pack));
+            }
         }
         return levels;
     }

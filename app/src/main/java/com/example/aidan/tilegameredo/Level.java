@@ -3,6 +3,7 @@ package com.example.aidan.tilegameredo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.Crate;
@@ -15,16 +16,14 @@ import java.util.ArrayList;
 
 public class Level {
     private String level;
-    private Context context;
     public Level(Context context,String name){
-        this.context=context;
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         level = settings.getString(name, "");
     }
     public String toString() {
         return level;
     }
-    public ArrayList<Tile> getTiles() {
+    public ArrayList<Tile> getTiles(Context context) {
         String tiles = level.split("\\|")[4];
         ArrayList<Tile> levelTiles = new ArrayList<Tile>();
         for(int i=0;i<tiles.split(":").length;i++){

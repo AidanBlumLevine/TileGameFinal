@@ -29,6 +29,7 @@ public class LevelSelector {
     private static final int levelBuffer = 20;
 
     public static void load(Context context) {
+        selectedLevel=null;
         LevelSelector.context = context;
         levels = LevelGenerator.getAllLevels(tab,context);
 
@@ -73,8 +74,7 @@ public class LevelSelector {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if(playButton.getHover()){
-                Game.load(context,selectedLevel);
+            if(playButton.getHover() && selectedLevel!=null){
                 Intent i = new Intent(context,GameScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
@@ -98,7 +98,7 @@ public class LevelSelector {
     }
 
     public static void playAgain() {
-        Game.load(context,selectedLevel);
+        Game.load(selectedLevel);
     }
 
     public static String getTab() {

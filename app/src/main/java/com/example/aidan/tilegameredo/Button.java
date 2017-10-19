@@ -6,9 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class Button {
-    int x,y;
-    Bitmap image,smallImage;
-    boolean hover=false;
+    private int x,y;
+    private Bitmap image,smallImage;
+    private boolean hover=false;
     public Button(int x, int y, Bitmap image){
         this.x=x;
         this.y=y;

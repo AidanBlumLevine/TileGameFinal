@@ -40,7 +40,10 @@ public class endParticle extends Particle{
             Game.updateStars();
             Intent i = new Intent(context,SelectorScreen.class);
             context.startActivity(i);
-            ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+            super.setTime(255);
+        }
+        if (super.getTime() <= 0 && mode==3) {
+            mode=4;
         }
         if(mode==1 || mode==2) {
             paint.setColor(Color.BLACK);
@@ -61,10 +64,14 @@ public class endParticle extends Particle{
             paint.setAlpha((int)super.getTime()*-1+255);
             canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
         }
+        if(mode==3){
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(-10,-10,canvas.getWidth(),canvas.getHeight(),paint);
+        }
     }
 
     @Override
     public boolean isDone() {
-        return mode==3;
+        return mode==4;
     }
 }

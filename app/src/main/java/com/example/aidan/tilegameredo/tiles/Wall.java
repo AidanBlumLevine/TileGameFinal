@@ -3,6 +3,7 @@ package com.example.aidan.tilegameredo.tiles;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.Game;
 import com.example.aidan.tilegameredo.Tile;

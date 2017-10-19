@@ -26,8 +26,7 @@ public class ParticleManager {
         particles.add(particle);
     }
 
-    public static void clear(Particle ignored) {
+    public static void clear() {
         particles.clear();
-        particles.add(ignored);
     }
 }
