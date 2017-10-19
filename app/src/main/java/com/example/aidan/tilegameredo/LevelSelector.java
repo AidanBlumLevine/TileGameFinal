@@ -16,21 +16,21 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class LevelSelector {
-    private static String tab = "custom";
+    private  String tab = "custom";
     //defualt custom downloaded
-    private static ArrayList<Level> levels;
-    private static Level selectedLevel;
-    private static int scrollPosition,screenHeight,screenWidth;
-    private static Rect listArea;
-    private static Button backButton,playButton;
-    private static Context context;
+    private  ArrayList<Level> levels;
+    private  Level selectedLevel;
+    private  int scrollPosition,screenHeight,screenWidth;
+    private  Rect listArea;
+    private  Button backButton,playButton;
+    private  Context context;
 
-    private static final int levelHeight = 100;
-    private static final int levelBuffer = 20;
+    private  final int levelHeight = 100;
+    private  final int levelBuffer = 20;
 
-    public static void load(Context context) {
+    public LevelSelector(Context context) {
         selectedLevel=null;
-        LevelSelector.context = context;
+        this.context = context;
         levels = LevelGenerator.getAllLevels(tab,context);
 
         screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -45,7 +45,7 @@ public class LevelSelector {
         playButton = new Button((sidebarWidth-boxSize)/2,(sidebarWidth-boxSize)+boxSize,Bitmap.createScaledBitmap(ImageLoader.getButtonPlay(context),boxSize,boxSize,false));
     }
 
-    public static void draw(Canvas canvas, Paint paint) {
+    public  void draw(Canvas canvas, Paint paint) {
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
         canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
@@ -67,7 +67,7 @@ public class LevelSelector {
         playButton.draw(canvas,paint);
     }
 
-    public static void touch(int x, int y,int type) {
+    public  void touch(int x, int y,int type) {
         if(type==-1){
             if(backButton.getHover()){
                 Intent i = new Intent(context,HomeScreen.class);
@@ -76,6 +76,8 @@ public class LevelSelector {
             }
             if(playButton.getHover() && selectedLevel!=null){
                 Intent i = new Intent(context,GameScreen.class);
+                i.putExtra("level",selectedLevel.getName());
+                i.putExtra("pack",tab);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
@@ -97,15 +99,11 @@ public class LevelSelector {
         }
     }
 
-    public static void playAgain() {
-        Game.load(selectedLevel);
-    }
-
-    public static String getTab() {
+    public  String getTab() {
         return tab;
     }
 
-    public static Level getLevel() {
+    public  Level getLevel() {
         return selectedLevel;
     }
 

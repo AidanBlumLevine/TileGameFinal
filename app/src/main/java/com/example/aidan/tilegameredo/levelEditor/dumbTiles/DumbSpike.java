@@ -14,17 +14,18 @@ public class DumbSpike extends Tile {
     //3 <-
     //4  ^
     private Bitmap scaledTexture;
-
-    public DumbSpike(int xPos, int yPos,int direction,Bitmap img) {
+    private LevelEditor parent;
+    public DumbSpike(int xPos, int yPos,int direction,Bitmap img,LevelEditor parent) {
         super(xPos, yPos,img);
+        this.parent=parent;
         this.direction = direction;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
     public void paint(Canvas canvas, Paint paint){
         canvas.save();
-        canvas.rotate((direction-1)*90,super.getX()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().left+((int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()))/2
-                ,super.getY()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().top+((int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()))/2);
-        canvas.drawBitmap(scaledTexture,super.getX()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().left,super.getY()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().top,paint);
+        canvas.rotate((direction-1)*90,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2
+                ,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2);
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
         canvas.restore();
     }
 
@@ -66,7 +67,7 @@ public class DumbSpike extends Tile {
 
     @Override
     public void update() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
 
 

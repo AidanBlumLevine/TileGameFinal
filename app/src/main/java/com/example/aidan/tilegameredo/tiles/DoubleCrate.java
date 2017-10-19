@@ -1,5 +1,6 @@
 package com.example.aidan.tilegameredo.tiles;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -15,20 +16,24 @@ public class DoubleCrate extends Tile {
     private boolean dead = false;
     private boolean inMotion=true;
     private Bitmap scaledTexture;
+    private Game parent;
+    private Context context;
 
     private int position;
     //1 is sideways
     //2 is upright
 
-    public DoubleCrate(int xPos, int yPos,int position,Bitmap img) {
+    public DoubleCrate(int xPos, int yPos,int position,Bitmap img,Game parent,Context context) {
         super(xPos, yPos, img);
+        this.parent=parent;
+        this.context=context;
         oldX = xPos;
         oldY = yPos;
         this.position = position;
         if (position == 1) {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * (2+(1-Game.getSizeMultiplier())) * Game.getSizeMultiplier()), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * Game.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), false);
         } else {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * Game.getSizeMultiplier()), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * (2+(1-Game.getSizeMultiplier())) * Game.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), false);
 
         }
     }
@@ -44,44 +49,44 @@ public class DoubleCrate extends Tile {
     @Override
     public void updateSize() {
         if (position == 1) {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * (2+(1-Game.getSizeMultiplier())) * Game.getSizeMultiplier()), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * Game.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), false);
         } else {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * Game.getSizeMultiplier()), (int) (Game.getPlayingField().width() / Game.getLevelWidth() * (2+(1-Game.getSizeMultiplier())) * Game.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), false);
 
         }
     }
 
     @Override
     public void paint(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(scaledTexture,(int)oldX * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, (int)oldY * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, paint);
+        canvas.drawBitmap(scaledTexture,(int)oldX * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (int)oldY * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, paint);
     }
 
     public void update(){
         if(oldX<super.getX()){
 
-            oldX+=moveSpeed*1000/Game.getFps();
+            oldX+=moveSpeed*1000/parent.getFps();
         }
         if(oldX>super.getX()){
-            oldX-=moveSpeed*1000/Game.getFps();
+            oldX-=moveSpeed*1000/parent.getFps();
         }
         if(oldY<super.getY()){
-            oldY+=moveSpeed*1000/Game.getFps();
+            oldY+=moveSpeed*1000/parent.getFps();
         }
         if(oldY>super.getY()){
-            oldY-=moveSpeed*1000/Game.getFps();
+            oldY-=moveSpeed*1000/parent.getFps();
         }
-        if(position==1 && ((Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX+30, (int)oldY))){
+        if(position==1 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX+30, (int)oldY))){
             if(!dead){
-                dissolveParticle p = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
-                dissolveParticle p2 = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
+                dissolveParticle p = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
+                dissolveParticle p2 = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
             }
             dead=true;
         }
-        if(position==2 && ((Game.isSpike((int)oldX, (int)oldY)) || Game.isSpike((int)oldX, (int)oldY+30))){
+        if(position==2 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX, (int)oldY+30))){
             if(!dead){
                 Log.e("s",(int)oldX+","+ (int)oldY);
-                dissolveParticle p = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
-                dissolveParticle p2 = new dissolveParticle((int)oldX*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (int)oldY*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,this);
+                dissolveParticle p = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
+                dissolveParticle p2 = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
             }
             dead=true;
         }
@@ -98,53 +103,53 @@ public class DoubleCrate extends Tile {
             }
             oldX=super.getX();
         }
-        if(Math.abs(oldY-super.getY())<=moveSpeed*1001.0/Game.getFps() && oldY!=super.getY() && inMotion ){
+        if(Math.abs(oldY-super.getY())<=moveSpeed*1001.0/parent.getFps() && oldY!=super.getY() && inMotion ){
             if(position==2){
-                if(Game.isTile(super.getX(), super.getY()+60, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, (super.getY()+30)*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,2);
+                if(parent.isTile(super.getX(), super.getY()+60, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (super.getY()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
                 }
-                if(Game.isTile(super.getX(), super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,4);
+                if(parent.isTile(super.getX(), super.getY()-30, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
                 }
             }
             if(position==1){
-                if(Game.isTile(super.getX(), super.getY()+30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,2);
+                if(parent.isTile(super.getX(), super.getY()+30, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
                 }
-                if(Game.isTile(super.getX()+30, super.getY()+30, Wall.class)){
-                    hitParticle p = new hitParticle((super.getX()+30)*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,2);
+                if(parent.isTile(super.getX()+30, super.getY()+30, Wall.class)){
+                    hitParticle p = new hitParticle((super.getX()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
                 }
 
-                if(Game.isTile(super.getX(), super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,4);
+                if(parent.isTile(super.getX(), super.getY()-30, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
                 }
-                if(Game.isTile(super.getX()+30, super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle((super.getX()+30)*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left, super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,4);
+                if(parent.isTile(super.getX()+30, super.getY()-30, Wall.class)){
+                    hitParticle p = new hitParticle((super.getX()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
                 }
             }
         }
-        if(Math.abs(oldX-super.getX())<=moveSpeed*1001.0/Game.getFps() && oldX!=super.getX() && inMotion ){
+        if(Math.abs(oldX-super.getX())<=moveSpeed*1001.0/parent.getFps() && oldX!=super.getX() && inMotion ){
             if(position==1) {
-                if (Game.isTile(super.getX() + 60, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle((super.getX()+30) * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, super.getY() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 1);
+                if (parent.isTile(super.getX() + 60, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle((super.getX()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
                 }
-                if (Game.isTile(super.getX() - 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, super.getY() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 3);
+                if (parent.isTile(super.getX() - 30, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
                 }
             }
             if(position==2) {
-                if (Game.isTile(super.getX() + 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, super.getY() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 1);
+                if (parent.isTile(super.getX() + 30, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
                 }
-                if (Game.isTile(super.getX() + 30, super.getY()+30, Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, (super.getY()+30) * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 1);
+                if (parent.isTile(super.getX() + 30, super.getY()+30, Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (super.getY()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
                 }
 
-                if (Game.isTile(super.getX() - 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, super.getY() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 3);
+                if (parent.isTile(super.getX() - 30, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
                 }
-                if (Game.isTile(super.getX() - 30, super.getY()+30, Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().left, (super.getY()+30) * Game.getPlayingField().height() / Game.getLevelWidth() / 30 + Game.getPlayingField().top, 3);
+                if (parent.isTile(super.getX() - 30, super.getY()+30, Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (super.getY()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
                 }
             }
         }
@@ -156,11 +161,11 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!Game.isSolidTile(super.getX()-i*30,super.getY())){
+            while(!parent.isSolidTile(super.getX()-i*30,super.getY())){
                 i++;
             }
         } else {
-            while(!Game.isSolidTile(super.getX()-i*30,super.getY()) && !Game.isSolidTile(super.getX()-i*30,super.getY()+30)){
+            while(!parent.isSolidTile(super.getX()-i*30,super.getY()) && !parent.isSolidTile(super.getX()-i*30,super.getY()+30)){
                 i++;
             }
         }
@@ -175,11 +180,11 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!Game.isSolidTile(super.getX()+i*30+30,super.getY())){
+            while(!parent.isSolidTile(super.getX()+i*30+30,super.getY())){
                 i++;
             }
         } else {
-            while(!Game.isSolidTile(super.getX()+i*30,super.getY()) && !Game.isSolidTile(super.getX()+i*30,super.getY()+30)){
+            while(!parent.isSolidTile(super.getX()+i*30,super.getY()) && !parent.isSolidTile(super.getX()+i*30,super.getY()+30)){
                 i++;
             }
         }
@@ -194,11 +199,11 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!Game.isSolidTile(super.getX(),super.getY()-i*30) && !Game.isSolidTile(super.getX()+30,super.getY()-i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()-i*30) && !parent.isSolidTile(super.getX()+30,super.getY()-i*30)){
                 i++;
             }
         } else {
-            while(!Game.isSolidTile(super.getX(),super.getY()-i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()-i*30)){
                 i++;
             }
         }
@@ -213,11 +218,11 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!Game.isSolidTile(super.getX(),super.getY()+i*30) && !Game.isSolidTile(super.getX()+30,super.getY()+i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()+i*30) && !parent.isSolidTile(super.getX()+30,super.getY()+i*30)){
                 i++;
             }
         } else {
-            while(!Game.isSolidTile(super.getX(),super.getY()+i*30+30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()+i*30+30)){
                 i++;
             }
         }

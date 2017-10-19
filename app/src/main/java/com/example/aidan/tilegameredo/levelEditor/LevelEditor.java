@@ -22,20 +22,20 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
 import java.util.ArrayList;
 
 public class LevelEditor {
-    private static final int fps=100;
-    private final static double sizeMultiplier = 0.97;
+    private final int fps=100;
+    private final double sizeMultiplier = 0.97;
 
-    private static int levelWidth = 12;
-    private static int touchX,touchY;
+    private int levelWidth = 12;
+    private int touchX,touchY;
 
-    private static ArrayList<Tile> tiles = new ArrayList<>();
-    private static EditorMenu editorMenu;
-    private static Rect playingField;
-    private static Context context;
+    private ArrayList<Tile> tiles = new ArrayList<>();
+    private EditorMenu editorMenu;
+    private Rect playingField;
+    private Context context;
 
 
-    public static void load(Context context){
-        LevelEditor.context=context;
+    public LevelEditor(Context context){
+        this.context=context;
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -43,18 +43,18 @@ public class LevelEditor {
 
         playingField = new Rect(buffer, (height - width + 2 * buffer) / 2, width - buffer, (height + width - 2 * buffer) / 2);
 
-        editorMenu = new EditorMenu(context);
+        editorMenu = new EditorMenu(context,this);
         if(tiles.isEmpty()){
             editorMenu.generateBorder();
         }
 
     }
 
-    public static int getFps() {
+    public int getFps() {
         return fps;
     }
 
-    public static boolean isTile(int x, int y) {
+    public boolean isTile(int x, int y) {
         for (Tile t : tiles) {
             if (t.getX() == x && t.getY() == y || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y)) {
                 return true;
@@ -63,35 +63,35 @@ public class LevelEditor {
         return false;
     }
 
-    public static double getSizeMultiplier() {
+    public double getSizeMultiplier() {
         return sizeMultiplier;
     }
 
-    public static Rect getPlayingField() {
+    public Rect getPlayingField() {
         return playingField;
     }
 
-    public static int getTilesInLevel() {
+    public int getTilesInLevel() {
         return levelWidth;
     }
 
-    public static int getTouchX() {
+    public int getTouchX() {
         return touchX;
     }
 
-    public static int getTouchY() {
+    public int getTouchY() {
         return touchY;
     }
 
-    public static int getLevelWidth() {
+    public int getLevelWidth() {
         return levelWidth;
     }
 
-    public static void addTile(Tile t) {
+    public void addTile(Tile t) {
         tiles.add(t);
     }
 
-    public static Tile getTileAt(int x, int y) {
+    public Tile getTileAt(int x, int y) {
         for(Tile t:tiles){
             if(t.getX() ==x && t.getY()==y){
                 return t;
@@ -100,7 +100,7 @@ public class LevelEditor {
         return null;
     }
 
-    public static void removeTile(int x, int y) {
+    public void removeTile(int x, int y) {
         for(int t=0;t<tiles.size();t++){
             if(tiles.get(t).getX()==x && tiles.get(t).getY()==y){
                 tiles.remove(t);
@@ -109,7 +109,7 @@ public class LevelEditor {
         }
     }
 
-    public static void save(String name){
+    public void save(String name){
         String levelString = LevelGenerator.encodeLevel(tiles,editorMenu.getSize(),0,new int[]{0,0,0},name);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
@@ -118,11 +118,11 @@ public class LevelEditor {
         editor.commit();
     }
 
-    public static void changeSize(int i) {
+    public void changeSize(int i) {
         levelWidth=Math.min(25,Math.max(3,levelWidth+i));
     }
 
-    public static void touch(int x, int y, int type) {
+    public void touch(int x, int y, int type) {
         if(type==-1){
             editorMenu.released();
         }
@@ -133,7 +133,7 @@ public class LevelEditor {
         }
     }
 
-    public static void update() {
+    public void update() {
         try {
             for (Tile t : tiles) {
                 t.update();
@@ -141,7 +141,7 @@ public class LevelEditor {
         } catch (Exception e){}
     }
 
-    public static void draw(Canvas canvas, Paint paint,Context context) {
+    public void draw(Canvas canvas, Paint paint,Context context) {
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
         canvas.drawBitmap(ImageLoader.getBackground(context),-50,-30,paint);

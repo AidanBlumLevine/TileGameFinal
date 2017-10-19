@@ -11,14 +11,16 @@ import com.example.aidan.tilegameredo.Tile;
 
 public class Wall extends Tile {
     private Bitmap scaledTexture;
+    private Game parent;
 
-    public Wall(int xPos, int yPos,Bitmap img) {
+    public Wall(int xPos, int yPos,Bitmap img,Game parent) {
         super(xPos, yPos,img);
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
+        this.parent=parent;
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
 
     }
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left,super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
     }
     @Override
     public void pushLeft() {
@@ -43,7 +45,7 @@ public class Wall extends Tile {
 
     @Override
     public void updateSize() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
 
     @Override

@@ -9,14 +9,15 @@ import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 
 public class DumbWall extends Tile {
     private Bitmap scaledTexture;
-
-    public DumbWall(int xPos, int yPos,Bitmap img) {
+    private LevelEditor parent;
+    public DumbWall(int xPos, int yPos,Bitmap img,LevelEditor parent) {
         super(xPos, yPos,img);
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        this.parent=parent;
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
 
     }
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,super.getX()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().left,super.getY()*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
     }
     @Override
     public void pushLeft() {
@@ -41,7 +42,7 @@ public class DumbWall extends Tile {
 
     @Override
     public void updateSize() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
 
     }
 

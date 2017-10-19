@@ -13,8 +13,10 @@ import java.util.ArrayList;
 
 public class dissolveParticle  extends Particle {
     private ArrayList<Pair<Bitmap,Point>> chunks = new ArrayList<>();
-    public dissolveParticle(int x, int y,Tile type) {
+    private Game parent;
+    public dissolveParticle(int x, int y,Tile type,Game parent) {
         super(x, y, 100);
+        this.parent=parent;
         Bitmap texture=type.getScaledTexture();
 //        for(int i=0;i<texture.getWidth();i+=texture.getWidth()/4){
 //            for(int r=0;r<texture.getHeight();r+=texture.getHeight()/4){
@@ -42,7 +44,7 @@ public class dissolveParticle  extends Particle {
 
     public void update(){
         if(!chunks.isEmpty()) {
-            super.setTime(super.getTime() - 1000 / Game.getFps());
+            super.setTime(super.getTime() - 1000 / parent.getFps());
             if (super.getTime() < chunks.size() * 6.25) {
                 //chunks.remove((int)(Math.random()*chunks.size()));
                 chunks.remove(0);

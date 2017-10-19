@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +17,9 @@ import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.aidan.tilegameredo.Button;
 import com.example.aidan.tilegameredo.HomeScreen;
 import com.example.aidan.tilegameredo.ImageLoader;
-import com.example.aidan.tilegameredo.Menu;
 import com.example.aidan.tilegameredo.R;
 import com.example.aidan.tilegameredo.Tile;
 import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
@@ -44,28 +39,28 @@ public class EditorMenu {
     private Bitmap boxImg,crateImg,doubleCrate1Img,doubleCrate2Img,emptyCrateImg,spikeImg,wallImg,
             boxImgRaw,crateImgRaw,doubleCrate1ImgRaw,doubleCrate2ImgRaw,emptyCrateImgRaw,spikeImgRaw,wallImgRaw;
     private Context context;
-
-    public EditorMenu(Context context){
+    private LevelEditor parent;
+    public EditorMenu(Context context, LevelEditor parent){
         this.context = context;
-
+        this.parent = parent;
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         int buffer = 20;
-        int height = LevelEditor.getPlayingField().top;
+        int height = parent.getPlayingField().top;
         int tileSize = Math.min((height-3*buffer)/2,(screenWidth-7*buffer)/6);
         int centeringBuffer = (screenWidth-buffer*7-tileSize*6)/2;
 
-        int bottomSpaceHeight = screenHeight - LevelEditor.getPlayingField().bottom;
+        int bottomSpaceHeight = screenHeight - parent.getPlayingField().bottom;
         int topBottomBuffer = bottomSpaceHeight / 8;
         int leftRightBuffer = screenWidth / 18;
 
         boxSize = bottomSpaceHeight - topBottomBuffer * 3;
-        buttonTopBack = new Button(leftRightBuffer, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, LevelEditor.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSave(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(leftRightBuffer, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
+        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSave(context),boxSize,boxSize,false));
         int smallBoxSize = boxSize/2;
-        buttonSizeUp = new Button(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2,LevelEditor.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
-        buttonSizeDown = new Button(LevelEditor.getPlayingField().centerX()-(smallBoxSize)/2, LevelEditor.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeUp = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2,parent.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeDown = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
 
         box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
         crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
@@ -119,42 +114,42 @@ public class EditorMenu {
         canvas.restore();
 
         if(selectedItem.equals("box")){
-            canvas.drawBitmap(boxImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(boxImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("crate")){
-            canvas.drawBitmap(crateImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(crateImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("doubleCrate")){
-            canvas.drawBitmap(doubleCrate1Img,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(doubleCrate1Img,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("doubleCrate2")){
-            canvas.drawBitmap(doubleCrate2Img,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(doubleCrate2Img,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("emptyCrate")){
-            canvas.drawBitmap(emptyCrateImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(emptyCrateImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("wall")){
-            canvas.drawBitmap(wallImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(wallImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("spike")){
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.drawBitmap(spikeImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
         }
         if(selectedItem.equals("spike2")){
             canvas.save();
-            canvas.rotate(90,LevelEditor.getTouchX()-box.width()/2+spike2.width()/2,LevelEditor.getTouchY()-box.width()/2+spike2.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.rotate(90,parent.getTouchX()-box.width()/2+spike2.width()/2,parent.getTouchY()-box.width()/2+spike2.height()/2);
+            canvas.drawBitmap(spikeImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
         if(selectedItem.equals("spike3")){
             canvas.save();
-            canvas.rotate(180,LevelEditor.getTouchX()-box.width()/2+spike3.width()/2,LevelEditor.getTouchY()-box.width()/2+spike3.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.rotate(180,parent.getTouchX()-box.width()/2+spike3.width()/2,parent.getTouchY()-box.width()/2+spike3.height()/2);
+            canvas.drawBitmap(spikeImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
         if(selectedItem.equals("spike4")){
             canvas.save();
-            canvas.rotate(270,LevelEditor.getTouchX()-box.width()/2+spike4.width()/2,LevelEditor.getTouchY()-box.width()/2+spike4.height()/2);
-            canvas.drawBitmap(spikeImg,LevelEditor.getTouchX()-box.width()/2,LevelEditor.getTouchY()-box.width()/2,paint);
+            canvas.rotate(270,parent.getTouchX()-box.width()/2+spike4.width()/2,parent.getTouchY()-box.width()/2+spike4.height()/2);
+            canvas.drawBitmap(spikeImg,parent.getTouchX()-box.width()/2,parent.getTouchY()-box.width()/2,paint);
             canvas.restore();
         }
 
@@ -163,8 +158,8 @@ public class EditorMenu {
         buttonSizeUp.draw(canvas,paint);
         buttonTopBack.draw(canvas,paint);
 
-        int tX=LevelEditor.getTouchX();
-        int tY=LevelEditor.getTouchY();
+        int tX=parent.getTouchX();
+        int tY=parent.getTouchY();
         buttonSave.touch(tX,tY);
         buttonSizeDown.touch(tX,tY);
         buttonSizeUp.touch(tX,tY);
@@ -172,42 +167,42 @@ public class EditorMenu {
     }
 
     public void released() {
-        if(LevelEditor.getPlayingField().contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
-            int boxX = (int)((LevelEditor.getTouchX()-LevelEditor.getPlayingField().left)/(LevelEditor.getPlayingField().width()/(double)LevelEditor.getTilesInLevel()));
-            int boxY = (int)((LevelEditor.getTouchY()-LevelEditor.getPlayingField().top)/(LevelEditor.getPlayingField().height()/(double)LevelEditor.getTilesInLevel()));
-            if(!LevelEditor.isTile(boxX*30,boxY*30)){
+        if(parent.getPlayingField().contains(parent.getTouchX(),parent.getTouchY())){
+            int boxX = (int)((parent.getTouchX()-parent.getPlayingField().left)/(parent.getPlayingField().width()/(double)parent.getTilesInLevel()));
+            int boxY = (int)((parent.getTouchY()-parent.getPlayingField().top)/(parent.getPlayingField().height()/(double)parent.getTilesInLevel()));
+            if(!parent.isTile(boxX*30,boxY*30)){
                 switch(selectedItem) {
                     case "box":
-                        LevelEditor.addTile(new DumbBox(boxX*30,boxY*30,boxImgRaw));
+                        parent.addTile(new DumbBox(boxX*30,boxY*30,boxImgRaw,parent));
                         break;
                     case "crate":
-                        LevelEditor.addTile(new DumbCrate(boxX*30,boxY*30,crateImgRaw));
+                        parent.addTile(new DumbCrate(boxX*30,boxY*30,crateImgRaw,parent));
                         break;
                     case "doubleCrate":
-                        if(!LevelEditor.isTile(boxX*30,boxY*30+30))
-                            LevelEditor.addTile(new DumbDoubleCrate(boxX*30,boxY*30,2,doubleCrate1ImgRaw));
+                        if(!parent.isTile(boxX*30,boxY*30+30))
+                            parent.addTile(new DumbDoubleCrate(boxX*30,boxY*30,2,doubleCrate1ImgRaw,parent));
                         break;
                     case "doubleCrate2":
-                        if(!LevelEditor.isTile(boxX*30+30,boxY*30))
-                            LevelEditor.addTile(new DumbDoubleCrate(boxX*30,boxY*30,1,doubleCrate2ImgRaw));
+                        if(!parent.isTile(boxX*30+30,boxY*30))
+                            parent.addTile(new DumbDoubleCrate(boxX*30,boxY*30,1,doubleCrate2ImgRaw,parent));
                         break;
                     case "wall":
-                        LevelEditor.addTile(new DumbWall(boxX*30,boxY*30,wallImgRaw));
+                        parent.addTile(new DumbWall(boxX*30,boxY*30,wallImgRaw,parent));
                         break;
                     case "emptyCrate":
-                        LevelEditor.addTile(new DumbEmptyCrate(boxX*30,boxY*30,emptyCrateImgRaw));
+                        parent.addTile(new DumbEmptyCrate(boxX*30,boxY*30,emptyCrateImgRaw,parent));
                         break;
                     case "spike":
-                        LevelEditor.addTile(new DumbSpike(boxX*30,boxY*30,1,spikeImgRaw));
+                        parent.addTile(new DumbSpike(boxX*30,boxY*30,1,spikeImgRaw,parent));
                         break;
                     case "spike2":
-                        LevelEditor.addTile(new DumbSpike(boxX*30,boxY*30,2,spikeImgRaw));
+                        parent.addTile(new DumbSpike(boxX*30,boxY*30,2,spikeImgRaw,parent));
                         break;
                     case "spike3":
-                        LevelEditor.addTile(new DumbSpike(boxX*30,boxY*30,3,spikeImgRaw));
+                        parent.addTile(new DumbSpike(boxX*30,boxY*30,3,spikeImgRaw,parent));
                         break;
                     case "spike4":
-                        LevelEditor.addTile(new DumbSpike(boxX*30,boxY*30,4,spikeImgRaw));
+                        parent.addTile(new DumbSpike(boxX*30,boxY*30,4,spikeImgRaw,parent));
                         break;
                 }
             }
@@ -244,7 +239,7 @@ public class EditorMenu {
                         dialog.cancel();
                         Toast.makeText(context, "That name is already taken", Toast.LENGTH_LONG).show();
                     } else {
-                        LevelEditor.save(input.getText().toString());
+                        parent.save(input.getText().toString());
                         Toast.makeText(context, "Level saved", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -267,135 +262,135 @@ public class EditorMenu {
     }
 
     public void pressed() {
-        if(LevelEditor.getPlayingField().contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())) {
-            int boxX = (int) ((LevelEditor.getTouchX() - LevelEditor.getPlayingField().left) / (LevelEditor.getPlayingField().width() / (double) LevelEditor.getTilesInLevel()));
-            int boxY = (int) ((LevelEditor.getTouchY() - LevelEditor.getPlayingField().top) / (LevelEditor.getPlayingField().height() / (double) LevelEditor.getTilesInLevel()));
-            if(boxX!=0 && boxX != LevelEditor.getTilesInLevel()-1 && boxY != 0 && boxY != LevelEditor.getTilesInLevel()-1) {
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbBox) {
+        if(parent.getPlayingField().contains(parent.getTouchX(),parent.getTouchY())) {
+            int boxX = (int) ((parent.getTouchX() - parent.getPlayingField().left) / (parent.getPlayingField().width() / (double) parent.getTilesInLevel()));
+            int boxY = (int) ((parent.getTouchY() - parent.getPlayingField().top) / (parent.getPlayingField().height() / (double) parent.getTilesInLevel()));
+            if(boxX!=0 && boxX != parent.getTilesInLevel()-1 && boxY != 0 && boxY != parent.getTilesInLevel()-1) {
+                if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbBox) {
                     selectedItem = "box";
                 }
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbCrate) {
+                if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbCrate) {
                     selectedItem = "crate";
                 }
-                if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==1) || (LevelEditor.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30-30, boxY * 30)).getPosition()==1)){
+                if((parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)parent.getTileAt(boxX * 30, boxY * 30)).getPosition()==1) || (parent.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)parent.getTileAt(boxX * 30-30, boxY * 30)).getPosition()==1)){
                     selectedItem = "doubleCrate2";
-                    if((LevelEditor.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate)) {
-                        LevelEditor.removeTile(boxX * 30 - 30, boxY * 30);
+                    if((parent.getTileAt(boxX * 30-30, boxY * 30) instanceof DumbDoubleCrate)) {
+                        parent.removeTile(boxX * 30 - 30, boxY * 30);
                     }
                 }
-                if((LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition()==2) || (LevelEditor.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)LevelEditor.getTileAt(boxX * 30, boxY * 30-30)).getPosition()==2)){
+                if((parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)parent.getTileAt(boxX * 30, boxY * 30)).getPosition()==2) || (parent.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate && ((DumbDoubleCrate)parent.getTileAt(boxX * 30, boxY * 30-30)).getPosition()==2)){
                     selectedItem = "doubleCrate";
-                    if((LevelEditor.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate)) {
-                        LevelEditor.removeTile(boxX * 30, boxY * 30 - 30);
+                    if((parent.getTileAt(boxX * 30, boxY * 30-30) instanceof DumbDoubleCrate)) {
+                        parent.removeTile(boxX * 30, boxY * 30 - 30);
                     }
                 }
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbEmptyCrate) {
+                if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbEmptyCrate) {
                     selectedItem = "emptyCrate";
                 }
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbSpike) {
-                    if (((DumbSpike) LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition() == 1) {
+                if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbSpike) {
+                    if (((DumbSpike) parent.getTileAt(boxX * 30, boxY * 30)).getPosition() == 1) {
                         selectedItem = "spike";
-                    } else if (((DumbSpike) LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition() == 2) {
+                    } else if (((DumbSpike) parent.getTileAt(boxX * 30, boxY * 30)).getPosition() == 2) {
                         selectedItem = "spike2";
-                    } else if (((DumbSpike) LevelEditor.getTileAt(boxX * 30, boxY * 30)).getPosition() == 3) {
+                    } else if (((DumbSpike) parent.getTileAt(boxX * 30, boxY * 30)).getPosition() == 3) {
                         selectedItem = "spike3";
                     } else {
                         selectedItem = "spike4";
                     }
                 }
-                if (LevelEditor.getTileAt(boxX * 30, boxY * 30) instanceof DumbWall) {
+                if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbWall) {
                     selectedItem = "wall";
                 }
 
-                LevelEditor.removeTile(boxX * 30, boxY * 30);
+                parent.removeTile(boxX * 30, boxY * 30);
             }
         }
-        if(box.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(box.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "box";
         }
-        if(crate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(crate.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "crate";
         }
-        if(doubleCrate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(doubleCrate.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "doubleCrate";
         }
-        if(doubleCrate2.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(doubleCrate2.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "doubleCrate2";
         }
-        if(wall.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(wall.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "wall";
         }
-        if(emptyCrate.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(emptyCrate.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "emptyCrate";
         }
-        if(spike.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(spike.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "spike";
         }
-        if(spike2.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(spike2.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "spike2";
         }
-        if(spike3.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(spike3.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "spike3";
         }
-        if(spike4.contains(LevelEditor.getTouchX(),LevelEditor.getTouchY())){
+        if(spike4.contains(parent.getTouchX(),parent.getTouchY())){
             selectedItem = "spike4";
         }
     }
 
     public int getSize() {
-        return LevelEditor.getTilesInLevel();
+        return parent.getTilesInLevel();
     }
 
     public void generateBorder(){
-        for(int i=0;i<LevelEditor.getTilesInLevel();i++){
-            LevelEditor.addTile(new DumbWall(30*i,0,wallImgRaw));
+        for(int i=0;i<parent.getTilesInLevel();i++){
+            parent.addTile(new DumbWall(30*i,0,wallImgRaw,parent));
         }
-        for(int i=0;i<LevelEditor.getTilesInLevel();i++){
-            LevelEditor.addTile(new DumbWall(30*i,30*(LevelEditor.getTilesInLevel()-1),wallImgRaw));
+        for(int i=0;i<parent.getTilesInLevel();i++){
+            parent.addTile(new DumbWall(30*i,30*(parent.getTilesInLevel()-1),wallImgRaw,parent));
         }
-        for(int i=1;i<LevelEditor.getTilesInLevel()-1;i++){
-            LevelEditor.addTile(new DumbWall(0,30*i,wallImgRaw));
+        for(int i=1;i<parent.getTilesInLevel()-1;i++){
+            parent.addTile(new DumbWall(0,30*i,wallImgRaw,parent));
         }
-        for(int i=1;i<LevelEditor.getTilesInLevel()-1;i++){
-            LevelEditor.addTile(new DumbWall(30*(LevelEditor.getTilesInLevel()-1),30*i,wallImgRaw));
+        for(int i=1;i<parent.getTilesInLevel()-1;i++){
+            parent.addTile(new DumbWall(30*(parent.getTilesInLevel()-1),30*i,wallImgRaw,parent));
         }
     }
 
     public void sizeChange(boolean big){
-        int oldTiles = LevelEditor.getTilesInLevel();
+        int oldTiles = parent.getTilesInLevel();
         if(big) {
-            LevelEditor.changeSize(1);
+            parent.changeSize(1);
         } else {
-            LevelEditor.changeSize(-1);
+            parent.changeSize(-1);
         }
-        LevelEditor.removeTile(30*(oldTiles-1),30*(oldTiles-1));
-        for(int i=0;i<LevelEditor.getTilesInLevel()+1;i++)
-            LevelEditor.removeTile(30*i,0);
-        for(int i=0;i<LevelEditor.getTilesInLevel()+1;i++)
-            LevelEditor.removeTile(0,30*i);
-        for(int i=1;i<LevelEditor.getTilesInLevel();i++)
-            LevelEditor.removeTile(30*i,30*(oldTiles-1));
-        for(int i=1;i<LevelEditor.getTilesInLevel();i++)
-            LevelEditor.removeTile(30*(oldTiles-1),30*i);
-        for(int i=1;i<LevelEditor.getTilesInLevel();i++){
-            for(int r=1;r<LevelEditor.getTilesInLevel();r++){
-                Tile t = LevelEditor.getTileAt(30*i,30*r);
-                LevelEditor.removeTile(30*i,30*r);
+        parent.removeTile(30*(oldTiles-1),30*(oldTiles-1));
+        for(int i=0;i<parent.getTilesInLevel()+1;i++)
+            parent.removeTile(30*i,0);
+        for(int i=0;i<parent.getTilesInLevel()+1;i++)
+            parent.removeTile(0,30*i);
+        for(int i=1;i<parent.getTilesInLevel();i++)
+            parent.removeTile(30*i,30*(oldTiles-1));
+        for(int i=1;i<parent.getTilesInLevel();i++)
+            parent.removeTile(30*(oldTiles-1),30*i);
+        for(int i=1;i<parent.getTilesInLevel();i++){
+            for(int r=1;r<parent.getTilesInLevel();r++){
+                Tile t = parent.getTileAt(30*i,30*r);
+                parent.removeTile(30*i,30*r);
                 if(t instanceof DumbBox)
-                    LevelEditor.addTile(new DumbBox(t.getX(),t.getY(),boxImgRaw));
-                if(t instanceof DumbCrate && t.getX()<(LevelEditor.getTilesInLevel()-1)*30 && t.getY()<(LevelEditor.getTilesInLevel()-1)*30)
-                    LevelEditor.addTile(new DumbCrate(t.getX(),t.getY(),crateImgRaw));
-                if(t instanceof DumbWall && t.getX()<(LevelEditor.getTilesInLevel()-1)*30 && t.getY()<(LevelEditor.getTilesInLevel()-1)*30)
-                    LevelEditor.addTile(new DumbWall(t.getX(),t.getY(),wallImgRaw));
-                if(t instanceof DumbEmptyCrate && t.getX()<(LevelEditor.getTilesInLevel()-1)*30 && t.getY()<(LevelEditor.getTilesInLevel()-1)*30)
-                    LevelEditor.addTile(new DumbEmptyCrate(t.getX(),t.getY(),emptyCrateImgRaw));
-                if(t instanceof DumbSpike && t.getX()<(LevelEditor.getTilesInLevel()-1)*30 && t.getY()<(LevelEditor.getTilesInLevel()-1)*30)
-                    LevelEditor.addTile(new DumbSpike(t.getX(),t.getY(),((DumbSpike) t).getPosition(),spikeImgRaw));
-                if(t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition()==1 && t.getX()<(LevelEditor.getTilesInLevel()-2)*30 && t.getY()<(LevelEditor.getTilesInLevel()-1)*30)
-                    LevelEditor.addTile(new DumbDoubleCrate(t.getX(), t.getY(), 1, doubleCrate2Img));
-                if(t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition()==2 && t.getY()<(LevelEditor.getTilesInLevel()-2)*30 && t.getX()<(LevelEditor.getTilesInLevel()-1)*30){
-                    LevelEditor.addTile(new DumbDoubleCrate(t.getX(),t.getY(),2,doubleCrate1Img));
-                    Log.e("g",String.valueOf(t.getX())+","+String.valueOf((LevelEditor.getTilesInLevel()-1)*30));
+                    parent.addTile(new DumbBox(t.getX(),t.getY(),boxImgRaw,parent));
+                if(t instanceof DumbCrate && t.getX()<(parent.getTilesInLevel()-1)*30 && t.getY()<(parent.getTilesInLevel()-1)*30)
+                    parent.addTile(new DumbCrate(t.getX(),t.getY(),crateImgRaw,parent));
+                if(t instanceof DumbWall && t.getX()<(parent.getTilesInLevel()-1)*30 && t.getY()<(parent.getTilesInLevel()-1)*30)
+                    parent.addTile(new DumbWall(t.getX(),t.getY(),wallImgRaw,parent));
+                if(t instanceof DumbEmptyCrate && t.getX()<(parent.getTilesInLevel()-1)*30 && t.getY()<(parent.getTilesInLevel()-1)*30)
+                    parent.addTile(new DumbEmptyCrate(t.getX(),t.getY(),emptyCrateImgRaw,parent));
+                if(t instanceof DumbSpike && t.getX()<(parent.getTilesInLevel()-1)*30 && t.getY()<(parent.getTilesInLevel()-1)*30)
+                    parent.addTile(new DumbSpike(t.getX(),t.getY(),((DumbSpike) t).getPosition(),spikeImgRaw,parent));
+                if(t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition()==1 && t.getX()<(parent.getTilesInLevel()-2)*30 && t.getY()<(parent.getTilesInLevel()-1)*30)
+                    parent.addTile(new DumbDoubleCrate(t.getX(), t.getY(), 1, doubleCrate2Img,parent));
+                if(t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition()==2 && t.getY()<(parent.getTilesInLevel()-2)*30 && t.getX()<(parent.getTilesInLevel()-1)*30){
+                    parent.addTile(new DumbDoubleCrate(t.getX(),t.getY(),2,doubleCrate1Img,parent));
+                    Log.e("g",String.valueOf(t.getX())+","+String.valueOf((parent.getTilesInLevel()-1)*30));
                 }
 
             }

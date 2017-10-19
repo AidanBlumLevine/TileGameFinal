@@ -10,13 +10,15 @@ import com.example.aidan.tilegameredo.Tile;
 
 public class winParticle  extends Particle {
     private Bitmap scaledTexture;
-    public winParticle(int x, int y,Tile type) {
+    private Game parent;
+    public winParticle(int x, int y,Tile type,Game parent) {
         super(x, y, 360);
-        scaledTexture = Bitmap.createScaledBitmap(ImageLoader.getGlowCenter(Game.getContext()),type.getScaledTexture().getWidth(),type.getScaledTexture().getHeight(),false);
+        this.parent = parent;
+        scaledTexture = Bitmap.createScaledBitmap(ImageLoader.getGlowCenter(parent.getContext()),type.getScaledTexture().getWidth(),type.getScaledTexture().getHeight(),false);
     }
 
     public void update(){
-        super.setTime(super.getTime() - 500 / Game.getFps());
+        super.setTime(super.getTime() - 500 / parent.getFps());
     }
 
     @Override

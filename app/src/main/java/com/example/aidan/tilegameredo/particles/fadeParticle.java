@@ -14,18 +14,20 @@ import com.example.aidan.tilegameredo.ParticleManager;
 public class fadeParticle extends Particle{
 
     private int mode;
+    private Game parent;
 
-    public fadeParticle(){
+    public fadeParticle(Game parent){
         super(0,0,255);
-        Game.setPlaying(false);
+        this.parent = parent;
+        parent.setPlaying(false);
         mode=1;
     }
     public void paint(Canvas canvas, Paint paint){
-        super.setTime(super.getTime()-1000/ Game.getFps());
+        super.setTime(super.getTime()-1000/ parent.getFps());
         if (super.getTime() <= 0 && mode==1) {
             mode=2;
             super.setTime(255);
-            LevelSelector.playAgain();
+            parent.playAgain();
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;

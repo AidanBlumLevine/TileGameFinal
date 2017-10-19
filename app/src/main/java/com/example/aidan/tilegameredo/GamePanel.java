@@ -16,15 +16,15 @@ import com.example.aidan.tilegameredo.particles.Particle;
 public class GamePanel extends SurfaceView implements Runnable{
     private volatile Boolean playing;
     private Thread gameThread = null;
-    private static long lastTime;
-    private static SurfaceHolder surfaceHolder;
-    private static android.graphics.Canvas canvas;
-    private static Paint paint;
+    private long lastTime;
+    private SurfaceHolder surfaceHolder;
+    private android.graphics.Canvas canvas;
+    private Paint paint;
+    private Game game;
 
-    public GamePanel(Context context){
+    public GamePanel(Context context,Level level,String pack){
         super(context);
-        Game.setContext(context);
-        Game.load(LevelSelector.getLevel());
+        game = new Game(level,context,pack);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -33,7 +33,7 @@ public class GamePanel extends SurfaceView implements Runnable{
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            Game.draw(canvas,paint);
+            game.draw(canvas,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -41,9 +41,9 @@ public class GamePanel extends SurfaceView implements Runnable{
     @Override
     public void run() {
         while (playing) {
-            if(System.nanoTime()-lastTime>=1000000000/Game.getFPS()) {
+            if(System.nanoTime()-lastTime>=1000000000/game.getFPS()) {
                 draw();
-                Game.update();
+                game.update();
                 lastTime = System.nanoTime();
             }
         }
@@ -67,14 +67,18 @@ public class GamePanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                Game.touch(-1,-1);
+                game.touch(-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                Game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
                 break;
             case MotionEvent.ACTION_MOVE:
-                Game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
         }
         return true;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

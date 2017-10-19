@@ -16,8 +16,9 @@ public class GameScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
-        panel = new GamePanel(this);
-;
+        Level level = new Level(this,b.getString("level"));
+        String pack = b.getString("pack");
+        panel = new GamePanel(this,level,pack);
         final GestureDetector gestureDetector = new GestureDetector(this, new SwipeGestureDetector());
         View.OnTouchListener gestureListener = new View.OnTouchListener() {
             @Override
@@ -42,7 +43,7 @@ public class GameScreen extends AppCompatActivity {
         panel.pause();
     }
 
-    static class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
+    class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float vX, float vY) {
@@ -51,20 +52,24 @@ public class GameScreen extends AppCompatActivity {
             //Log.e("distance",Math.sqrt((e1.getY() - e2.getY())*(e1.getY() - e2.getY())+(e2.getX() - e1.getX())*(e2.getX() - e1.getX()))+"");
             if(Math.sqrt((e1.getY() - e2.getY())*(e1.getY() - e2.getY())+(e2.getX() - e1.getX())*(e2.getX() - e1.getX()))>60){
                 if (angle > 45 && angle <= 135) {
-                    Game.swipe(1);
+                    swipe(1);
 
                 } else if (angle >= 135 && angle < 180 || angle < -135 && angle > -180) {
-                    Game.swipe(4);
+                    swipe(4);
                 } else if (angle < -45 && angle >= -135) {
-                    Game.swipe(3);
+                    swipe(3);
 
                 } else if (angle > -45 && angle <= 45) {
-                    Game.swipe(2);
+                    swipe(2);
 
                 }
             }
             return false;
         }
+    }
+
+    private void swipe(int i) {
+        panel.getGame().swipe(i);
     }
 
 }

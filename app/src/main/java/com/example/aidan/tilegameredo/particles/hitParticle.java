@@ -1,5 +1,6 @@
 package com.example.aidan.tilegameredo.particles;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,13 +13,16 @@ import java.util.ArrayList;
 public class hitParticle extends Particle {
     private ArrayList<Bitmap> clouds = new ArrayList<>();
     private int angle;
-    public hitParticle(int x, int y,int angle) {
+    private Game parent;
+
+    public hitParticle(int x, int y, int angle, Game parent, Context context) {
         super(x, y, 0);
+        this.parent = parent;
         this.angle = angle;
         for(int i=1;i<9;i++) {
-            clouds.add(Bitmap.createScaledBitmap(ImageLoader.getCloud(i),
-                    (int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),
-                    (int)(Game.getPlayingField().width()/Game.getLevelWidth()*Game.getSizeMultiplier()),
+            clouds.add(Bitmap.createScaledBitmap(ImageLoader.getCloud(i,context),
+                    (int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),
+                    (int)(parent.getPlayingField().width()/parent.getLevelWidth()*parent.getSizeMultiplier()),
                     false));
         }
     }
@@ -33,7 +37,7 @@ public class hitParticle extends Particle {
             canvas.drawBitmap(cloud, super.getX()+cloud.getWidth()/10, super.getY(), paint);
             canvas.restore();
         }
-        super.setTime(super.getTime() + 32.0 / Game.getFps());
+        super.setTime(super.getTime() + 32.0 / parent.getFps());
     }
 
     @Override

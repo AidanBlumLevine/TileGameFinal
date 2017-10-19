@@ -16,9 +16,10 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     private  Boolean running;
     private Thread gameThread = null;
 
-    private static SurfaceHolder surfaceHolder;
-    private static android.graphics.Canvas canvas;
-    private static Paint paint;
+    private SurfaceHolder surfaceHolder;
+    private android.graphics.Canvas canvas;
+    private Paint paint;
+    private LevelSelector levelSelector;
 
     public SelectorPanel(Context context){
         super(context);
@@ -27,13 +28,13 @@ public class SelectorPanel extends SurfaceView implements Runnable{
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        LevelSelector.load(context);
+        levelSelector = new LevelSelector(context);
     }
 
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            LevelSelector.draw(canvas,paint);
+            levelSelector.draw(canvas,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -62,13 +63,13 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                LevelSelector.touch(-1,-1,-1);
+                levelSelector.touch(-1,-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
+                levelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
                 break;
             case MotionEvent.ACTION_MOVE:
-                LevelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
+                levelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
         }
         return true;
     }

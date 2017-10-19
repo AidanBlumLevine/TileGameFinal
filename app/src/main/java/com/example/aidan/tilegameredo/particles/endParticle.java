@@ -20,9 +20,11 @@ public class endParticle extends Particle{
 
     private int targetSize,mode,height,width;
     private Context context;
+    private Game parent;
 
-    public endParticle(int tX, int tY, int tS, Context context){
+    public endParticle(int tX, int tY, int tS, Context context,Game parent){
         super(tX,tY,1500);
+        this.parent = parent;
         this.context=context;
         targetSize=tS;
         mode=1;
@@ -30,14 +32,14 @@ public class endParticle extends Particle{
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
     }
     public void paint(Canvas canvas, Paint paint){
-        super.setTime(super.getTime()-1000/Game.getFps());
+        super.setTime(super.getTime()-1000/parent.getFps());
         if (super.getTime() <= targetSize && mode==1) {
             mode=2;
             super.setTime(255);
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
-            Game.updateStars();
+            parent.updateStars();
             Intent i = new Intent(context,SelectorScreen.class);
             context.startActivity(i);
             super.setTime(255);

@@ -10,16 +10,18 @@ import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 public class DumbBox extends Tile {
     private double oldX,oldY;
     private Bitmap scaledTexture;
-    public DumbBox(int xPos, int yPos,Bitmap img) {
+    private LevelEditor parent;
+    public DumbBox(int xPos, int yPos,Bitmap img,LevelEditor parent) {
         super(xPos, yPos,img);
+        this.parent=parent;
         oldX=xPos;
         oldY=yPos;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
 
     public void paint(Canvas canvas, Paint paint){
         paint.reset();
-        canvas.drawBitmap(scaledTexture,(int)oldX*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().left,(int)oldY*LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()/30+LevelEditor.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,(int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,(int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class DumbBox extends Tile {
 
     @Override
     public void updateSize() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),(int)(LevelEditor.getPlayingField().height()/LevelEditor.getLevelWidth()*LevelEditor.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
 
 

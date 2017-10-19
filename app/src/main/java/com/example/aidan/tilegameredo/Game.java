@@ -21,20 +21,23 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private static final int fps=100;
-    private final static double sizeMultiplier = 0.97;
+    private final int fps=100;
+    private final  double sizeMultiplier = 0.97;
 
-    private static int touchX,touchY,levelWidth,swipes,leastSwipes,stars;
-    private static boolean playing;
-    private static Level level;
-    private static Rect playingField;
-    private static Menu menu;
-    private static ArrayList<Tile> tiles = new ArrayList<>();
-    private static Context context;
-    private static int[] starLevels= new int[3];
+    private String pack;
+    private int touchX,touchY,levelWidth,swipes,leastSwipes,stars;
+    private boolean playing;
+    private Level level;
+    private Rect playingField;
+    private Menu menu;
+    private ArrayList<Tile> tiles = new ArrayList<>();
+    private Context context;
+    private int[] starLevels= new int[3];
 
-    public static void load(Level level){
-        Game.level=level;
+    public Game(Level level,Context context,String pack){
+        this.pack = pack;
+        this.context=context;
+        this.level=level;
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -43,10 +46,10 @@ public class Game {
 
         levelWidth = level.getWidth();
         starLevels = level.getStarLevels();
-        tiles = level.getTiles(context);
+        tiles = level.getTiles(context,this);
         stars = level.getStars();
 
-        menu = new Menu(playingField,width,height,context);
+        menu = new Menu(playingField,width,height,context,this);
         playing = true;
 //        if(levelPack.equals("default")) {
 //            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
@@ -55,7 +58,7 @@ public class Game {
         swipes = 0;
     }
 
-    public static void draw(Canvas canvas, Paint paint){
+    public void draw(Canvas canvas, Paint paint){
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
         canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
@@ -89,13 +92,13 @@ public class Game {
         paint.reset();
     }
 
-    public static void update(){
+    public  void update(){
         for (Tile t : tiles) {
             t.update();
         }
     }
 
-    public static void swipe(int direction){
+    public  void swipe(int direction){
         //1 ^ 2> 3\  4<
         if(playing) {
             boolean couldSwipe = !tilesMoving();
@@ -139,7 +142,7 @@ public class Game {
         }
     }
 
-    public static boolean isSolidTile(int x, int y) {
+    public  boolean isSolidTile(int x, int y) {
         for (Tile t : tiles) {
             if (!(t instanceof Spike) && t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y)) {
                 return true;
@@ -148,7 +151,7 @@ public class Game {
         return false;
     }
 
-    public static boolean isTile(int x, int y, Class tileType) {
+    public  boolean isTile(int x, int y, Class tileType) {
         for (Tile t : tiles) {
             if (!(t instanceof Spike) && tileType.isInstance(t) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
                 return true;
@@ -157,7 +160,7 @@ public class Game {
         return false;
     }
 
-    public static boolean isTileBesides(int x, int y, Class tileType) {
+    public  boolean isTileBesides(int x, int y, Class tileType) {
         for (Tile t : tiles) {
             if (!(t instanceof Spike) && !tileType.isInstance(t) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
                 return true;
@@ -166,7 +169,7 @@ public class Game {
         return false;
     }
 
-    public static boolean isSpike(int x, int y) {
+    public  boolean isSpike(int x, int y) {
         for (Tile t : tiles) {
             if (t instanceof Spike && t.getX() == x && t.getY() == y) {
                 return true;
@@ -175,7 +178,7 @@ public class Game {
         return false;
     }
 
-    public static boolean tilesMoving() {
+    public  boolean tilesMoving() {
         for (Tile t : tiles) {
             if (t.isMoving()) {
                 return true;
@@ -184,12 +187,12 @@ public class Game {
         return false;
     }
 
-    public static void levelComplete(int x, int y, int size) {
+    public  void levelComplete(int x, int y, int size) {
         playing = false;
-        endParticle f = new endParticle(x,y,size,context);
+        endParticle f = new endParticle(x,y,size,context,this);
     }
 
-    private static void tileSort(String sort) {
+    private  void tileSort(String sort) {
         if (sort.equals("Right")) {
             for (int i = 1; i < tiles.size(); i++) {
                 for (int k = 0; k < i; k++) {
@@ -243,35 +246,35 @@ public class Game {
         }
     }
 
-    public static void setLevelWidth(int levelSize) {
+    public  void setLevelWidth(int levelSize) {
         levelWidth = levelSize;
     }
 
-    public static double getSizeMultiplier() {
+    public  double getSizeMultiplier() {
         return sizeMultiplier;
     }
 
-    public static Rect getPlayingField() {
+    public  Rect getPlayingField() {
         return playingField;
     }
 
-    public static int getLevelWidth() {
+    public  int getLevelWidth() {
         return levelWidth;
     }
 
-    public static int getTouchX() {
+    public  int getTouchX() {
         return touchX;
     }
 
-    public static int getTouchY() {
+    public  int getTouchY() {
         return touchY;
     }
 
-    public static int getFPS() {
+    public  int getFPS() {
         return fps;
     }
 
-    public static void touch(int x, int y) {
+    public  void touch(int x, int y) {
         if(x==-1 && y==-1){
             menu.released();
         }
@@ -279,31 +282,27 @@ public class Game {
         touchY =y;
     }
 
-    public static int getFps() {
+    public  int getFps() {
         return fps;
     }
 
-    public static Context getContext() {
+    public  Context getContext() {
         return context;
     }
 
-    public static boolean isPlaying() {
+    public  boolean isPlaying() {
         return playing;
     }
 
-    public static void setPlaying(boolean playing) {
-        Game.playing = playing;
+    public  void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 
-    public static void setStarLevels(int[] starLevels) {
-        Game.starLevels = starLevels;
-    }
-
-    public static int getStars() {
+    public  int getStars() {
         return stars;
     }
 
-    public static void updateStars() {
+    public  void updateStars() {
         if (leastSwipes <= starLevels[0]) {
             stars = 3;
         } else if (leastSwipes <= starLevels[1]) {
@@ -315,23 +314,32 @@ public class Game {
         }
     }
 
-    public static int getSwipes() {
+    public  int getSwipes() {
         return swipes;
     }
-    public static Level getLevel() {
+    public  Level getLevel() {
         return level;
     }
 
-    public static int[] getStarLevels() {
+    public  int[] getStarLevels() {
         return starLevels;
     }
 
-    public static void setContext(Context context) {
-        Game.context = context;
+    public void playAgain() {
+        levelWidth = level.getWidth();
+        starLevels = level.getStarLevels();
+        tiles = level.getTiles(context,this);
+        stars = level.getStars();
+        playing = true;
+    }
+
+    public String getPack() {
+        return pack;
     }
 }
 
-UNSTATICIFY EVERYTHING and check all warnings
+//check all warnings
+
 
 //make play only work when level is selected
 //make scrolling work

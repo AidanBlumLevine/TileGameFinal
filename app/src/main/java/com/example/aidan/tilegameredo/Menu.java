@@ -5,20 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
 import com.example.aidan.tilegameredo.particles.fadeParticle;
-
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 
 
 public class Menu {
@@ -30,9 +24,11 @@ public class Menu {
     private int boxSize;
     private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private Context context;
+    private Game parent;
 
-    public Menu(Rect playingField,int width, int height, Context context){
+    public Menu(Rect playingField,int width, int height, Context context, Game parent){
         this.context=context;
+        this.parent=parent;
 
         int bottomSpaceHeight = height - playingField.bottom;
         int topBottomBuffer = (height - playingField.bottom) / 8;
@@ -59,9 +55,9 @@ public class Menu {
 
         update();
 
-        if(Game.getStars()>2){
+        if(parent.getStars()>2){
             canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
-        } else if(Game.getSwipes()<=Game.getStarLevels()[0]){
+        } else if(parent.getSwipes()<=parent.getStarLevels()[0]){
             paint.setAlpha(120);
             canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
             paint.reset();
@@ -69,9 +65,9 @@ public class Menu {
             canvas.drawBitmap(emptyCrate,starArea.right-starArea.height(),starArea.top,paint);
         }
 
-        if(Game.getStars()>1){
+        if(parent.getStars()>1){
             canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
-        } else if(Game.getSwipes()<=Game.getStarLevels()[1]){
+        } else if(parent.getSwipes()<=parent.getStarLevels()[1]){
             paint.setAlpha(120);
             canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
             paint.reset();
@@ -79,9 +75,9 @@ public class Menu {
             canvas.drawBitmap(emptyCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
         }
 
-        if(Game.getStars()>0){
+        if(parent.getStars()>0){
             canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
-        } else if(Game.getSwipes()<=Game.getStarLevels()[2]){
+        } else if(parent.getSwipes()<=parent.getStarLevels()[2]){
             paint.setAlpha(120);
             canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
             paint.reset();
@@ -91,21 +87,21 @@ public class Menu {
 
         paint.setColor(Color.BLACK);
         paint.setTextSize(100);
-        canvas.drawText(Game.getSwipes()+"",100,300,paint);
+        canvas.drawText(parent.getSwipes()+"",100,300,paint);
     }
 
     public void update() {
-        int tX=Game.getTouchX();
-        int tY=Game.getTouchY();
+        int tX=parent.getTouchX();
+        int tY=parent.getTouchY();
         buttonMiddle.touch(tX,tY);
         buttonTopBack.touch(tX,tY);
         buttonTrash.touch(tX,tY);
     }
 
     public void released() {
-        if(Game.isPlaying()) {
+        if(parent.isPlaying()) {
             if (buttonMiddle.getHover()) {
-                fadeParticle f = new fadeParticle();
+                fadeParticle f = new fadeParticle(parent);
             }
             if (buttonTopBack.getHover()) {
                 Intent i = new Intent(context,SelectorScreen.class);
@@ -138,11 +134,11 @@ public class Menu {
     private void deleteLevel(){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = settings.edit();
-        Level deleteLevel = Game.getLevel();
+        Level deleteLevel = parent.getLevel();
         editor.remove(deleteLevel.getName());
-        String newNamesList = settings.getString(LevelSelector.getTab()+"LevelNames","");
-        editor.putString(LevelSelector.getTab()+"LevelNames",newNamesList.replace(deleteLevel.getName()+",",""));
-        editor.remove(deleteLevel.getName()+LevelSelector.getTab());
+        String newNamesList = settings.getString(parent.getPack()+"LevelNames","");
+        editor.putString(parent.getPack()+"LevelNames",newNamesList.replace(deleteLevel.getName()+",",""));
+        editor.remove(deleteLevel.getName()+parent.getPack());
         editor.commit();
         Intent i = new Intent(context,SelectorScreen.class);
         context.startActivity(i);

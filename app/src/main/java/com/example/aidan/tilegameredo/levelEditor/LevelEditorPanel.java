@@ -28,7 +28,7 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     private android.graphics.Canvas canvas;
     private Paint paint;
     private SurfaceHolder surfaceHolder;
-
+    private LevelEditor levelEditor;
     public LevelEditorPanel(Context context) {
         super(context);
 
@@ -36,15 +36,15 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        LevelEditor.load(context);
+        levelEditor = new LevelEditor(context);
     }
 
     @Override
     public void run() {
         while (playing) {
-            if(System.nanoTime()-lastTime>=1000000000/LevelEditor.getFps()) {
+            if(System.nanoTime()-lastTime>=1000000000/levelEditor.getFps()) {
                 draw();
-                LevelEditor.update();
+                levelEditor.update();
                 lastTime = System.nanoTime();
             }
         }
@@ -53,7 +53,7 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            LevelEditor.draw(canvas,paint,super.getContext());
+            levelEditor.draw(canvas,paint,super.getContext());
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -77,13 +77,13 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                LevelEditor.touch(-1,-1,-1);
+                levelEditor.touch(-1,-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                LevelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
+                levelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
                 break;
             case MotionEvent.ACTION_MOVE:
-                LevelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
+                levelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
         }
         return true;
     }

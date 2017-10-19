@@ -23,12 +23,12 @@ public class ImageLoader {
         return glowCenter;
     }
 
-    public static Bitmap getCloud(int i) {
+    public static Bitmap getCloud(int i,Context context) {
         if (clouds == null) {
             clouds = new ArrayList<>();
             for (int n = 1; n < 9; n++) {
-                int resId = Game.getContext().getResources().getIdentifier("cloud" + n, "drawable", Game.getContext().getPackageName());
-                clouds.add(BitmapFactory.decodeResource(Game.getContext().getResources(), resId));
+                int resId = context.getResources().getIdentifier("cloud" + n, "drawable", context.getPackageName());
+                clouds.add(BitmapFactory.decodeResource(context.getResources(), resId));
             }
         }
         return clouds.get(i - 1);

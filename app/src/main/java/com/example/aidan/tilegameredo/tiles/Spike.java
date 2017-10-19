@@ -14,17 +14,19 @@ public class Spike extends Tile {
     //3 <-
     //4  ^
     private Bitmap scaledTexture;
+    private Game parent;
 
-    public Spike(int xPos, int yPos,int direction,Bitmap img) {
+    public Spike(int xPos, int yPos,int direction,Bitmap img,Game parent) {
         super(xPos, yPos,img);
+        this.parent=parent;
         this.direction = direction;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
     public void paint(Canvas canvas, Paint paint){
         canvas.save();
-        canvas.rotate((direction-1)*90,super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left+((int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()))/2,
-                (super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top+((int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()))/2));
-        canvas.drawBitmap(scaledTexture,super.getX()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().left,super.getY()*Game.getPlayingField().height()/Game.getLevelWidth()/30+Game.getPlayingField().top,paint);
+        canvas.rotate((direction-1)*90,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2,
+                (super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2));
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
         canvas.restore();
     }
 
@@ -51,7 +53,7 @@ public class Spike extends Tile {
 
     @Override
     public void updateSize() {
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),(int)(Game.getPlayingField().height()/Game.getLevelWidth()*Game.getSizeMultiplier()),false);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
 
     @Override
