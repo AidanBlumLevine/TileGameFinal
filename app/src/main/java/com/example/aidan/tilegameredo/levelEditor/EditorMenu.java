@@ -219,7 +219,7 @@ public class EditorMenu {
             builder.setTitle("Choose a title for your level");
 
             InputFilter[] FilterArray = new InputFilter[1];
-            FilterArray[0] = new InputFilter.LengthFilter(20);
+            FilterArray[0] = new InputFilter.LengthFilter(15);
 
 
             final EditText input = new EditText(context);
@@ -231,13 +231,15 @@ public class EditorMenu {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-
                     if(input.getText().toString().contains(",")){
                         dialog.cancel();
                         Toast.makeText(context, "Name cannot contain \",\"", Toast.LENGTH_LONG).show();
                     } else if(!settings.getString(input.getText()+"custom","").equals("")){
                         dialog.cancel();
                         Toast.makeText(context, "That name is already taken", Toast.LENGTH_LONG).show();
+                    } else if(input.getText().toString().equals("")){
+                        dialog.cancel();
+                        Toast.makeText(context, "Name cannot be empty", Toast.LENGTH_LONG).show();
                     } else {
                         parent.save(input.getText().toString());
                         Toast.makeText(context, "Level saved", Toast.LENGTH_LONG).show();

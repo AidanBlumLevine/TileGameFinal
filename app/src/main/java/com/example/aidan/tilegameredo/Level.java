@@ -3,8 +3,6 @@ package com.example.aidan.tilegameredo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
 import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.Crate;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
