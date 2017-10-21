@@ -12,6 +12,8 @@ import android.graphics.Rect;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
 import com.example.aidan.tilegameredo.particles.fadeParticle;
 
 
@@ -54,37 +56,37 @@ public class Menu {
         buttonTrash.draw(canvas,paint);
 
         update();
+        if(parent.getPack().equals("default")) {
+            if (parent.getStars() > 2) {
+                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+            } else if (parent.getSwipes() <= parent.getStarLevels()[0]) {
+                paint.setAlpha(120);
+                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+                paint.reset();
+            } else {
+                canvas.drawBitmap(emptyCrate, starArea.right - starArea.height(), starArea.top, paint);
+            }
 
-        if(parent.getStars()>2){
-            canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
-        } else if(parent.getSwipes()<=parent.getStarLevels()[0]){
-            paint.setAlpha(120);
-            canvas.drawBitmap(goldCrate,starArea.right-starArea.height(),starArea.top,paint);
-            paint.reset();
-        } else {
-            canvas.drawBitmap(emptyCrate,starArea.right-starArea.height(),starArea.top,paint);
+            if (parent.getStars() > 1) {
+                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+            } else if (parent.getSwipes() <= parent.getStarLevels()[1]) {
+                paint.setAlpha(120);
+                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                paint.reset();
+            } else {
+                canvas.drawBitmap(emptyCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+            }
+
+            if (parent.getStars() > 0) {
+                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+            } else if (parent.getSwipes() <= parent.getStarLevels()[2]) {
+                paint.setAlpha(120);
+                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+                paint.reset();
+            } else {
+                canvas.drawBitmap(emptyCrate, starArea.left, starArea.top, paint);
+            }
         }
-
-        if(parent.getStars()>1){
-            canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
-        } else if(parent.getSwipes()<=parent.getStarLevels()[1]){
-            paint.setAlpha(120);
-            canvas.drawBitmap(silverCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
-            paint.reset();
-        } else {
-            canvas.drawBitmap(emptyCrate,starArea.centerX()-starArea.height()/2,starArea.top,paint);
-        }
-
-        if(parent.getStars()>0){
-            canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
-        } else if(parent.getSwipes()<=parent.getStarLevels()[2]){
-            paint.setAlpha(120);
-            canvas.drawBitmap(bronzeCrate,starArea.left,starArea.top,paint);
-            paint.reset();
-        } else {
-            canvas.drawBitmap(emptyCrate,starArea.left,starArea.top,paint);
-        }
-
         paint.setColor(Color.BLACK);
         paint.setTextSize(100);
         canvas.drawText(parent.getSwipes()+"",100,300,paint);
@@ -108,7 +110,7 @@ public class Menu {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if (buttonTrash.getHover()) {
+            if (buttonTrash.getHover() && !parent.getPack().equals("default")) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

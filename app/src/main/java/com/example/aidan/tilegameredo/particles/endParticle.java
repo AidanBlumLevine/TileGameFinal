@@ -39,7 +39,7 @@ public class endParticle extends Particle{
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
-            parent.updateStars();
+            parent.saveStars();
             Intent i = new Intent(context,SelectorScreen.class);
             context.startActivity(i);
             super.setTime(255);

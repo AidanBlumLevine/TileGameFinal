@@ -25,7 +25,7 @@ public class Game {
     private final  double sizeMultiplier = 0.97;
 
     private String pack;
-    private int touchX,touchY,levelWidth,swipes,leastSwipes,stars;
+    private int touchX,touchY,levelWidth,swipes,stars;
     private boolean playing;
     private Level level;
     private Rect playingField;
@@ -43,7 +43,6 @@ public class Game {
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         playingField = new Rect(40, (height - width + 2 * 40) / 2+80, width - 40, (height + width - 2 * 40) / 2+80);
-
         levelWidth = level.getWidth();
         starLevels = level.getStarLevels();
         tiles = level.getTiles(context,this);
@@ -51,7 +50,6 @@ public class Game {
 
         menu = new Menu(playingField,width,height,context,this);
         playing = true;
-        updateStars();
         swipes = 0;
     }
 
@@ -186,6 +184,15 @@ public class Game {
 
     public  void levelComplete(int x, int y, int size) {
         playing = false;
+        if(pack.equals("default")){
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            int maxLevel = settings.getInt("maxLevel",1);
+            if(Integer.valueOf(level.getName()).equals(maxLevel)){
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("maxLevel",maxLevel+1);
+                editor.commit();
+            }
+        }
         endParticle f = new endParticle(x,y,size,context,this);
     }
 
@@ -295,11 +302,11 @@ public class Game {
     }
 
     public  void updateStars() {
-        if (leastSwipes <= starLevels[0]) {
+        if (swipes <= starLevels[0]) {
             stars = 3;
-        } else if (leastSwipes <= starLevels[1]) {
+        } else if (swipes <= starLevels[1]) {
             stars = 2;
-        } else if (leastSwipes <= starLevels[2]) {
+        } else if (swipes <= starLevels[2]) {
             stars = 1;
         } else {
             stars = 0;
@@ -322,18 +329,26 @@ public class Game {
         starLevels = level.getStarLevels();
         tiles = level.getTiles(context,this);
         stars = level.getStars();
+        swipes=0;
         playing = true;
     }
 
     public String getPack() {
         return pack;
     }
+
+    public void saveStars() {
+        updateStars();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("stars"+level.getName(),""+stars);
+        editor.commit();
+    }
 }
 
 //check all warnings
 
-//make stars save after level is beaten
-//make play only work when level is selected
+//make create after game screen
 
 //old==============================================
 //fix white dot in corner of end particel

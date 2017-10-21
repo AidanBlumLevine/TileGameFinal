@@ -20,7 +20,7 @@ public class LevelSelector {
     //defualt custom downloaded
     private  ArrayList<Level> levels;
     private  Level selectedLevel;
-    private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY;
+    private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel;
     private  Rect listArea;
     private  Button backButton,playButton,tabDefault,tabDownloaded,tabCustom;
     private  Context context;
@@ -46,6 +46,9 @@ public class LevelSelector {
         tabDefault = new Button(screenWidth-boxSize*15/3-edgeBuffer*3,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
         tabCustom = new Button(screenWidth-boxSize*10/3-edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
         tabDownloaded = new Button(screenWidth-boxSize*5/3-edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        maxLevel = settings.getInt("maxLevel",1);
     }
 
     public  void draw(Canvas canvas, Paint paint) {
@@ -66,6 +69,11 @@ public class LevelSelector {
             if(yPosition<screenHeight) {
                 Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
                 if(selectedLevel==levels.get(i)) {
+                    paint.setColor(Color.WHITE);
+                    canvas.drawRect(thisLevel.left+10,thisLevel.top+thisLevel.height()/10,thisLevel.right+10,thisLevel.bottom-thisLevel.height()/10,paint);
+                    canvas.drawRect(thisLevel.left+thisLevel.height()/10+10,thisLevel.top,thisLevel.right-thisLevel.height()/10+10,thisLevel.bottom,paint);
+
+                } else if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.LTGRAY);
                     canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
                     canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
@@ -73,8 +81,8 @@ public class LevelSelector {
                     paint.setColor(Color.WHITE);
                     canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
                     canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
-
                 }
+
                 paint.setColor(Color.BLACK);
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(50);
@@ -100,7 +108,7 @@ public class LevelSelector {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if(playButton.getHover() && selectedLevel!=null){
+            if(playButton.getHover() && selectedLevel!=null && !(tab.equals("default") && Integer.valueOf(selectedLevel.getName())>maxLevel)){
                 Intent i = new Intent(context,GameScreen.class);
                 i.putExtra("level",selectedLevel.toString());
                 i.putExtra("pack",tab);
@@ -108,20 +116,20 @@ public class LevelSelector {
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
             if(tabDefault.getHover() && !tab.equals("default")){
+                levels = LevelGenerator.getAllLevels("default",context);
                 tab="default";
-                levels = LevelGenerator.getAllLevels(tab,context);
                 selectedLevel=null;
                 scrollPosition=0;
             }
             if(tabCustom.getHover() && !tab.equals("custom")){
+                levels = LevelGenerator.getAllLevels("custom",context);
                 tab="custom";
-                levels = LevelGenerator.getAllLevels(tab,context);
                 selectedLevel=null;
                 scrollPosition=0;
             }
             if(tabDownloaded.getHover() && !tab.equals("downloaded")){
+                levels = LevelGenerator.getAllLevels("downloaded",context);
                 tab="downloaded";
-                levels = LevelGenerator.getAllLevels(tab,context);
                 selectedLevel=null;
                 scrollPosition=0;
             }
@@ -145,7 +153,7 @@ public class LevelSelector {
                 for(int i=0;i<levels.size();i++){
                     int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top;
                     Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
-                    if (thisLevel.contains(x, y+scrollPosition)) {
+                    if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
                     }
                 }
