@@ -3,6 +3,8 @@ package com.example.aidan.tilegameredo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.Crate;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
@@ -18,6 +20,10 @@ public class Level {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         level = settings.getString(name, "");
     }
+    public Level(String level){
+        this.level = level;
+    }
+
     public String toString() {
         return level;
     }

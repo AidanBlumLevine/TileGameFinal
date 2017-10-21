@@ -20,7 +20,7 @@ public class LevelSelector {
     //defualt custom downloaded
     private  ArrayList<Level> levels;
     private  Level selectedLevel;
-    private  int scrollPosition,screenHeight,screenWidth,edgeBuffer;
+    private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY;
     private  Rect listArea;
     private  Button backButton,playButton,tabDefault,tabDownloaded,tabCustom;
     private  Context context;
@@ -59,16 +59,22 @@ public class LevelSelector {
         canvas.drawRect(edgeBuffer/2,edgeBuffer/2,screenWidth-edgeBuffer/2,edgeBuffer*2+(screenHeight/12-10)-edgeBuffer/2,paint);
         paint.reset();
 
+        canvas.save();
+        canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
-            int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top;
+            int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
                 Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
                 if(selectedLevel==levels.get(i)) {
-                    paint.setColor(Color.GREEN);
+                    paint.setColor(Color.LTGRAY);
+                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
                 } else {
-                    paint.setColor(Color.GRAY);
+                    paint.setColor(Color.WHITE);
+                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
+
                 }
-                canvas.drawRect(thisLevel,paint);
                 paint.setColor(Color.BLACK);
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(50);
@@ -77,6 +83,7 @@ public class LevelSelector {
                 canvas.drawText(levels.get(i).getName(), xPos, yPos, paint);
             }
         }
+        canvas.restore();
 
         backButton.draw(canvas,paint);
         playButton.draw(canvas,paint);
@@ -95,10 +102,28 @@ public class LevelSelector {
             }
             if(playButton.getHover() && selectedLevel!=null){
                 Intent i = new Intent(context,GameScreen.class);
-                i.putExtra("level",selectedLevel.getName()+tab);
+                i.putExtra("level",selectedLevel.toString());
                 i.putExtra("pack",tab);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+            }
+            if(tabDefault.getHover() && !tab.equals("default")){
+                tab="default";
+                levels = LevelGenerator.getAllLevels(tab,context);
+                selectedLevel=null;
+                scrollPosition=0;
+            }
+            if(tabCustom.getHover() && !tab.equals("custom")){
+                tab="custom";
+                levels = LevelGenerator.getAllLevels(tab,context);
+                selectedLevel=null;
+                scrollPosition=0;
+            }
+            if(tabDownloaded.getHover() && !tab.equals("downloaded")){
+                tab="downloaded";
+                levels = LevelGenerator.getAllLevels(tab,context);
+                selectedLevel=null;
+                scrollPosition=0;
             }
         }
         backButton.touch(x,y);
@@ -106,16 +131,22 @@ public class LevelSelector {
         tabCustom.touch(x,y);
         tabDownloaded.touch(x,y);
         tabDefault.touch(x,y);
-
+        if(type==0) {
+            scrollPosition += touchStartY - y;
+            touchStartY = y;
+            scrollPosition = Math.max(0, scrollPosition);
+            int height = listArea.height()-edgeBuffer;
+            int levelsHeight = levels.size()*(levelHeight+levelBuffer);
+            scrollPosition = Math.min(scrollPosition,Math.abs(levelsHeight-height));
+        }
         if(type==1){
             if(listArea.contains(x,y)){
+                touchStartY=y;
                 for(int i=0;i<levels.size();i++){
                     int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top;
-                    if(yPosition<screenHeight) {
-                        Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
-                        if (thisLevel.contains(x, y)) {
-                            selectedLevel = levels.get(i);
-                        }
+                    Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
+                    if (thisLevel.contains(x, y+scrollPosition)) {
+                        selectedLevel = levels.get(i);
                     }
                 }
             }

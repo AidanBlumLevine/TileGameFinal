@@ -16,8 +16,7 @@ public class GameScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
-        Log.e("LevelName",b.getString("level"));
-        Level level = new Level(this,b.getString("level"));
+        Level level = new Level(b.getString("level"));
         String pack = b.getString("pack");
         panel = new GamePanel(this,level,pack);
         final GestureDetector gestureDetector = new GestureDetector(this, new SwipeGestureDetector());

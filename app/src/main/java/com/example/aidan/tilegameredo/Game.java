@@ -51,9 +51,6 @@ public class Game {
 
         menu = new Menu(playingField,width,height,context,this);
         playing = true;
-//        if(levelPack.equals("default")) {
-//            leastSwipes = settings.getInt("leastSwipes"+defaultLevel, 1000);
-//        }
         updateStars();
         swipes = 0;
     }
@@ -245,11 +242,6 @@ public class Game {
             System.out.println("Unknown Sort");
         }
     }
-
-    public  void setLevelWidth(int levelSize) {
-        levelWidth = levelSize;
-    }
-
     public  double getSizeMultiplier() {
         return sizeMultiplier;
     }
@@ -340,10 +332,8 @@ public class Game {
 
 //check all warnings
 
-
+//make stars save after level is beaten
 //make play only work when level is selected
-//make scrolling work
-//make tabs
 
 //old==============================================
 //fix white dot in corner of end particel
