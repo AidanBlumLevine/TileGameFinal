@@ -42,6 +42,9 @@
         <activity
             android:name=".SelectorScreen"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".EndScreen"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
