@@ -25,7 +25,7 @@ public class LevelSelector {
     private  Button backButton,playButton,tabDefault,tabDownloaded,tabCustom;
     private  Context context;
 
-    private  final int levelHeight = 100;
+    private  final int levelHeight = 200;
     private  final int levelBuffer = 20;
 
     public LevelSelector(Context context) {
@@ -65,30 +65,43 @@ public class LevelSelector {
         canvas.save();
         canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
-            int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
+            int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
-                Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
-                if(selectedLevel==levels.get(i)) {
-                    paint.setColor(Color.WHITE);
-                    canvas.drawRect(thisLevel.left+10,thisLevel.top+thisLevel.height()/10,thisLevel.right+10,thisLevel.bottom-thisLevel.height()/10,paint);
-                    canvas.drawRect(thisLevel.left+thisLevel.height()/10+10,thisLevel.top,thisLevel.right-thisLevel.height()/10+10,thisLevel.bottom,paint);
+                Rect thisLevel;
 
-                } else if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
+                int levelWidth = (listArea.width()-4*edgeBuffer)/3;
+                if(i%3==0){
+                    thisLevel = new Rect(listArea.left + edgeBuffer, yPosition, listArea.left + levelWidth+edgeBuffer, yPosition + levelHeight);
+                } else if(i%3==1){
+                    thisLevel = new Rect(listArea.left + levelWidth+2*edgeBuffer, yPosition, listArea.left + 2*levelWidth+2*edgeBuffer, yPosition + levelHeight);
+                } else {
+                    thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
+                }
+                String levelName = levels.get(i).getName();
+                Rect nameBounds = new Rect();
+                paint.getTextBounds(levelName,0,levelName.length(),nameBounds);
+                if(nameBounds.width()+50>thisLevel.width()){
+                    while(nameBounds.width()+50>thisLevel.width()){
+                        levelName = levelName.substring(0,levelName.length()-1);
+                        paint.getTextBounds(levelName+"...",0,levelName.length()+1,nameBounds);
+                    }
+                    levelName = levelName+"...";
+                }
+
+                if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.LTGRAY);
-                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
                 } else {
                     paint.setColor(Color.WHITE);
-                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
                 }
+                canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
 
                 paint.setColor(Color.BLACK);
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(50);
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
                 int yPos = (int) (thisLevel.top+((thisLevel.height() / 2) - ((paint.descent() + paint.ascent()) / 2))) ;
-                canvas.drawText(levels.get(i).getName(), xPos, yPos, paint);
+                canvas.drawText(levelName, xPos, yPos, paint);
             }
         }
         canvas.restore();
@@ -151,13 +164,26 @@ public class LevelSelector {
             if(listArea.contains(x,y)){
                 touchStartY=y;
                 for(int i=0;i<levels.size();i++){
-                    int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top;
-                    Rect thisLevel = new Rect(listArea.left + 20, yPosition, listArea.right - 20, yPosition + levelHeight);
+                    int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
+                    Rect thisLevel;
+                    int levelWidth = (listArea.width()-4*edgeBuffer)/3;
+                    if(i%3==0){
+                        thisLevel = new Rect(listArea.left + edgeBuffer, yPosition, listArea.left + levelWidth+edgeBuffer, yPosition + levelHeight);
+                    } else if(i%3==1){
+                        thisLevel = new Rect(listArea.left + levelWidth+2*edgeBuffer, yPosition, listArea.left + 2*levelWidth+2*edgeBuffer, yPosition + levelHeight);
+                    } else {
+                        thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
+                    }
                     if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
                     }
                 }
             }
         }
+    }
+
+    public Bitmap preview(Level level){
+        Bitmap preview = null;
+        return preview;
     }
 }
