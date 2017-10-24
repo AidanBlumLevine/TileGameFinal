@@ -53,7 +53,7 @@ public class LevelSelector {
         maxLevel = settings.getInt("maxLevel",1);
 
         for(int i=0;i<levels.size();i++){
-            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),(listArea.width()-4*edgeBuffer)/3-levelHeight/3,(listArea.width()-4*edgeBuffer)/3-levelHeight/3,false));
         }
     }
 
@@ -102,13 +102,18 @@ public class LevelSelector {
                 canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
                 canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
 
-                paint.setColor(Color.BLACK);
+                try {
+                    canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
+                }catch (Exception e){
+
+                }
+                paint.setColor(Color.argb(200,0,0,0));
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(50);
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
-                int yPos = (int) (thisLevel.top+(paint.descent() + paint.ascent()+10));
+                int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
                 canvas.drawText(levelName, xPos, yPos, paint);
-                canvas.drawBitmap(previews.get(i),thisLevel.centerX()-50,thisLevel.top+(paint.descent() + paint.ascent()+20),paint);
+
             }
         }
         canvas.restore();
@@ -135,6 +140,7 @@ public class LevelSelector {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
+            int imageSize = (listArea.width()-4*edgeBuffer)/3-levelHeight/3;
             if(tabDefault.getHover() && !tab.equals("default")){
                 levels = LevelGenerator.getAllLevels("default",context);
                 tab="default";
@@ -142,7 +148,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
                 }
             }
             if(tabCustom.getHover() && !tab.equals("custom")){
@@ -152,7 +158,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
                 }
             }
             if(tabDownloaded.getHover() && !tab.equals("downloaded")){
@@ -162,7 +168,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
                 }
             }
         }
@@ -207,24 +213,25 @@ public class LevelSelector {
         Canvas canvas = new Canvas(preview);
         String tiles = level.toString().split("\\|")[4];
         Paint p = new Paint();
+        int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
             if(tiles.split(":")[2]!=null) {
                 if (tiles.split(":")[i].split(",")[0].equals("box"))
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("crate"))
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getCrateImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("emptyCrate"))
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getEmptyCrateImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getEmptyCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("wall"))
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getWallImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getWallImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1)
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrateImage(context),60,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrateImage(context),tileSize*2,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2)
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrate2Image(context),30,60,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("spike")) {
                     canvas.save();
                     canvas.rotate(Integer.valueOf(tiles.split(":")[i].split(",")[3]) * 90,Integer.valueOf(tiles.split(":")[i].split(",")[1])+15, Integer.valueOf(tiles.split(":")[i].split(",")[2])+15);
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context),30,30,false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context),tileSize,tileSize,false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                     canvas.restore();
                 }
             }
