@@ -197,7 +197,7 @@ public class ImageLoader {
 
     public static Bitmap getButtonWideBlank(Context context) {
         if (buttonWideBlank == null) {
-            buttonWideBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
+            buttonWideBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
         }
         return buttonWideBlank;
     }

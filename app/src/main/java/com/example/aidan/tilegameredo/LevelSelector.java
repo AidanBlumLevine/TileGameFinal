@@ -13,12 +13,14 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+
 import java.util.ArrayList;
 
 public class LevelSelector {
     private  String tab = "custom";
     //defualt custom downloaded
     private  ArrayList<Level> levels;
+    private ArrayList<Bitmap> previews = new ArrayList<Bitmap>();
     private  Level selectedLevel;
     private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel;
     private  Rect listArea;
@@ -49,6 +51,10 @@ public class LevelSelector {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
+
+        for(int i=0;i<levels.size();i++){
+            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+        }
     }
 
     public  void draw(Canvas canvas, Paint paint) {
@@ -100,8 +106,9 @@ public class LevelSelector {
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(50);
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
-                int yPos = (int) (thisLevel.top+((thisLevel.height() / 2) - ((paint.descent() + paint.ascent()) / 2))) ;
+                int yPos = (int) (thisLevel.top+(paint.descent() + paint.ascent()+10));
                 canvas.drawText(levelName, xPos, yPos, paint);
+                canvas.drawBitmap(previews.get(i),thisLevel.centerX()-50,thisLevel.top+(paint.descent() + paint.ascent()+20),paint);
             }
         }
         canvas.restore();
@@ -133,18 +140,30 @@ public class LevelSelector {
                 tab="default";
                 selectedLevel=null;
                 scrollPosition=0;
+                previews.clear();
+                for(int i=0;i<levels.size();i++){
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                }
             }
             if(tabCustom.getHover() && !tab.equals("custom")){
                 levels = LevelGenerator.getAllLevels("custom",context);
                 tab="custom";
                 selectedLevel=null;
                 scrollPosition=0;
+                previews.clear();
+                for(int i=0;i<levels.size();i++){
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                }
             }
             if(tabDownloaded.getHover() && !tab.equals("downloaded")){
                 levels = LevelGenerator.getAllLevels("downloaded",context);
                 tab="downloaded";
                 selectedLevel=null;
                 scrollPosition=0;
+                previews.clear();
+                for(int i=0;i<levels.size();i++){
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),100,100,false));
+                }
             }
         }
         backButton.touch(x,y);
@@ -183,7 +202,33 @@ public class LevelSelector {
     }
 
     public Bitmap preview(Level level){
-        Bitmap preview = null;
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
+        Canvas canvas = new Canvas(preview);
+        String tiles = level.toString().split("\\|")[4];
+        Paint p = new Paint();
+        for(int i=0;i<tiles.split(":").length;i++){
+            if(tiles.split(":")[2]!=null) {
+                if (tiles.split(":")[i].split(",")[0].equals("box"))
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("crate"))
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getCrateImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("emptyCrate"))
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getEmptyCrateImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("wall"))
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getWallImage(context),30,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1)
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrateImage(context),60,30,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2)
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrate2Image(context),30,60,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                if (tiles.split(":")[i].split(",")[0].equals("spike")) {
+                    canvas.save();
+                    canvas.rotate(Integer.valueOf(tiles.split(":")[i].split(",")[3]) * 90,Integer.valueOf(tiles.split(":")[i].split(",")[1])+15, Integer.valueOf(tiles.split(":")[i].split(",")[2])+15);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context),30,30,false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.restore();
+                }
+            }
+        }
         return preview;
     }
 }
