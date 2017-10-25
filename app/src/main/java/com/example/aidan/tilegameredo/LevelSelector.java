@@ -24,8 +24,9 @@ public class LevelSelector {
     private  Level selectedLevel;
     private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel;
     private  Rect listArea;
-    private  Button backButton,playButton,tabDefault,tabDownloaded,tabCustom;
+    private  Button backButton,tabDefault,tabDownloaded,tabCustom;
     private  Context context;
+    private SelectorMenu popup = null;
 
     private  final int levelHeight = 200;
     private  final int levelBuffer = 20;
@@ -44,7 +45,6 @@ public class LevelSelector {
 
         int boxSize = tabHeight-10;
         backButton = new Button(edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        playButton = new Button(boxSize+edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonPlay(context),boxSize,boxSize,false));
         tabDefault = new Button(screenWidth-boxSize*15/3-edgeBuffer*3,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
         tabCustom = new Button(screenWidth-boxSize*10/3-edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
         tabDownloaded = new Button(screenWidth-boxSize*5/3-edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
@@ -96,20 +96,20 @@ public class LevelSelector {
 
                 if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.LTGRAY);
+                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
                 } else {
                     paint.setColor(Color.WHITE);
+                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
+                    try {canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
+                    }catch (Exception e){}
                 }
-                canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
 
-                try {
-                    canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
-                }catch (Exception e){
 
-                }
                 paint.setColor(Color.argb(200,0,0,0));
                 paint.setTextAlign(Paint.Align.CENTER);
-                paint.setTextSize(50);
+                paint.setTextSize(48);
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
                 int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
                 canvas.drawText(levelName, xPos, yPos, paint);
@@ -117,12 +117,16 @@ public class LevelSelector {
             }
         }
         canvas.restore();
+        paint.reset();
 
         backButton.draw(canvas,paint);
-        playButton.draw(canvas,paint);
         tabCustom.draw(canvas,paint);
         tabDefault.draw(canvas,paint);
         tabDownloaded.draw(canvas,paint);
+
+        if(popup!=null){
+            popup.draw(canvas,paint);
+        }
 
     }
 
@@ -130,13 +134,6 @@ public class LevelSelector {
         if(type==-1){
             if(backButton.getHover()){
                 Intent i = new Intent(context,HomeScreen.class);
-                context.startActivity(i);
-                ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
-            }
-            if(playButton.getHover() && selectedLevel!=null && !(tab.equals("default") && Integer.valueOf(selectedLevel.getName())>maxLevel)){
-                Intent i = new Intent(context,GameScreen.class);
-                i.putExtra("level",selectedLevel.toString());
-                i.putExtra("pack",tab);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
@@ -173,10 +170,14 @@ public class LevelSelector {
             }
         }
         backButton.touch(x,y);
-        playButton.touch(x,y);
         tabCustom.touch(x,y);
         tabDownloaded.touch(x,y);
         tabDefault.touch(x,y);
+        if(popup != null){
+            if(popup.touch(x,y,type)==true){
+                popup=null;
+            }
+        }
         if(type==0) {
             scrollPosition += touchStartY - y;
             touchStartY = y;
@@ -201,6 +202,7 @@ public class LevelSelector {
                     }
                     if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
+                        popup = new SelectorMenu(selectedLevel,preview(levels.get(i)),this,context);
                     }
                 }
             }
@@ -237,5 +239,13 @@ public class LevelSelector {
             }
         }
         return preview;
+    }
+
+    public void play() {
+        Intent i = new Intent(context,GameScreen.class);
+        i.putExtra("level",selectedLevel.toString());
+        i.putExtra("pack",tab);
+        context.startActivity(i);
+        ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
     }
 }

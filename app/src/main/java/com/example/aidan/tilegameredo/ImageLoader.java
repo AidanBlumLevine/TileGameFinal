@@ -13,7 +13,8 @@ public class ImageLoader {
             boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,
             doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
             buttonLeft,buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
-            goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank;
+            goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
+            buttonShare;
     private static ArrayList<Bitmap> clouds;
 
     public static Bitmap getGlowCenter(Context context) {
@@ -200,5 +201,13 @@ public class ImageLoader {
             buttonWideBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
         }
         return buttonWideBlank;
+    }
+
+    public static Bitmap getButtonShare(Context context) {
+        if (buttonShare == null) {
+            buttonShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonShare;
+
     }
 }
