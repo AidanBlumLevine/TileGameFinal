@@ -23,7 +23,7 @@ public class EndPanel extends SurfaceView implements Runnable{
 
     public EndPanel(Context context,int stars){
         super(context);
-        menu = new EndMenu(stars);
+        menu = new EndMenu(stars,context);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);

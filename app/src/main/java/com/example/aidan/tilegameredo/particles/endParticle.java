@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.EndScreen;
 import com.example.aidan.tilegameredo.Game;
 import com.example.aidan.tilegameredo.HomeScreen;
 import com.example.aidan.tilegameredo.ParticleManager;
@@ -40,7 +41,8 @@ public class endParticle extends Particle{
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
             parent.saveStars();
-            Intent i = new Intent(context,SelectorScreen.class);
+            Intent i = new Intent(context,EndScreen.class);
+            i.putExtra("stars",parent.getStars());
             context.startActivity(i);
             super.setTime(255);
         }

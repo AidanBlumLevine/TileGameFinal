@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 
 class SelectorMenu {
     private Rect popupArea;
@@ -39,6 +40,7 @@ class SelectorMenu {
         paint.setColor(Color.argb(200,0,0,0));
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(48);
+        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         int xPos = (popupArea.centerX());
         canvas.drawText(level.getName(), xPos, popupArea.top+100, paint);
         paint.reset();

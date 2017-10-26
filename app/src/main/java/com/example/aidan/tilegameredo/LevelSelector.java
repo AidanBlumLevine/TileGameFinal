@@ -7,8 +7,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -52,8 +55,9 @@ public class LevelSelector {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
 
+        int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
         for(int i=0;i<levels.size();i++){
-            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),(listArea.width()-4*edgeBuffer)/3-levelHeight/3,(listArea.width()-4*edgeBuffer)/3-levelHeight/3,false));
+            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
         }
     }
 
@@ -106,14 +110,17 @@ public class LevelSelector {
                     }catch (Exception e){}
                 }
 
+//                Shader shader = new LinearGradient(0, 0, 0, 40, Color.WHITE, Color.BLACK, Shader.TileMode.CLAMP);
+//                paint.setShader(shader);
+//                canvas.drawRect(new Rect(thisLevel.left+20, (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)), thisLevel.centerX(), (int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))), paint);
 
                 paint.setColor(Color.argb(200,0,0,0));
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(48);
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
                 int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
                 canvas.drawText(levelName, xPos, yPos, paint);
-
             }
         }
         canvas.restore();
@@ -137,7 +144,7 @@ public class LevelSelector {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            int imageSize = (listArea.width()-4*edgeBuffer)/3-levelHeight/3;
+            int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
             if(tabDefault.getHover() && !tab.equals("default")){
                 levels = LevelGenerator.getAllLevels("default",context);
                 tab="default";
@@ -215,6 +222,7 @@ public class LevelSelector {
         Canvas canvas = new Canvas(preview);
         String tiles = level.toString().split("\\|")[4];
         Paint p = new Paint();
+        canvas.drawColor(Color.argb(100,220,220,220));
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
             if(tiles.split(":")[2]!=null) {

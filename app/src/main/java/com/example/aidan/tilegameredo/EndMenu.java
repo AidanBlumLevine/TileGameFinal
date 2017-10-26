@@ -1,6 +1,7 @@
 package com.example.aidan.tilegameredo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,24 +14,28 @@ public class EndMenu {
     private int stars;
     private Rect starArea,buttonArea;
     private Bitmap goldCrate,silverCrate,bronzeCrate;
+    private Context context;
     public EndMenu(int stars, Context context) {
         this.stars = stars;
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        starArea = new Rect(width/4,height/2-125,width/4*3,height/2-25);
-        buttonArea = new  Rect(width/4,height/2+25,width/4*3,height/2+125);
+        starArea = new Rect(width/6,height/2-200,width/6*5,height/2-25);
+        buttonArea = new  Rect(width/6,height/2+25,width/6*5,height/2+200);
+
         menu = new Button(buttonArea.centerX()-buttonArea.height()*2,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonMenu(context),buttonArea.height(),buttonArea.height(),false));
         replay = new Button(buttonArea.centerX()-buttonArea.height()/2,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),buttonArea.height(),buttonArea.height(),false));
         next = new Button(buttonArea.centerX()+buttonArea.height(),buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),buttonArea.height(),buttonArea.height(),false));
-        bronzeCrate = ImageLoader.getBronzeCrate(context);
-        silverCrate = ImageLoader.getSilverCrate(context);
-        goldCrate = ImageLoader.getGoldCrate(context);
+        bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+        silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+        goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+        this.context=context;
     }
 
     public void touch(int x, int y) {
         if(x==-1 && y==-1){
             if(menu.getHover()){
-
+                Intent i = new Intent(context,SelectorScreen.class);
+                context.startActivity(i);
             }
             if(replay.getHover()){
 
