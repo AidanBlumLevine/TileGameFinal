@@ -19,12 +19,12 @@ public class EndMenu {
         this.stars = stars;
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        starArea = new Rect(width/6,height/2-200,width/6*5,height/2-25);
-        buttonArea = new  Rect(width/6,height/2+25,width/6*5,height/2+200);
+        starArea = new Rect(width/5,height/2-200,width/5*4,height/2-25);
+        buttonArea = new  Rect(width/5,height/2+25,width/5*4,height/2+200);
 
-        menu = new Button(buttonArea.centerX()-buttonArea.height()*2,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonMenu(context),buttonArea.height(),buttonArea.height(),false));
+        menu = new Button(buttonArea.centerX()-buttonArea.height()*5/3,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonMenu(context),buttonArea.height(),buttonArea.height(),false));
         replay = new Button(buttonArea.centerX()-buttonArea.height()/2,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),buttonArea.height(),buttonArea.height(),false));
-        next = new Button(buttonArea.centerX()+buttonArea.height(),buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),buttonArea.height(),buttonArea.height(),false));
+        next = new Button(buttonArea.centerX()+buttonArea.height()*2/3,buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonRight(context),buttonArea.height(),buttonArea.height(),false));
         bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
         silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
         goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
@@ -55,10 +55,10 @@ public class EndMenu {
         replay.draw(canvas,paint);
         next.draw(canvas,paint);
         if (stars > 2) {
-            canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height(), starArea.top, paint);
+            canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height()*2/3, starArea.top, paint);
         } else {
             paint.setAlpha(100);
-            canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height(), starArea.top, paint);
+            canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height()*2/3, starArea.top, paint);
             paint.reset();
         }
 
@@ -71,10 +71,10 @@ public class EndMenu {
         }
 
         if (stars > 0) {
-            canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height()*2, starArea.top, paint);
+            canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height()*5/3, starArea.top, paint);
         } else {
             paint.setAlpha(100);
-            canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height()*2, starArea.top, paint);
+            canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height()*5/3, starArea.top, paint);
             paint.reset();
         }
     }

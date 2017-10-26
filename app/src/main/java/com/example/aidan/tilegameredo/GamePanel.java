@@ -24,6 +24,7 @@ public class GamePanel extends SurfaceView implements Runnable{
 
     public GamePanel(Context context,Level level,String pack){
         super(context);
+        Log.e("SDFSDFSDFSDFSD",(context == null) +"");
         game = new Game(level,context,pack);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
         surfaceHolder = getHolder();

@@ -42,20 +42,6 @@ public class ImageLoader {
         return background;
     }
 
-    public static Bitmap getCustomEnd(Context context) {
-        if (customEnd == null) {
-            customEnd = BitmapFactory.decodeResource(context.getResources(), R.drawable.customend);
-        }
-        return customEnd;
-    }
-
-    public static Bitmap getDefaultEnd(Context context) {
-        if (defaultEnd == null) {
-            defaultEnd = BitmapFactory.decodeResource(context.getResources(), R.drawable.defaultend);
-        }
-        return defaultEnd;
-    }
-
     public static Bitmap getBoxImage(Context context) {
         if (boxImg == null) {
             boxImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.boxpixelated);
@@ -117,13 +103,6 @@ public class ImageLoader {
             buttonRight = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonright);
         }
         return buttonRight;
-    }
-
-    public static Bitmap getButtonLeft(Context context) {
-        if (buttonLeft == null) {
-            buttonLeft = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonleft);
-        }
-        return buttonLeft;
     }
 
     public static Bitmap getButtonBack(Context context) {
@@ -191,21 +170,21 @@ public class ImageLoader {
 
     public static Bitmap getButtonPlay(Context context) {
         if (buttonPlay == null) {
-            buttonPlay = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonPlay = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
         }
         return buttonPlay;
     }
 
     public static Bitmap getButtonWideBlank(Context context) {
         if (buttonWideBlank == null) {
-            buttonWideBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonWideBlank = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
         }
         return buttonWideBlank;
     }
 
     public static Bitmap getButtonShare(Context context) {
         if (buttonShare == null) {
-            buttonShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
         }
         return buttonShare;
 

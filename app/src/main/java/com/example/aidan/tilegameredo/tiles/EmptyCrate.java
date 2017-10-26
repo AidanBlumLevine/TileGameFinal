@@ -25,6 +25,7 @@ public class EmptyCrate extends Tile {
         this.parent=parent;
         oldX=xPos;
         oldY=yPos;
+        this.context=context;
         scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
     }
     public boolean isMoving(){
