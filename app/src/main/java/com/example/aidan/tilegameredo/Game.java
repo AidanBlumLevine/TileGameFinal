@@ -346,9 +346,9 @@ public class Game {
     }
 }
 
-//check all warnings
-
-//make create after game screen
+//edit button
+//fix button looks
+//fix game layout
 
 //old==============================================
 //fix white dot in corner of end particel

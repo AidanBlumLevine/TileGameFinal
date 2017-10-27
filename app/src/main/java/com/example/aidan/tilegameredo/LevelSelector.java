@@ -25,7 +25,7 @@ public class LevelSelector {
     private  ArrayList<Level> levels;
     private ArrayList<Bitmap> previews = new ArrayList<Bitmap>();
     private  Level selectedLevel;
-    private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel;
+    private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel,oldX,oldY,startX,startY;
     private  Rect listArea;
     private  Button backButton,tabDefault,tabDownloaded,tabCustom;
     private  Context context;
@@ -175,8 +175,7 @@ public class LevelSelector {
                     previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
                 }
             }
-            if(listArea.contains(x,y)){
-                touchStartY=y;
+            if(listArea.contains(oldX,oldY) && Math.sqrt((oldX-startX)*(oldX-startX)+(oldY-startY)*(oldY-startY))<50 && popup==null){
                 for(int i=0;i<levels.size();i++){
                     int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
                     Rect thisLevel;
@@ -188,12 +187,13 @@ public class LevelSelector {
                     } else {
                         thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
                     }
-                    if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
+                    if (thisLevel.contains(oldX, oldY) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
                         popup = new SelectorMenu(selectedLevel,preview(levels.get(i),true),this,context);
                     }
                 }
             }
+            touchStartY=-1;
         }
         backButton.touch(x,y);
         tabCustom.touch(x,y);
@@ -204,16 +204,23 @@ public class LevelSelector {
                 popup=null;
             }
         }
-        if(type==0) {
-            scrollPosition += touchStartY - y;
+
+        if(type==0 && popup==null) {
+            if(touchStartY!=-1) {
+                scrollPosition += touchStartY - y;
+            }
             touchStartY = y;
             scrollPosition = Math.max(0, scrollPosition);
             int height = listArea.height()-edgeBuffer;
-            int levelsHeight = levels.size()*(levelHeight+levelBuffer);
-            scrollPosition = Math.min(scrollPosition,Math.abs(levelsHeight-height));
-            fix scrolling
+            int levelsHeight = levels.size()/3*(levelHeight+levelBuffer)+(levelHeight+levelBuffer);
+            scrollPosition = Math.min(scrollPosition,Math.max(0,levelsHeight-height));
         }
-        if(type==1){}
+        if(type==1){
+            startX=x;
+            startY=y;
+        }
+        oldX = x;
+        oldY=y;
     }
 
     public Bitmap preview(Level level,Boolean background){
