@@ -57,7 +57,7 @@ public class LevelSelector {
 
         int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
         for(int i=0;i<levels.size();i++){
-            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
+            previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
         }
     }
 
@@ -100,26 +100,26 @@ public class LevelSelector {
 
                 if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.LTGRAY);
-                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
+                    canvas.drawRect(thisLevel,paint);
                 } else {
                     paint.setColor(Color.WHITE);
-                    canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                    canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
+                    //canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
+                    //canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
+                    canvas.drawRect(thisLevel,paint);
                     try {canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
                     }catch (Exception e){}
                 }
 
-//                Shader shader = new LinearGradient(0, 0, 0, 40, Color.WHITE, Color.BLACK, Shader.TileMode.CLAMP);
-//                paint.setShader(shader);
-//                canvas.drawRect(new Rect(thisLevel.left+20, (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)), thisLevel.centerX(), (int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))), paint);
-
-                paint.setColor(Color.argb(200,0,0,0));
                 paint.setTextAlign(Paint.Align.CENTER);
                 paint.setTextSize(48);
                 paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
                 int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
+
+                paint.setColor(Color.argb(100,200,200,200));
+                canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.right,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
+
+                paint.setColor(Color.argb(200,0,0,0));
                 canvas.drawText(levelName, xPos, yPos, paint);
             }
         }
@@ -152,7 +152,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
                 }
             }
             if(tabCustom.getHover() && !tab.equals("custom")){
@@ -162,7 +162,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
                 }
             }
             if(tabDownloaded.getHover() && !tab.equals("downloaded")){
@@ -172,7 +172,26 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews.clear();
                 for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i)),imageSize,imageSize,false));
+                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
+                }
+            }
+            if(listArea.contains(x,y)){
+                touchStartY=y;
+                for(int i=0;i<levels.size();i++){
+                    int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
+                    Rect thisLevel;
+                    int levelWidth = (listArea.width()-4*edgeBuffer)/3;
+                    if(i%3==0){
+                        thisLevel = new Rect(listArea.left + edgeBuffer, yPosition, listArea.left + levelWidth+edgeBuffer, yPosition + levelHeight);
+                    } else if(i%3==1){
+                        thisLevel = new Rect(listArea.left + levelWidth+2*edgeBuffer, yPosition, listArea.left + 2*levelWidth+2*edgeBuffer, yPosition + levelHeight);
+                    } else {
+                        thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
+                    }
+                    if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
+                        selectedLevel = levels.get(i);
+                        popup = new SelectorMenu(selectedLevel,preview(levels.get(i),true),this,context);
+                    }
                 }
             }
         }
@@ -192,37 +211,20 @@ public class LevelSelector {
             int height = listArea.height()-edgeBuffer;
             int levelsHeight = levels.size()*(levelHeight+levelBuffer);
             scrollPosition = Math.min(scrollPosition,Math.abs(levelsHeight-height));
+            fix scrolling
         }
-        if(type==1){
-            if(listArea.contains(x,y)){
-                touchStartY=y;
-                for(int i=0;i<levels.size();i++){
-                    int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
-                    Rect thisLevel;
-                    int levelWidth = (listArea.width()-4*edgeBuffer)/3;
-                    if(i%3==0){
-                        thisLevel = new Rect(listArea.left + edgeBuffer, yPosition, listArea.left + levelWidth+edgeBuffer, yPosition + levelHeight);
-                    } else if(i%3==1){
-                        thisLevel = new Rect(listArea.left + levelWidth+2*edgeBuffer, yPosition, listArea.left + 2*levelWidth+2*edgeBuffer, yPosition + levelHeight);
-                    } else {
-                        thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
-                    }
-                    if (thisLevel.contains(x, y+scrollPosition) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
-                        selectedLevel = levels.get(i);
-                        popup = new SelectorMenu(selectedLevel,preview(levels.get(i)),this,context);
-                    }
-                }
-            }
-        }
+        if(type==1){}
     }
 
-    public Bitmap preview(Level level){
+    public Bitmap preview(Level level,Boolean background){
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
         Canvas canvas = new Canvas(preview);
         String tiles = level.toString().split("\\|")[4];
         Paint p = new Paint();
-        canvas.drawColor(Color.argb(100,220,220,220));
+        if(background) {
+            canvas.drawColor(Color.argb(100, 220, 220, 220));
+        }
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
             if(tiles.split(":")[2]!=null) {
