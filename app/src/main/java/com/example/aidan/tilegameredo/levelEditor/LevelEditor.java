@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Level;
 import com.example.aidan.tilegameredo.LevelGenerator;
 import com.example.aidan.tilegameredo.Tile;
 import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
@@ -48,6 +49,20 @@ public class LevelEditor {
             editorMenu.generateBorder();
         }
 
+    }
+
+    public LevelEditor(Context context, String level) {
+        this.context=context;
+
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
+        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int buffer = 40;
+
+        playingField = new Rect(buffer, (height - width + 2 * buffer) / 2, width - buffer, (height + width - 2 * buffer) / 2);
+
+        editorMenu = new EditorMenu(context,this);
+        tiles = new Level(level).getDumbTiles(context,this);
+        levelWidth = new Level(level).getWidth();
     }
 
     public int getFps() {

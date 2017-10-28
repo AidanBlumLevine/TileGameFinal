@@ -9,11 +9,14 @@ public class LevelEditorScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
 
-        levelEditorPanel = new LevelEditorPanel(this);
-
+        Bundle b = getIntent().getExtras();
+        if(b.getString("level")!=null){
+            levelEditorPanel = new LevelEditorPanel(this,b.getString("level"));
+        } else {
+            levelEditorPanel = new LevelEditorPanel(this);
+        }
         setContentView(levelEditorPanel);
 
 

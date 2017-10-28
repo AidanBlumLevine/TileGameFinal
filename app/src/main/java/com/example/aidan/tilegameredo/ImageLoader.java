@@ -9,12 +9,12 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class ImageLoader {
-    private static Bitmap glowCenter,background,defaultEnd,customEnd,
+    private static Bitmap glowCenter,background,
             boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,
             doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
-            buttonLeft,buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
+            buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
-            buttonShare,buttonMenu;
+            buttonShare,buttonMenu,buttonEdit;
     private static ArrayList<Bitmap> clouds;
 
     public static Bitmap getGlowCenter(Context context) {
@@ -187,7 +187,6 @@ public class ImageLoader {
             buttonShare = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
         }
         return buttonShare;
-
     }
 
     public static Bitmap getButtonMenu(Context context) {
@@ -195,6 +194,12 @@ public class ImageLoader {
             buttonMenu = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
         }
         return buttonMenu;
+    }
 
+    public static Bitmap getButtonEdit(Context context) {
+        if (buttonEdit == null) {
+            buttonEdit = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonEdit;
     }
 }

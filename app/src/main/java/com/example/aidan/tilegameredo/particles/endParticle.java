@@ -43,6 +43,8 @@ public class endParticle extends Particle{
             parent.saveStars();
             Intent i = new Intent(context,EndScreen.class);
             i.putExtra("stars",parent.getStars());
+            i.putExtra("pack",parent.getPack());
+            i.putExtra("level",parent.getLevel().toString());
             context.startActivity(i);
             super.setTime(255);
         }

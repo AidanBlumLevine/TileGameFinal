@@ -162,5 +162,9 @@ public class LevelGenerator {
         Log.e("Test","Cannot find level");
         return null;
     }
+
+    public static int numberOfLevels() {
+        return numberOfDefaultLevels;
+    }
 }
 

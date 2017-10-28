@@ -38,6 +38,15 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
 
         levelEditor = new LevelEditor(context);
     }
+    public LevelEditorPanel(Context context,String level) {
+        super(context);
+
+        getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        surfaceHolder = getHolder();
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        levelEditor = new LevelEditor(context,level);
+    }
 
     @Override
     public void run() {

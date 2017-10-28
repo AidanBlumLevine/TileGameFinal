@@ -5,6 +5,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbCrate;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbEmptyCrate;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbSpike;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
 import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.Crate;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
@@ -63,5 +70,29 @@ public class Level {
     }
     public String getName(){
         return level.split("\\|")[0];
+    }
+
+    public ArrayList<Tile> getDumbTiles(Context context,LevelEditor parent) {
+        String tiles = level.split("\\|")[4];
+        ArrayList<Tile> levelTiles = new ArrayList<Tile>();
+        for(int i=0;i<tiles.split(":").length;i++){
+            if(tiles.split(":")[2]!=null) {
+                if (tiles.split(":")[i].split(",")[0].equals("box"))
+                    levelTiles.add(new DumbBox(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), ImageLoader.getBoxImage(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("crate"))
+                    levelTiles.add(new DumbCrate(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), ImageLoader.getCrateImage(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("emptyCrate"))
+                    levelTiles.add(new DumbEmptyCrate(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), ImageLoader.getEmptyCrateImage(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("wall"))
+                    levelTiles.add(new DumbWall(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), ImageLoader.getWallImage(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1)
+                    levelTiles.add(new DumbDoubleCrate(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), Integer.valueOf(tiles.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrateImage(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2)
+                    levelTiles.add(new DumbDoubleCrate(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), Integer.valueOf(tiles.split(":")[i].split(",")[3]), ImageLoader.getDoubleCrate2Image(context),parent));
+                if (tiles.split(":")[i].split(",")[0].equals("spike"))
+                    levelTiles.add(new DumbSpike(Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), Integer.valueOf(tiles.split(":")[i].split(",")[3]), ImageLoader.getSpikeImage(context),parent));
+            }
+        }
+        return levelTiles;
     }
 }

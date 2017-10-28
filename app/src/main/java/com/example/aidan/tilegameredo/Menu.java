@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.levelEditor.LevelEditorScreen;
 import com.example.aidan.tilegameredo.particles.fadeParticle;
 
 
@@ -22,8 +23,8 @@ public class Menu {
     private Button buttonTrash;
     private Button buttonTopBack;
     private Button buttonMiddle;
+    private Button buttonEdit;
     private Rect starArea;
-    private int boxSize;
     private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private Context context;
     private Game parent;
@@ -32,16 +33,17 @@ public class Menu {
         this.context=context;
         this.parent=parent;
 
-        int bottomSpaceHeight = height - playingField.bottom;
-        int topBottomBuffer = (height - playingField.bottom) / 8;
-        int leftRightBuffer = width / 18;
-        boxSize = bottomSpaceHeight - topBottomBuffer * 3;
+        int topHeight = playingField.top;
+        int boxBuffer = 40;
+        int boxSize = Math.min((width - boxBuffer*7)/4,topHeight/3);
 
-        buttonMiddle = new Button((width - boxSize) / 2, playingField.bottom + topBottomBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
-        buttonTopBack = new Button(leftRightBuffer, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        buttonTrash = new Button(width-leftRightBuffer-boxSize, topBottomBuffer/4,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(width/2-3*boxBuffer/2-boxSize*2, boxBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
+        buttonMiddle = new Button(width/2-boxBuffer/2-boxSize, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
+        buttonTrash = new Button(width/2+boxBuffer/2, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
+        buttonEdit = new Button(width/2+3*boxBuffer/2+boxSize, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonEdit(context),boxSize,boxSize,false));
 
-        starArea = new Rect(width/2-boxSize,topBottomBuffer*2,width/2+boxSize,topBottomBuffer*2 + boxSize/2);
+        int starCenterY = (topHeight-boxBuffer-boxSize)/2+boxBuffer+boxSize;
+        starArea = new Rect(width/2-4*boxSize/3,starCenterY-boxSize/3,width/2+4*boxSize/3,starCenterY+boxSize/3);
 
         goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
@@ -54,7 +56,7 @@ public class Menu {
         buttonMiddle.draw(canvas,paint);
         buttonTopBack.draw(canvas,paint);
         buttonTrash.draw(canvas,paint);
-
+        buttonEdit.draw(canvas,paint);
         update();
         if(parent.getPack().equals("default")) {
             if (parent.getStars() > 2) {
@@ -87,9 +89,6 @@ public class Menu {
                 canvas.drawBitmap(emptyCrate, starArea.left, starArea.top, paint);
             }
         }
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(100);
-        canvas.drawText(parent.getSwipes()+"",100,300,paint);
     }
 
     public void update() {
@@ -98,6 +97,7 @@ public class Menu {
         buttonMiddle.touch(tX,tY);
         buttonTopBack.touch(tX,tY);
         buttonTrash.touch(tX,tY);
+        buttonEdit.touch(tX,tY);
     }
 
     public void released() {
@@ -109,6 +109,11 @@ public class Menu {
                 Intent i = new Intent(context,SelectorScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+            }
+            if (buttonEdit.getHover()){
+                Intent i = new Intent(context,LevelEditorScreen.class);
+                i.putExtra("level",parent.getLevel().toString());
+                context.startActivity(i);
             }
             if (buttonTrash.getHover() && !parent.getPack().equals("default")) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

@@ -17,7 +17,9 @@ public class EndScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bundle b = getIntent().getExtras();
         int stars = b.getInt("stars");
-        panel = new EndPanel(this,stars);
+        String level = b.getString("level");
+        String pack = b.getString("pack");
+        panel = new EndPanel(this,stars,level,pack);
 
         setContentView(panel);
     }
