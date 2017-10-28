@@ -60,9 +60,9 @@ public class LevelEditor {
 
         playingField = new Rect(buffer, (height - width + 2 * buffer) / 2, width - buffer, (height + width - 2 * buffer) / 2);
 
-        editorMenu = new EditorMenu(context,this);
-        tiles = new Level(level).getDumbTiles(context,this);
         levelWidth = new Level(level).getWidth();
+        tiles = new Level(level).getDumbTiles(context,this);
+        editorMenu = new EditorMenu(context,this);
     }
 
     public int getFps() {
