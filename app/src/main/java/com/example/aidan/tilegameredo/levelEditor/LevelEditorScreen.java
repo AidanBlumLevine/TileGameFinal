@@ -12,7 +12,7 @@ public class LevelEditorScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Bundle b = getIntent().getExtras();
-        if(b.getString("level")!=null){
+        if(b!=null){
             levelEditorPanel = new LevelEditorPanel(this,b.getString("level"));
         } else {
             levelEditorPanel = new LevelEditorPanel(this);
