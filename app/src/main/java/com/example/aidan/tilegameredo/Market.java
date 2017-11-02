@@ -24,7 +24,7 @@ public class Market {
         listArea = new Rect(sideBar.right+2*buffer,tabArea.bottom+2*buffer,width-2*buffer,height-2*buffer);
 
         int buttonWidth = sideBar.width()-2*buffer;
-        buttonTop = new Button(sideBar.left+buffer,sideBar.top+buffer, Bitmap.createScaledBitmap(ImageLoader.getButtonT(context),buttonWidth,buttonWidth,false));
+        buttonTop = new Button(sideBar.left+buffer,sideBar.top+buffer, Bitmap.createScaledBitmap(ImageLoader.getButtonTopPlayed(context),buttonWidth,buttonWidth,false));
     }
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawColor(Color.WHITE);

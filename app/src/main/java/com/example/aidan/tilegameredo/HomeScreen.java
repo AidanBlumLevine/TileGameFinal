@@ -109,4 +109,10 @@ public class HomeScreen extends AppCompatActivity {
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
     }
+
+    public void launchMarket(View view) {
+        Intent i = new Intent(this, LevelEditorScreen.class);
+        startActivity(i);
+        overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
+    }
 }
