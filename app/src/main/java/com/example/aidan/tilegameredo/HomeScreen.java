@@ -111,7 +111,7 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void launchMarket(View view) {
-        Intent i = new Intent(this, LevelEditorScreen.class);
+        Intent i = new Intent(this, MarketScreen.class);
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
     }

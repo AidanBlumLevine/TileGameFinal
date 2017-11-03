@@ -14,8 +14,10 @@ public class ImageLoader {
             doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
             buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
-            buttonShare,buttonMenu,buttonEdit;
+            buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
+            buttonDownload,buttonNew;
     private static ArrayList<Bitmap> clouds;
+;
 
     public static Bitmap getGlowCenter(Context context) {
         if(glowCenter == null){
@@ -201,5 +203,40 @@ public class ImageLoader {
             buttonEdit = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
         }
         return buttonEdit;
+    }
+
+    public static Bitmap getButtonTopPlayed(Context context) {
+        if (buttonTopRated == null) {
+            buttonTopRated = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
+        }
+        return buttonTopRated;
+    }
+
+    public static Bitmap getButtonSearch(Context context) {
+        if (buttonSearch == null) {
+            buttonSearch = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
+        }
+        return buttonSearch;
+    }
+
+    public static Bitmap getButtonMostPlayed(Context context) {
+        if (buttonMostPlayed == null) {
+            buttonMostPlayed = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
+        }
+        return buttonMostPlayed;
+    }
+
+    public static Bitmap getButtonNew(Context context) {
+        if (buttonNew == null) {
+            buttonNew = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonwideblank);
+        }
+        return buttonNew;
+    }
+
+    public static Bitmap getButtonDownload(Context context) {
+        if (buttonDownload == null) {
+            buttonDownload = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+        }
+        return buttonDownload;
     }
 }
