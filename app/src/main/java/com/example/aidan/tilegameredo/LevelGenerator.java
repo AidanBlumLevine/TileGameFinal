@@ -14,14 +14,10 @@ package com.example.aidan.tilegameredo;
         import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbEmptyCrate;
         import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbSpike;
         import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
-
-
         import org.xmlpull.v1.XmlPullParser;
         import org.xmlpull.v1.XmlPullParserException;
-
         import java.io.IOException;
         import java.util.ArrayList;
-
 
 public class LevelGenerator {
     private static final int numberOfDefaultLevels=13;

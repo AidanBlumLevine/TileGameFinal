@@ -2,6 +2,7 @@ package com.example.aidan.tilegameredo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.preference.PreferenceManager;
@@ -35,14 +36,18 @@ public class SelectorPanel extends SurfaceView implements Runnable{
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
             levelSelector.draw(canvas,paint);
+//            paint.setColor(Color.GREEN);
+//            canvas.drawRect(0,0,50,50,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
 
     @Override
     public void run() {
+        Log.e("STARTRUN","STARTrUN");
         while (running) {
-                draw();
+            Log.e("run","run");
+            draw();
         }
     }
 
@@ -61,6 +66,7 @@ public class SelectorPanel extends SurfaceView implements Runnable{
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        Log.e("TOUCHEVENT","TOUCHEVENT");
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 levelSelector.touch(-1,-1,-1);

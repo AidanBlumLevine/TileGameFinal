@@ -193,6 +193,7 @@ public class Game {
                 editor.commit();
             }
         }
+        saveStars();
         endParticle f = new endParticle(x,y,size,context,this);
     }
 
@@ -349,6 +350,7 @@ public class Game {
 //edit button
 //fix button looks
 //fix game layout
+//MAXESURE NAMES CANT BREAK SYSTEM
 
 //old==============================================
 //fix white dot in corner of end particel

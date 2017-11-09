@@ -7,10 +7,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +18,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class LevelSelector {
-    private  String tab = "custom";
+    private  String tab = "default";
     //defualt custom downloaded
     private  ArrayList<Level> levels;
     private ArrayList<Bitmap> previews = new ArrayList<Bitmap>();
@@ -37,6 +35,7 @@ public class LevelSelector {
     public LevelSelector(Context context) {
         selectedLevel=null;
         this.context = context;
+        levels = new ArrayList<>();
         levels = LevelGenerator.getAllLevels(tab,context);
 
         edgeBuffer = 20;
@@ -138,13 +137,14 @@ public class LevelSelector {
     }
 
     public  void touch(int x, int y,int type) {
+        Log.e("TOUCH","TOUCH");
+        int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
         if(type==-1){
             if(backButton.getHover()){
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
             if(tabDefault.getHover() && !tab.equals("default")){
                 levels = LevelGenerator.getAllLevels("default",context);
                 tab="default";
@@ -214,6 +214,12 @@ public class LevelSelector {
             int height = listArea.height()-edgeBuffer;
             int levelsHeight = levels.size()/3*(levelHeight+levelBuffer)+(levelHeight+levelBuffer);
             scrollPosition = Math.min(scrollPosition,Math.max(0,levelsHeight-height));
+
+            if(previews.isEmpty()){
+//                for(int i=0;i<levels.size();i++){
+//                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
+//                }
+            }
         }
         if(type==1){
             startX=x;

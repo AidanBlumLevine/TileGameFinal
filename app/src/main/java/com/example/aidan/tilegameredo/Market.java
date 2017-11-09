@@ -23,10 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -64,7 +61,6 @@ public class Market {
 
         buttonWidth = tabArea.height()-3*buffer/2-buttonWidth/2;
         buttonSearch = new Button(tabArea.centerX()-buttonWidth,tabArea.top+buffer/2, Bitmap.createScaledBitmap(ImageLoader.getButtonSearch(context),buttonWidth*2,buttonWidth,false));
-        getResults();
     }
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawColor(Color.WHITE);
@@ -122,6 +118,9 @@ public class Market {
         }
         canvas.restore();
         paint.reset();
+        if(levels.isEmpty()){
+            getResults();
+        }
     }
 
     public void touch(int x, int y, int type) {
@@ -185,14 +184,20 @@ public class Market {
     }
 
     public void showResults(String result){
-        ArrayList<String> lines;
         levels.clear();
 
-//        for(String s:lines){
-//            String level = s.split()[1];
-//            int plays = Integer.valueOf(s.split()[0]);
-//            levels.add(new MarketLevel(level,plays));
-//        }
+        for(String s:result.split("\\{")){
+            String level = s;
+            level = level.replace("\\},","");
+            level = level.replace("\\{","");
+            level = level.replace("\"","");
+            int id = Integer.valueOf(level.split(",")[0].split(":")[1]);
+            String name = level.split(",")[1].split(":")[1];
+            String owner = level.split(",")[2].split(":")[1];
+            String levelString = level.split(",")[3].split(":")[1];
+
+            levels.add(new MarketLevel(level,plays));
+        }
         previews.clear();
         int imageSize = Math.min(listArea.width()/2-levelBuffer-100,levelHeight-100);
         for(int i=0;i<levels.size();i++){
@@ -201,19 +206,10 @@ public class Market {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager connectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null)
-        {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null)
-                for (int i = 0; i < info.length; i++)
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                    {
-                        return true;
-                    }
-
-        }
-        return false;
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public Bitmap preview(Level level,Boolean background){

@@ -3,6 +3,7 @@ package com.example.aidan.tilegameredo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,9 +100,11 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void playGame(View view) {
+        Log.e("START","START");
         Intent i = new Intent(this, SelectorScreen.class);
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
+        Log.e("Finish","Finish");
     }
 
     public void playEditor(View view) {
