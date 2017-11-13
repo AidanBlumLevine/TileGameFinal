@@ -61,6 +61,9 @@ public class Market {
 
         buttonWidth = tabArea.height()-3*buffer/2-buttonWidth/2;
         buttonSearch = new Button(tabArea.centerX()-buttonWidth,tabArea.top+buffer/2, Bitmap.createScaledBitmap(ImageLoader.getButtonSearch(context),buttonWidth*2,buttonWidth,false));
+        getResults();
+        Log.e("SDFSDF","START");
+
     }
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawColor(Color.WHITE);
@@ -118,9 +121,9 @@ public class Market {
         }
         canvas.restore();
         paint.reset();
-        if(levels.isEmpty()){
-            getResults();
-        }
+//        if(levels.isEmpty()){
+//            getResults();
+//        }
     }
 
     public void touch(int x, int y, int type) {
@@ -191,18 +194,21 @@ public class Market {
             level = level.replace("\\},","");
             level = level.replace("\\{","");
             level = level.replace("\"","");
-            int id = Integer.valueOf(level.split(",")[0].split(":")[1]);
-            String name = level.split(",")[1].split(":")[1];
-            String owner = level.split(",")[2].split(":")[1];
-            String levelString = level.split(",")[3].split(":")[1];
+            //int id = Integer.valueOf(level.split(",")[0].split(":")[1]);
+            //String name = level.split(",")[1].split(":")[1];
+            //String owner = level.split(",")[2].split(":")[1];
+            //String levelString = level.split(",")[3].split(":")[1];
+            //String date = level.split(",")[4].split(":")[1];
+            //int timesDownloaded = Integer.valueOf(level.split("\\,")[5].split("\\:")[0]);
 
-            levels.add(new MarketLevel(level,plays));
+            levels.add(new MarketLevel(level,0));
         }
         previews.clear();
         int imageSize = Math.min(listArea.width()/2-levelBuffer-100,levelHeight-100);
         for(int i=0;i<levels.size();i++){
             previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
         }
+        Log.e("SIZE",levels.size()+"");
     }
 
     private boolean isNetworkConnected() {
@@ -250,6 +256,7 @@ public class Market {
 
         protected void onPreExecute() {
             super.onPreExecute();
+            Log.e("START","ASYNC");
         }
 
         protected String doInBackground(String... params) {

@@ -100,11 +100,9 @@ public class HomeScreen extends AppCompatActivity {
     }
 
     public void playGame(View view) {
-        Log.e("START","START");
         Intent i = new Intent(this, SelectorScreen.class);
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
-        Log.e("Finish","Finish");
     }
 
     public void playEditor(View view) {
