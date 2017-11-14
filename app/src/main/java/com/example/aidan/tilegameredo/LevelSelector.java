@@ -137,7 +137,6 @@ public class LevelSelector {
     }
 
     public  void touch(int x, int y,int type) {
-        Log.e("TOUCH","TOUCH");
         int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
         if(type==-1){
             if(backButton.getHover()){

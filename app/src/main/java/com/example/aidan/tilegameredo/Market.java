@@ -189,19 +189,22 @@ public class Market {
     public void showResults(String result){
         levels.clear();
 
-        for(String s:result.split("\\{")){
-            String level = s;
+        for(int s=1;s<result.split("\\{").length;s++){
+            String level = result.split("\\{")[s];
             level = level.replace("\\},","");
             level = level.replace("\\{","");
             level = level.replace("\"","");
-            //int id = Integer.valueOf(level.split(",")[0].split(":")[1]);
-            //String name = level.split(",")[1].split(":")[1];
-            //String owner = level.split(",")[2].split(":")[1];
-            //String levelString = level.split(",")[3].split(":")[1];
-            //String date = level.split(",")[4].split(":")[1];
-            //int timesDownloaded = Integer.valueOf(level.split("\\,")[5].split("\\:")[0]);
+            int id = Integer.valueOf(level.substring(level.indexOf("id:")+3,level.indexOf(",name")));
+            String name = level.substring(level.indexOf("name:")+5,level.indexOf(",owner"));
+           // String owner = level.split(",")[2].split(":")[1];
+            String levelString = level.substring(level.indexOf("level:")+6,level.indexOf(",created"));
+           // String date = level.split(",")[4].split(":")[1];
+           // int timesDownloaded = Integer.valueOf(level.split("\\,")[5].split("\\:")[1]);
+//            int width = Integer.valueOf(level.split("\\,")[6].split("\\:")[1]);
+            int width = 12;
 
-            levels.add(new MarketLevel(level,0));
+            String fullLevel = name+"|0|0,0,0|"+width+"|"+levelString;
+            levels.add(new MarketLevel(fullLevel,0));
         }
         previews.clear();
         int imageSize = Math.min(listArea.width()/2-levelBuffer-100,levelHeight-100);
@@ -229,6 +232,7 @@ public class Market {
         }
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
+            Log.e("TILES",tiles+"");
             if(tiles.split(":")[2]!=null) {
                 if (tiles.split(":")[i].split(",")[0].equals("box"))
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);

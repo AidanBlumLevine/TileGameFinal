@@ -232,9 +232,10 @@ public class EditorMenu {
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                     if(input.getText().toString().contains(",") || input.getText().toString().contains(":") || input.getText().toString().contains("|")
-                            || input.getText().toString().contains("{") || input.getText().toString().contains("}") || input.getText().toString().contains("\"")){
+                            || input.getText().toString().contains("{") || input.getText().toString().contains("}") || input.getText().toString().contains("\"")
+                            || input.getText().toString().contains(";")){
                         dialog.cancel();
-                        Toast.makeText(context, "Name cannot contain \",\" , \":\" , \"|\" , \"{\" , \"}\", \" \" \" ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Name cannot contain \",\" , \":\" , \"|\" , \"{\" , \"}\", \" \" \" , ;", Toast.LENGTH_LONG).show();
                     } else if(!settings.getString(input.getText()+"custom","").equals("")){
                         dialog.cancel();
                         Toast.makeText(context, "That name is already taken", Toast.LENGTH_LONG).show();
