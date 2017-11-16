@@ -201,7 +201,7 @@ public class Market {
            // String date = level.split(",")[4].split(":")[1];
            // int timesDownloaded = Integer.valueOf(level.split("\\,")[5].split("\\:")[1]);
 //            int width = Integer.valueOf(level.split("\\,")[6].split("\\:")[1]);
-            int width = 12;
+            int width = 8;
 
             String fullLevel = name+"|0|0,0,0|"+width+"|"+levelString;
             levels.add(new MarketLevel(fullLevel,0));
@@ -211,7 +211,7 @@ public class Market {
         for(int i=0;i<levels.size();i++){
             previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
         }
-        Log.e("SIZE",levels.size()+"");
+
     }
 
     private boolean isNetworkConnected() {
@@ -232,7 +232,6 @@ public class Market {
         }
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
-            Log.e("TILES",tiles+"");
             if(tiles.split(":")[2]!=null) {
                 if (tiles.split(":")[i].split(",")[0].equals("box"))
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);

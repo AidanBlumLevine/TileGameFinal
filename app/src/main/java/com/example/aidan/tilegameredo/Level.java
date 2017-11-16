@@ -73,7 +73,7 @@ public class Level {
     }
 
     public ArrayList<Tile> getDumbTiles(Context context,LevelEditor parent) {
-        String tiles = level.split("\\|")[4];
+        String tiles = getTilesString();
         ArrayList<Tile> levelTiles = new ArrayList<Tile>();
         for(int i=0;i<tiles.split(":").length;i++){
             if(tiles.split(":")[2]!=null) {
@@ -94,5 +94,9 @@ public class Level {
             }
         }
         return levelTiles;
+    }
+
+    public String getTilesString() {
+        return level.split("\\|")[4];
     }
 }
