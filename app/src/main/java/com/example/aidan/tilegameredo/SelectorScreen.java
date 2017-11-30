@@ -30,4 +30,5 @@ public class SelectorScreen extends AppCompatActivity {
         super.onPause();
         panel.pause();
     }
+
 }

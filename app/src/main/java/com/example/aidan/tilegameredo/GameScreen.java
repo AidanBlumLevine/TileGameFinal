@@ -36,7 +36,9 @@ public class GameScreen extends AppCompatActivity {
         super.onResume();
         panel.resume();
     }
-
+    @Override
+    public void onBackPressed() {
+    }
     @Override
     protected void onPause(){
         super.onPause();

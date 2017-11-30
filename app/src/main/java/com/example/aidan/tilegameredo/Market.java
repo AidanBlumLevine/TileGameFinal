@@ -34,8 +34,8 @@ public class Market {
     private String order="top";
     private ArrayList<Bitmap> previews = new ArrayList<>();
     private ArrayList<MarketLevel> levels = new ArrayList<>();
-    private SelectorMenu popup = null;
-    private  int scrollPosition=0,touchStartY,screenHeight;
+    private MarketPopup popup = null;
+    private  int scrollPosition=0,touchStartY,screenHeight,startX,startY,oldX,oldY;
 
     private final int levelHeight = 200;
     private final int levelBuffer = 20;
@@ -94,7 +94,7 @@ public class Market {
                 Rect nameBounds = new Rect();
                 paint.getTextBounds(levelName,0,levelName.length(),nameBounds);
                 if(nameBounds.width()+50>thisLevel.width()/2){
-                    while(nameBounds.width()+50>thisLevel.width()){
+                    while(nameBounds.width()+50>thisLevel.width()/2){
                         levelName = levelName.substring(0,levelName.length()-1);
                         paint.getTextBounds(levelName+"...",0,levelName.length()+1,nameBounds);
                     }
@@ -103,7 +103,8 @@ public class Market {
 
                 paint.setColor(Color.WHITE);
                 canvas.drawRect(thisLevel,paint);
-                try {canvas.drawBitmap(previews.get(i), thisLevel.centerX()+thisLevel.width()/4 - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
+
+                try {canvas.drawBitmap(previews.get(i), thisLevel.left+3*thisLevel.width()/4 - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
                 }catch (Exception e){}
 
                 paint.setTextAlign(Paint.Align.CENTER);
@@ -113,7 +114,7 @@ public class Market {
                 int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
 
                 paint.setColor(Color.argb(100,200,200,200));
-                canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.width()/2,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
+                canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.width()/2+thisLevel.left,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
 
                 paint.setColor(Color.argb(200,0,0,0));
                 canvas.drawText(levelName, xPos, yPos, paint);
@@ -121,9 +122,6 @@ public class Market {
         }
         canvas.restore();
         paint.reset();
-//        if(levels.isEmpty()){
-//            getResults();
-//        }
     }
 
     public void touch(int x, int y, int type) {
@@ -168,6 +166,23 @@ public class Market {
             int levelsHeight = (levels.size()-1)*(levelHeight+levelBuffer)+levelBuffer+listArea.top;
             scrollPosition = Math.min(scrollPosition,Math.max(0,levelsHeight-height));
         }
+        if(listArea.contains(oldX,oldY) && Math.sqrt((oldX-startX)*(oldX-startX)+(oldY-startY)*(oldY-startY))<50 && popup==null){
+            for(int i=0;i<levels.size();i++){
+                int yPosition = i*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
+                Rect thisLevel = new Rect(listArea.left+levelBuffer,yPosition,listArea.right-levelBuffer,yPosition+levelHeight);
+
+                if (thisLevel.contains(oldX, oldY)) {
+                    popup = new MarketPopup(levels.get(i),preview(levels.get(i),true),this,context);
+                }
+            }
+        }
+
+        if(type==1){
+            startX=x;
+            startY=y;
+        }
+        oldX = x;
+        oldY=y;
     }
     public void getResults(){
         if(isNetworkConnected()) {
@@ -191,23 +206,24 @@ public class Market {
 
         for(int s=1;s<result.split("\\{").length;s++){
             String level = result.split("\\{")[s];
-            level = level.replace("\\},","");
-            level = level.replace("\\{","");
+            level = level.replace("},","");
+            level = level.replace("}","");
+            level = level.replace("{","");
             level = level.replace("\"","");
+            level = level.replace("]","");
             int id = Integer.valueOf(level.substring(level.indexOf("id:")+3,level.indexOf(",name")));
             String name = level.substring(level.indexOf("name:")+5,level.indexOf(",owner"));
            // String owner = level.split(",")[2].split(":")[1];
             String levelString = level.substring(level.indexOf("level:")+6,level.indexOf(",created"));
            // String date = level.split(",")[4].split(":")[1];
            // int timesDownloaded = Integer.valueOf(level.split("\\,")[5].split("\\:")[1]);
-//            int width = Integer.valueOf(level.split("\\,")[6].split("\\:")[1]);
-            int width = 8;
+            int width = Integer.valueOf(level.substring(level.indexOf("levelWidth:")+11,level.length()).trim());
 
             String fullLevel = name+"|0|0,0,0|"+width+"|"+levelString;
             levels.add(new MarketLevel(fullLevel,0));
         }
         previews.clear();
-        int imageSize = Math.min(listArea.width()/2-levelBuffer-100,levelHeight-100);
+        int imageSize = Math.min(listArea.width()/2-levelBuffer,levelHeight-levelBuffer);
         for(int i=0;i<levels.size();i++){
             previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
         }

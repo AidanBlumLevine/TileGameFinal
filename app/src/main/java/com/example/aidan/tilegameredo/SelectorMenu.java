@@ -1,6 +1,7 @@
 package com.example.aidan.tilegameredo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,8 +9,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,9 +34,11 @@ class SelectorMenu {
     private LevelSelector parent;
     private Button share,play;
     private int textSize;
+    private Context context;
     public SelectorMenu(Level level, Bitmap preview, LevelSelector parent, Context context) {
         this.level=level;
         this.parent=parent;
+        this.context = context;
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -85,10 +92,23 @@ class SelectorMenu {
     public boolean touch(int x, int y, int type) {
         if(type == -1){
             if(share.getHover()){
-                String shareUrl = "http://myonlinegrades.com/block/addLevel.php?name="+level.getName()+"&level="+level.getTilesString();
+                String shareUrl = "http://myonlinegrades.com/block/addLevel.php?name="+level.getName()+"&level="+level.getTilesString()+"&levelWidth="+level.getWidth();
                 Log.e("shareUrl",shareUrl);
-                Share s = new Share();
-                s.execute(shareUrl);
+                if(isNetworkConnected()) {
+                    Share s = new Share();
+                    s.execute(shareUrl);
+                } else {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage("Cannot connect to the internet");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
             }
             if(play.getHover()){
                 parent.play();
@@ -104,7 +124,17 @@ class SelectorMenu {
 
     private void shareResult(String s){
         Log.e("RESULT",s);
+        Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+
     }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     private class Share extends AsyncTask<String, String, String> {
 
         protected void onPreExecute() {
