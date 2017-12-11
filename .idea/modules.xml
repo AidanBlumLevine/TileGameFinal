@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TileGameRedo.iml" filepath="$PROJECT_DIR$/TileGameRedo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TileGameFinal.iml" filepath="$PROJECT_DIR$/TileGameFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

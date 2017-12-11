@@ -69,7 +69,8 @@ public class Level {
                         Integer.valueOf(level.split("\\|")[2].split("\\,")[2])};
     }
     public String getName(){
-        return level.split("\\|")[0];
+        //return level.split("\\|")[0];
+        return "sdffsdf";
     }
 
     public ArrayList<Tile> getDumbTiles(Context context,LevelEditor parent) {

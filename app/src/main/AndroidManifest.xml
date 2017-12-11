@@ -46,9 +46,6 @@
         <activity
             android:name=".EndScreen"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".MarketScreen"
-            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

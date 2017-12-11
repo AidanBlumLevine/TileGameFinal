@@ -44,34 +44,6 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
-
-        final ImageButton button2 = (ImageButton) findViewById(R.id.imageButton4);
-
-        params = button2.getLayoutParams();
-        params.width = screenWidth / 2;
-        params.height = params.width / (198 / 70);
-
-        button2.setLayoutParams(params);
-
-        button2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ViewGroup.LayoutParams lp =  v.getLayoutParams();
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    lp.width=(int)(lp.width*1.1);
-                    lp.height=(int)(lp.height*1.1);
-                    button2.setLayoutParams(lp);
-                }
-                if(event.getAction() == MotionEvent.ACTION_UP) {
-                    lp.width=(int)(lp.width/1.1);
-                    lp.height=(int)(lp.height/1.1);
-                    button2.setLayoutParams(lp);
-                }
-                return false;
-            }
-        });
-
-
         final ImageButton button3 = (ImageButton) findViewById(R.id.imageButton3);
 
         params = button3.getLayoutParams();
@@ -107,12 +79,6 @@ public class HomeScreen extends AppCompatActivity {
 
     public void playEditor(View view) {
         Intent i = new Intent(this, LevelEditorScreen.class);
-        startActivity(i);
-        overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
-    }
-
-    public void launchMarket(View view) {
-        Intent i = new Intent(this, MarketScreen.class);
         startActivity(i);
         overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
     }

@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class LevelSelector {
     private  String tab = "default";
-    //defualt custom downloaded
+    //defualt custom
     private  ArrayList<Level> levels;
     private ArrayList<Bitmap> previews = new ArrayList<Bitmap>();
     private  Level selectedLevel;
     private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel,oldX,oldY,startX,startY;
     private  Rect listArea;
-    private  Button backButton,tabDefault,tabDownloaded,tabCustom;
+    private  Button backButton,tabDefault,tabCustom;
     private  Context context;
     private SelectorMenu popup = null;
 
@@ -47,9 +47,8 @@ public class LevelSelector {
 
         int boxSize = tabHeight-10;
         backButton = new Button(edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        tabDefault = new Button(screenWidth-boxSize*15/3-edgeBuffer*3,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
-        tabCustom = new Button(screenWidth-boxSize*10/3-edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
-        tabDownloaded = new Button(screenWidth-boxSize*5/3-edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
+        tabDefault = new Button(screenWidth-boxSize*4-edgeBuffer*3,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
+        tabCustom = new Button(screenWidth-boxSize*2-edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
@@ -72,7 +71,7 @@ public class LevelSelector {
         paint.reset();
 
         canvas.save();
-        canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
+        //canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
@@ -128,7 +127,6 @@ public class LevelSelector {
         backButton.draw(canvas,paint);
         tabCustom.draw(canvas,paint);
         tabDefault.draw(canvas,paint);
-        tabDownloaded.draw(canvas,paint);
 
         if(popup!=null){
             popup.draw(canvas,paint);
@@ -164,16 +162,7 @@ public class LevelSelector {
                     previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
                 }
             }
-            if(tabDownloaded.getHover() && !tab.equals("downloaded")){
-                levels = LevelGenerator.getAllLevels("downloaded",context);
-                tab="downloaded";
-                selectedLevel=null;
-                scrollPosition=0;
-                previews.clear();
-                for(int i=0;i<levels.size();i++){
-                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
-                }
-            }
+
             if(listArea.contains(oldX,oldY) && Math.sqrt((oldX-startX)*(oldX-startX)+(oldY-startY)*(oldY-startY))<50 && popup==null){
                 for(int i=0;i<levels.size();i++){
                     int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
@@ -196,7 +185,6 @@ public class LevelSelector {
         }
         backButton.touch(x,y);
         tabCustom.touch(x,y);
-        tabDownloaded.touch(x,y);
         tabDefault.touch(x,y);
         if(popup != null){
             if(popup.touch(x,y,type)==true){
