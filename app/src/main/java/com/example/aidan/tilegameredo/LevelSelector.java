@@ -21,7 +21,7 @@ public class LevelSelector {
     private  String tab = "default";
     //defualt custom
     private  ArrayList<Level> levels;
-    private ArrayList<Bitmap> previews = new ArrayList<Bitmap>();
+    private ArrayList<Bitmap> previews = new ArrayList<>();
     private  Level selectedLevel;
     private  int scrollPosition=0,screenHeight,screenWidth,edgeBuffer,touchStartY,maxLevel,oldX,oldY,startX,startY;
     private  Rect listArea;
@@ -187,7 +187,7 @@ public class LevelSelector {
         tabCustom.touch(x,y);
         tabDefault.touch(x,y);
         if(popup != null){
-            if(popup.touch(x,y,type)==true){
+            if(popup.touch(x,y,type)){
                 popup=null;
             }
         }
@@ -201,12 +201,6 @@ public class LevelSelector {
             int height = listArea.height()-edgeBuffer;
             int levelsHeight = levels.size()/3*(levelHeight+levelBuffer)+(levelHeight+levelBuffer);
             scrollPosition = Math.min(scrollPosition,Math.max(0,levelsHeight-height));
-
-            if(previews.isEmpty()){
-//                for(int i=0;i<levels.size();i++){
-//                    previews.add(Bitmap.createScaledBitmap(preview(levels.get(i),false),imageSize,imageSize,false));
-//                }
-            }
         }
         if(type==1){
             startX=x;
@@ -216,7 +210,7 @@ public class LevelSelector {
         oldY=y;
     }
 
-    public Bitmap preview(Level level,Boolean background){
+    private Bitmap preview(Level level,Boolean background){
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
         Canvas canvas = new Canvas(preview);
