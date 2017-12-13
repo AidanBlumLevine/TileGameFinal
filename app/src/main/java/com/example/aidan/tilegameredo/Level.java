@@ -22,13 +22,15 @@ import com.example.aidan.tilegameredo.tiles.Wall;
 import java.util.ArrayList;
 
 public class Level {
-    private String level;
-    public Level(Context context,String name){
+    private String level,name;
+    public Level(Context context,String n){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        level = settings.getString(name, "");
+        level = settings.getString(n, "");
+        name = n;
     }
     public Level(String level){
         this.level = level;
+        name = level.split("\\|")[0];
     }
 
     public String toString() {
@@ -69,8 +71,7 @@ public class Level {
                         Integer.valueOf(level.split("\\|")[2].split("\\,")[2])};
     }
     public String getName(){
-        //return level.split("\\|")[0];
-        return "sdffsdf";
+        return name;
     }
 
     public ArrayList<Tile> getDumbTiles(Context context,LevelEditor parent) {
