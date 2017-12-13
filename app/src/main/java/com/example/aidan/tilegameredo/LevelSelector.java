@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class LevelSelector {
     private  String tab = "default";
-    //defualt custom
+    //default custom
     private  ArrayList<Level> levels;
     private ArrayList<Bitmap> previews = new ArrayList<>();
     private  Level selectedLevel;
