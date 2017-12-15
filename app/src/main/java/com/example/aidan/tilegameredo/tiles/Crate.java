@@ -12,7 +12,7 @@ import com.example.aidan.tilegameredo.particles.hitParticle;
 
 
 public class Crate extends Tile {
-    private double oldX,oldY,moveSpeed;
+    private double oldX,oldY;
     private boolean dead = false;
     private boolean inMotion=true;
     private Bitmap scaledTexture;
@@ -41,16 +41,16 @@ public class Crate extends Tile {
     }
     public void update(){
         if(oldX<super.getX()){
-            oldX+=moveSpeed*1000/parent.getFps();
+            oldX+=1000/parent.getFps();
         }
         if(oldX>super.getX()){
-            oldX-=moveSpeed*1000/parent.getFps();
+            oldX-=1000/parent.getFps();
         }
         if(oldY<super.getY()){
-            oldY+=moveSpeed*1000/parent.getFps();
+            oldY+=1000/parent.getFps();
         }
         if(oldY>super.getY()){
-            oldY-=moveSpeed*1000/parent.getFps();
+            oldY-=1000/parent.getFps();
         }
         if(parent.isSpike((int)oldX, (int)oldY)){
             if(!dead){
@@ -70,7 +70,7 @@ public class Crate extends Tile {
             }
             oldX=super.getX();
         }
-        if(Math.abs(oldY-super.getY())<=moveSpeed*1001.0/parent.getFps() && oldY!=super.getY() && inMotion ){
+        if(Math.abs(oldY-super.getY())<=1001.0/parent.getFps() && oldY!=super.getY() && inMotion ){
             if(parent.isTile(super.getX(), super.getY()+30, Wall.class)){
                 hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
             }
@@ -78,7 +78,7 @@ public class Crate extends Tile {
                 hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
             }
         }
-        if(Math.abs(oldX-super.getX())<=moveSpeed*1001.0/parent.getFps() && oldX!=super.getX() && inMotion ){
+        if(Math.abs(oldX-super.getX())<=1001.0/parent.getFps() && oldX!=super.getX() && inMotion ){
             if(parent.isTile(super.getX()+30, super.getY(), Wall.class)){
                 hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,1,parent,context);
             }
@@ -97,7 +97,6 @@ public class Crate extends Tile {
             i++;
         }
         super.setX(super.getX()-(i-1)*30);
-        moveSpeed = Math.abs((oldX-super.getX())/100.0);
         inMotion=true;
     }
 
@@ -110,7 +109,6 @@ public class Crate extends Tile {
             i++;
         }
         super.setX(super.getX()+(i-1)*30);
-        moveSpeed = Math.abs((oldX-super.getX())/100.0);
         inMotion=true;
     }
 
@@ -123,7 +121,6 @@ public class Crate extends Tile {
             i++;
         }
         super.setY(super.getY()-(i-1)*30);
-        moveSpeed = Math.abs((oldY-super.getY())/100.0);
         inMotion=true;
     }
 
@@ -136,7 +133,6 @@ public class Crate extends Tile {
             i++;
         }
         super.setY(super.getY()+(i-1)*30);
-        moveSpeed = Math.abs((oldY-super.getY())/100.0);
         inMotion=true;
     }
 

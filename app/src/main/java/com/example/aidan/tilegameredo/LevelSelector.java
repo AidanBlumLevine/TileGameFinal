@@ -221,7 +221,7 @@ public class LevelSelector {
         }
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
-            if(tiles.split(":")[2]!=null) {
+            Log.e("TEST",tiles.split(":").length+"");
                 if (tiles.split(":")[i].split(",")[0].equals("box"))
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("crate"))
@@ -236,11 +236,10 @@ public class LevelSelector {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("spike")) {
                     canvas.save();
-                    canvas.rotate(Integer.valueOf(tiles.split(":")[i].split(",")[3]) * 90,Integer.valueOf(tiles.split(":")[i].split(",")[1])+15, Integer.valueOf(tiles.split(":")[i].split(",")[2])+15);
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context),tileSize,tileSize,false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                    canvas.rotate(Integer.valueOf(tiles.split(":")[i].split(",")[3]) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) + 15);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                     canvas.restore();
                 }
-            }
         }
         return preview;
     }
