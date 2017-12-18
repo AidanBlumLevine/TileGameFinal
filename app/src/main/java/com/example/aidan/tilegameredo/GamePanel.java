@@ -43,8 +43,9 @@ public class GamePanel extends SurfaceView implements Runnable{
     public void run() {
         while (playing) {
             //if(System.nanoTime()-lastTime>=1000000000/game.getFPS()) {
-                draw();
-                game.update();
+            draw();
+
+            game.update();
                 lastTime = System.nanoTime();
             //}
         }

@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.Image;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private final int fps=100;
+    private final int fps=100 ;
     private final  double sizeMultiplier = 0.97;
 
     private String pack;
@@ -56,7 +57,10 @@ public class Game {
     public void draw(Canvas canvas, Paint paint){
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
-        canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
+        double lastTime = System.nanoTime();
+        //canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
+        canvas.drawRect(0,0,2000,2000,paint);
+        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
 
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);

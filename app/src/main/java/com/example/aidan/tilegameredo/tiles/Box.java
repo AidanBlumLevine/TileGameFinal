@@ -13,7 +13,7 @@ import com.example.aidan.tilegameredo.particles.hitParticle;
 import com.example.aidan.tilegameredo.particles.winParticle;
 
 public class Box extends Tile {
-    private double oldX,oldY;
+    private double oldX,oldY,acceleration;
     private boolean dead = false;
     private boolean inMotion=true;
     private Bitmap scaledTexture;
@@ -49,17 +49,20 @@ public class Box extends Tile {
     }
 
     public void update(){
+        if(inMotion){
+            acceleration+=.2;
+        }
         if(oldX<super.getX()){
-            oldX+=1000/parent.getFps();
+            oldX+=1000/parent.getFps()*acceleration;
         }
         if(oldX>super.getX()){
-            oldX-=1000/parent.getFps();
+            oldX-=1000/parent.getFps()*acceleration;
         }
         if(oldY<super.getY()){
-            oldY+=1000/parent.getFps();
+            oldY+=1000/parent.getFps()*acceleration;
         }
         if(oldY>super.getY()){
-            oldY-=1000/parent.getFps();
+            oldY-=1000/parent.getFps()*acceleration;
         }
         if(parent.isSpike((int)oldX, (int)oldY)){
             if(!dead){
@@ -68,13 +71,13 @@ public class Box extends Tile {
             fadeParticle f = new fadeParticle(parent);
             dead=true;
         }
-        if(Math.abs(oldY-super.getY())<=2){
+        if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration){
             if(oldY!=super.getY() && inMotion && !dead){
                 inMotion=false;
             }
             oldY=super.getY();
         }
-        if(Math.abs(oldX-super.getX())<=2){
+        if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration){
             if(oldX!=super.getX() && inMotion && !dead){
                 inMotion=false;
             }
@@ -115,6 +118,7 @@ public class Box extends Tile {
         }
         super.setX(super.getX()-(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -127,6 +131,7 @@ public class Box extends Tile {
         }
         super.setX(super.getX()+(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -139,6 +144,7 @@ public class Box extends Tile {
         }
         super.setY(super.getY()-(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -151,6 +157,7 @@ public class Box extends Tile {
         }
         super.setY(super.getY()+(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     public boolean isDead() {

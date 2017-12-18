@@ -33,7 +33,7 @@ public class endParticle extends Particle{
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
     }
     public void paint(Canvas canvas, Paint paint){
-        super.setTime(super.getTime()-2000/parent.getFps());
+        super.setTime(super.getTime()-3000/parent.getFps());
         if (super.getTime() <= targetSize && mode==1) {
             mode=2;
             super.setTime(255);
