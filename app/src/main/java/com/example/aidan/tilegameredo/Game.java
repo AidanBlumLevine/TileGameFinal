@@ -55,11 +55,11 @@ public class Game {
     }
 
     public void draw(Canvas canvas, Paint paint){
+        //canvas.clipRect(0,0,10,10);
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
-        double lastTime = System.nanoTime();
-        //canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
-        canvas.drawRect(0,0,2000,2000,paint);
+        double lastTime = System.nanoTime();canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
+
         Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
 
         paint.setARGB(180,255,255,255);
