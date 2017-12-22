@@ -28,6 +28,7 @@ public class Menu {
     private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private Context context;
     private Game parent;
+    private int liveTime=0,oldSwipes=-1;
 
     public Menu(Rect playingField,int width, int height, Context context, Game parent){
         this.context=context;
@@ -98,6 +99,20 @@ public class Menu {
         buttonTopBack.touch(tX,tY);
         buttonTrash.touch(tX,tY);
         buttonEdit.touch(tX,tY);
+    }
+
+
+    public boolean live(){
+        if(buttonMiddle.getHover() || buttonEdit.getHover() || buttonTopBack.getHover() || buttonTrash.getHover() || oldSwipes != parent.getSwipes()){
+            liveTime=5;
+        }
+        oldSwipes = parent.getSwipes();
+        if(liveTime>0){
+            liveTime--;
+            return true;
+        }
+
+        return false;
     }
 
     public void released() {

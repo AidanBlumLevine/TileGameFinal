@@ -27,10 +27,11 @@ public class fadeParticle extends Particle{
         if (super.getTime() <= 0 && mode==1) {
             mode=2;
             super.setTime(255);
-            parent.playAgain();
+            parent.reset();
         }
         if (super.getTime() <= 0 && mode==2) {
             mode=3;
+            parent.play();
         }
 
         if(mode==1){

@@ -26,7 +26,7 @@ public class Game {
     private final  double sizeMultiplier = 0.97;
 
     private String pack;
-    private int touchX,touchY,levelWidth,swipes,stars;
+    private int touchX,touchY,levelWidth,swipes,stars,firstTime=10;
     private boolean playing;
     private Level level;
     private Rect playingField;
@@ -55,20 +55,26 @@ public class Game {
     }
 
     public void draw(Canvas canvas, Paint paint){
-        //canvas.clipRect(0,0,10,10);
+        if(firstTime>0 || !playing){
+            firstTime--;
+        } else if(menu.live()){
+            canvas.clipRect(playingField.left,0,playingField.right,playingField.bottom);
+        } else {
+            canvas.clipRect(playingField);
+        }
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
-        double lastTime = System.nanoTime();canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
-
-        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
+        canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
 
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
         paint.reset();
-
         menu.paint(canvas, paint);
         paint.reset();
 
+
+
+        //This part take 10 miliseconds
         canvas.save();
         canvas.translate((float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2,(float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2);
         for (int i = 0; i < tiles.size(); i++) {
@@ -86,9 +92,12 @@ public class Game {
             }
         }
         paint.reset();
+        double lastTime = System.nanoTime();
         ParticleManager.paint(canvas, paint);
         canvas.restore();
         paint.reset();
+        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
+
     }
 
     public  void update(){
@@ -329,13 +338,17 @@ public class Game {
         return starLevels;
     }
 
-    public void playAgain() {
+    public void reset() {
         levelWidth = level.getWidth();
         starLevels = level.getStarLevels();
         tiles = level.getTiles(context,this);
         stars = level.getStars();
         swipes=0;
+    }
+
+    public void play(){
         playing = true;
+        firstTime = 5;
     }
 
     public String getPack() {
