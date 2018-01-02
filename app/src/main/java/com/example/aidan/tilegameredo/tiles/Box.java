@@ -49,9 +49,6 @@ public class Box extends Tile {
     }
 
     public void update(){
-        if(inMotion){
-            acceleration+=.2;
-        }
         if(oldX<super.getX()){
             oldX+=1000/parent.getFps()*acceleration;
         }
@@ -64,6 +61,9 @@ public class Box extends Tile {
         if(oldY>super.getY()){
             oldY-=1000/parent.getFps()*acceleration;
         }
+        if(inMotion){
+            acceleration+=.2;
+        }
         if(parent.isSpike((int)oldX, (int)oldY)){
             if(!dead){
                 dissolveParticle p = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
@@ -72,34 +72,29 @@ public class Box extends Tile {
             dead=true;
         }
         if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration){
+            if(parent.isTile(super.getX(), super.getY()+30, Wall.class) && oldY!=super.getY() && inMotion){
+                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
+            }
+            if(parent.isTile(super.getX(), super.getY()-30, Wall.class) && oldY!=super.getY() && inMotion){
+                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
+            }
             if(oldY!=super.getY() && inMotion && !dead){
                 inMotion=false;
             }
             oldY=super.getY();
         }
         if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration){
+            if(parent.isTile(super.getX()+30, super.getY(), Wall.class) && oldX!=super.getX() && inMotion){
+                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,1,parent,context);
+            }
+            if(parent.isTile(super.getX()-30, super.getY(), Wall.class) && oldX!=super.getX() && inMotion){
+                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,3,parent,context);
+            }
             if(oldX!=super.getX() && inMotion && !dead){
                 inMotion=false;
             }
             oldX=super.getX();
         }
-        if(Math.abs(oldY-super.getY())<=1001.0/parent.getFps() && oldY!=super.getY() && inMotion ){
-            if(parent.isTile(super.getX(), super.getY()+30, Wall.class)){
-                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
-            }
-            if(parent.isTile(super.getX(), super.getY()-30, Wall.class)){
-                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
-            }
-        }
-        if(Math.abs(oldX-super.getX())<=1001.0/parent.getFps() && oldX!=super.getX() && inMotion ){
-            if(parent.isTile(super.getX()+30, super.getY(), Wall.class)){
-                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,1,parent,context);
-            }
-            if(parent.isTile(super.getX()-30, super.getY(), Wall.class)){
-                hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,3,parent,context);
-            }
-        }
-
         if(!parent.tilesMoving() && parent.isTile(super.getX(), super.getY(),EmptyCrate.class)){
             if(parent.isPlaying()){
                 winParticle p = new winParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);

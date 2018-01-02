@@ -149,11 +149,9 @@ public class LevelEditor {
     }
 
     public void update() {
-        try {
             for (Tile t : tiles) {
                 t.update();
             }
-        } catch (Exception e){}
     }
 
     public void draw(Canvas canvas, Paint paint,Context context) {

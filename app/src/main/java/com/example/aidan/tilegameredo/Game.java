@@ -55,6 +55,8 @@ public class Game {
     }
 
     public void draw(Canvas canvas, Paint paint){
+        double lastTime = System.nanoTime();
+
         if(firstTime>0 || !playing){
             firstTime--;
         } else if(menu.live()){
@@ -78,26 +80,30 @@ public class Game {
         canvas.save();
         canvas.translate((float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2,(float)(playingField.width()/levelWidth*(1-sizeMultiplier))/2);
         for (int i = 0; i < tiles.size(); i++) {
+
             if (!(tiles.get(i) instanceof EmptyCrate) && !(tiles.get(i) instanceof Wall)) {
                 tiles.get(i).paint(canvas, paint);
+
             }
             if (!tilesMoving() && tiles.get(i).isDead()) {
                 tiles.remove(i);
                 i--;
             }
         }
+
         for (Tile t : tiles) {
             if (t instanceof EmptyCrate || t instanceof Wall) {
                 t.paint(canvas, paint);
             }
         }
         paint.reset();
-        double lastTime = System.nanoTime();
+
+
         ParticleManager.paint(canvas, paint);
         canvas.restore();
         paint.reset();
-        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
 
+        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
     }
 
     public  void update(){

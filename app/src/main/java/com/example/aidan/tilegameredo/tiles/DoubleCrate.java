@@ -12,7 +12,7 @@ import com.example.aidan.tilegameredo.particles.dissolveParticle;
 import com.example.aidan.tilegameredo.particles.hitParticle;
 
 public class DoubleCrate extends Tile {
-    private double oldX,oldY;
+    private double oldX,oldY,acceleration;
     private boolean dead = false;
     private boolean inMotion=true;
     private Bitmap scaledTexture;
@@ -63,17 +63,19 @@ public class DoubleCrate extends Tile {
 
     public void update(){
         if(oldX<super.getX()){
-
-            oldX+=1000/parent.getFps();
+            oldX+=1000/parent.getFps()*acceleration;
         }
         if(oldX>super.getX()){
-            oldX-=1000/parent.getFps();
+            oldX-=1000/parent.getFps()*acceleration;
         }
         if(oldY<super.getY()){
-            oldY+=1000/parent.getFps();
+            oldY+=1000/parent.getFps()*acceleration;
         }
         if(oldY>super.getY()){
-            oldY-=1000/parent.getFps();
+            oldY-=1000/parent.getFps()*acceleration;
+        }
+        if(inMotion){
+            acceleration+=.2;
         }
         if(position==1 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX+30, (int)oldY))){
             if(!dead){
@@ -91,19 +93,7 @@ public class DoubleCrate extends Tile {
             dead=true;
         }
 
-        if(Math.abs(oldY-super.getY())<=2){
-            if(oldY!=super.getY() && inMotion && !dead){
-                inMotion=false;
-            }
-            oldY=super.getY();
-        }
-        if(Math.abs(oldX-super.getX())<=2){
-            if(oldX!=super.getX() && inMotion && !dead){
-                inMotion=false;
-            }
-            oldX=super.getX();
-        }
-        if(Math.abs(oldY-super.getY())<=1001.0/parent.getFps() && oldY!=super.getY() && inMotion ){
+        if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration && oldY!=super.getY() && inMotion ){
             if(position==2){
                 if(parent.isTile(super.getX(), super.getY()+60, Wall.class)){
                     hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (super.getY()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
@@ -128,7 +118,7 @@ public class DoubleCrate extends Tile {
                 }
             }
         }
-        if(Math.abs(oldX-super.getX())<=1001.0/parent.getFps() && oldX!=super.getX() && inMotion ){
+        if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration && oldX!=super.getX() && inMotion ){
             if(position==1) {
                 if (parent.isTile(super.getX() + 60, super.getY(), Wall.class)) {
                     hitParticle p = new hitParticle((super.getX()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
@@ -153,6 +143,18 @@ public class DoubleCrate extends Tile {
                 }
             }
         }
+        if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration){
+            if(oldY!=super.getY() && inMotion && !dead){
+                inMotion=false;
+            }
+            oldY=super.getY();
+        }
+        if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration){
+            if(oldX!=super.getX() && inMotion && !dead){
+                inMotion=false;
+            }
+            oldX=super.getX();
+        }
     }
 
     @Override
@@ -171,6 +173,7 @@ public class DoubleCrate extends Tile {
         }
         super.setX(super.getX()-(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -189,6 +192,7 @@ public class DoubleCrate extends Tile {
         }
         super.setX(super.getX()+(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -207,6 +211,7 @@ public class DoubleCrate extends Tile {
         }
         super.setY(super.getY()-(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     @Override
@@ -225,6 +230,7 @@ public class DoubleCrate extends Tile {
         }
         super.setY(super.getY()+(i-1)*30);
         inMotion=true;
+        acceleration = 1;
     }
 
     public boolean isDead() {
