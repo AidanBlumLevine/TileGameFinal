@@ -52,8 +52,8 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
             if(System.nanoTime()-lastTime>=1000000000/levelEditor.getFps()) {
-                for(int[] touch : touches){
-                    levelEditor.touch(touch[0],touch[1],touch[2]);
+                for(int i=0;i<touches.size();i++){
+                    levelEditor.touch(touches.get(i)[0],touches.get(i)[1],touches.get(i)[2]);
                 }
                 touches.clear();
                 draw();
