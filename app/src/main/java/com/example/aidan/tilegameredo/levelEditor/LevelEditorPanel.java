@@ -21,7 +21,7 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
 import java.util.ArrayList;
 
 public class LevelEditorPanel extends SurfaceView implements Runnable {
-
+    private ArrayList<int[]> touches = new ArrayList<int[]>();
     volatile Boolean playing;
     private Thread gameThread = null;
     private static long lastTime;
@@ -52,6 +52,10 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     public void run() {
         while (playing) {
             if(System.nanoTime()-lastTime>=1000000000/levelEditor.getFps()) {
+                for(int[] touch : touches){
+                    levelEditor.touch(touch[0],touch[1],touch[2]);
+                }
+                touches.clear();
                 draw();
                 levelEditor.update();
                 lastTime = System.nanoTime();
@@ -86,15 +90,17 @@ public class LevelEditorPanel extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                levelEditor.touch(-1,-1,-1);
+                queueTouch(-1,-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                levelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
                 break;
             case MotionEvent.ACTION_MOVE:
-                levelEditor.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
         }
         return true;
     }
-
+    private void queueTouch(int x, int y, int type){
+        touches.add(new int[]{x,y,type});
+    }
 }

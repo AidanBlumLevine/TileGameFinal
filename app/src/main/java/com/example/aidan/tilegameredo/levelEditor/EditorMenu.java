@@ -167,6 +167,7 @@ public class EditorMenu {
     }
 
     public void released() {
+        Log.e("THREAD",Thread.currentThread().getName());
         if(parent.getPlayingField().contains(parent.getTouchX(),parent.getTouchY())){
             int boxX = (int)((parent.getTouchX()-parent.getPlayingField().left)/(parent.getPlayingField().width()/(double)parent.getTilesInLevel()));
             int boxY = (int)((parent.getTouchY()-parent.getPlayingField().top)/(parent.getPlayingField().height()/(double)parent.getTilesInLevel()));
@@ -266,6 +267,7 @@ public class EditorMenu {
     }
 
     public void pressed() {
+        Log.e("THREAD",Thread.currentThread().getName());
         if(parent.getPlayingField().contains(parent.getTouchX(),parent.getTouchY())) {
             int boxX = (int) ((parent.getTouchX() - parent.getPlayingField().left) / (parent.getPlayingField().width() / (double) parent.getTilesInLevel()));
             int boxY = (int) ((parent.getTouchY() - parent.getPlayingField().top) / (parent.getPlayingField().height() / (double) parent.getTilesInLevel()));
@@ -305,7 +307,6 @@ public class EditorMenu {
                 if (parent.getTileAt(boxX * 30, boxY * 30) instanceof DumbWall) {
                     selectedItem = "wall";
                 }
-
                 parent.removeTile(boxX * 30, boxY * 30);
             }
         }

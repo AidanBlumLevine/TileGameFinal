@@ -165,13 +165,13 @@ public class LevelEditor {
         paint.reset();
         canvas.save();
         canvas.translate((float)(playingField.width()/editorMenu.getSize()*(1-sizeMultiplier))/2,(float)(playingField.width()/editorMenu.getSize()*(1-sizeMultiplier))/2);
-        try {
+        //try {
             for (Tile t : tiles) {
                 t.paint(canvas, paint);
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        //}catch(Exception e){
+        //    e.printStackTrace();
+        //}
         canvas.restore();
     }
 }
