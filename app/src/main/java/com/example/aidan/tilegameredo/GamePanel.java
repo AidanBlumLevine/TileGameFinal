@@ -13,7 +13,10 @@ import android.view.SurfaceView;
 import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 import com.example.aidan.tilegameredo.particles.Particle;
 
+import java.util.ArrayList;
+
 public class GamePanel extends SurfaceView implements Runnable{
+    private ArrayList<int[]> touches = new ArrayList<int[]>();
     private volatile Boolean playing;
     private Thread gameThread = null;
     private long lastTime;
@@ -42,8 +45,15 @@ public class GamePanel extends SurfaceView implements Runnable{
     public void run() {
         while (playing) {
             if(System.nanoTime()-lastTime>=1000000000/game.getFPS()) {
+                for(int i=0;i<touches.size();i++){
+                    game.touch(touches.get(i)[0],touches.get(i)[1]);
+                }
+                touches.clear();
                 draw();
                 game.update();
+                if(System.nanoTime()-lastTime>100000000) {
+                    Log.e("dfg",  "LONG");
+                }
                 lastTime = System.nanoTime();
             }
         }
@@ -67,17 +77,19 @@ public class GamePanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                game.touch(-1,-1);
+                queueTouch(-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
                 break;
             case MotionEvent.ACTION_MOVE:
-                game.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
         }
         return true;
     }
-
+    private void queueTouch(int x, int y){
+        touches.add(new int[]{x,y});
+    }
     public Game getGame() {
         return game;
     }
