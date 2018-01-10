@@ -64,7 +64,7 @@ public class Game {
         } else {
             canvas.clipRect(playingField);
         }
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.argb(200,255,255,255));
         paint.setAlpha(80);
         canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
 
@@ -369,6 +369,8 @@ public class Game {
         editor.commit();
     }
 }
+
+//MOTION BLUR
 
 //edit button
 //fix button looks

@@ -54,10 +54,10 @@ public class endParticle extends Particle{
         if(mode==1 || mode==2) {
             paint.setColor(Color.BLACK);
             Path path = new Path();
-            path.lineTo(-50, -50);
-            path.lineTo(-50, height);
+            path.moveTo(-10, -10);
+            path.lineTo(-10, height);
             path.lineTo(width, height);
-            path.lineTo(width, -120);
+            path.lineTo(width, -10);
             if(mode==2){
                 path.addCircle((super.getX()), (super.getY()), targetSize, Path.Direction.CW);
             } else {
