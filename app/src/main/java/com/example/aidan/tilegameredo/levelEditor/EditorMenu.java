@@ -1,5 +1,6 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
@@ -40,6 +42,7 @@ public class EditorMenu {
             boxImgRaw,crateImgRaw,doubleCrate1ImgRaw,doubleCrate2ImgRaw,emptyCrateImgRaw,spikeImgRaw,wallImgRaw;
     private Context context;
     private LevelEditor parent;
+    AlertDialog.Builder builder;
     public EditorMenu(Context context, LevelEditor parent){
         this.context = context;
         this.parent = parent;
@@ -216,7 +219,7 @@ public class EditorMenu {
             ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         }
         if (buttonSave.getHover()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder = new AlertDialog.Builder(context);
             builder.setTitle("Choose a title for your level");
 
             InputFilter[] FilterArray = new InputFilter[1];
@@ -255,8 +258,12 @@ public class EditorMenu {
                     dialog.cancel();
                 }
             });
-
-            builder.show();
+            ((Activity)context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    builder.show();
+                }
+            });
 
         }
         if (buttonSizeDown.getHover()) {
@@ -267,7 +274,6 @@ public class EditorMenu {
     }
 
     public void pressed() {
-        Log.e("THREAD",Thread.currentThread().getName());
         if(parent.getPlayingField().contains(parent.getTouchX(),parent.getTouchY())) {
             int boxX = (int) ((parent.getTouchX() - parent.getPlayingField().left) / (parent.getPlayingField().width() / (double) parent.getTilesInLevel()));
             int boxY = (int) ((parent.getTouchY() - parent.getPlayingField().top) / (parent.getPlayingField().height() / (double) parent.getTilesInLevel()));
