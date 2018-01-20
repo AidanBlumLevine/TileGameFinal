@@ -154,6 +154,9 @@ public class LevelSelector {
             }
             if(tabCustom.getHover() && !tab.equals("custom")){
                 levels = LevelGenerator.getAllLevels("custom",context);
+                for(Level l: levels){
+                    Log.e("LEVEL",l.toString());
+                }
                 tab="custom";
                 selectedLevel=null;
                 scrollPosition=0;
@@ -221,7 +224,6 @@ public class LevelSelector {
         }
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
-            Log.e("TEST",tiles.split(":").length+"");
                 if (tiles.split(":")[i].split(",")[0].equals("box"))
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("crate"))

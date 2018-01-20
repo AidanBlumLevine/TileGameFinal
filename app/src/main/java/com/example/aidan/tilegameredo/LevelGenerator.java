@@ -20,11 +20,13 @@ package com.example.aidan.tilegameredo;
         import java.util.ArrayList;
 
 public class LevelGenerator {
-    private static final int numberOfDefaultLevels=13;
+    private static final int numberOfDefaultLevels=23;
     public static ArrayList<Level> getAllLevels(String pack,Context context) {
         ArrayList<Level> levels = new ArrayList<>();
         if(pack.equals("default")) {
             for(int i=1;i<=numberOfDefaultLevels;i++){
+                Log.e("T",getLevel(i,context).toString());
+
                 levels.add(getLevel(i,context));
             }
         } else {
@@ -125,19 +127,19 @@ public class LevelGenerator {
                             level += "wall," + 30 * (x - 1) + "," + 30 * i + ":";
                         }
                     } else if(tagname.equalsIgnoreCase("tile") && correctLevel){
-                        if(type.equals("Wall")) {
+                        if(type.equalsIgnoreCase("Wall")) {
                             level += "wall,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
-                        } else if(type.equals("Crate")){
+                        } else if(type.equalsIgnoreCase("Crate")){
                             level += "crate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
-                        } else if(type.equals("EmptyCrate")){
+                        } else if(type.equalsIgnoreCase("EmptyCrate")){
                             level += "emptyCrate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
-                        } else if(type.equals("Box")){
+                        } else if(type.equalsIgnoreCase("Box")){
                             level += "box,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
 
-                        } else if(type.equals("DoubleCrate")){
+                        } else if(type.equalsIgnoreCase("DoubleCrate")){
                             level += "doubleCrate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+","+position.trim()+":";
 
-                        } else if(type.equals("Spike")){
+                        } else if(type.equalsIgnoreCase("Spike")){
                             level += "spike,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+","+position.trim()+":";
 
                         }

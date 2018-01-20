@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.Image;
+import android.media.SoundPool;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -24,9 +25,9 @@ public class Game {
 
     private final int fps=100 ;
     private final  double sizeMultiplier = 0.97;
-
+    private SoundPlayer soundPlayer;
     private String pack;
-    private int touchX,touchY,levelWidth,swipes,stars,firstTime=10;
+    private int touchX,touchY,levelWidth,swipes,stars,firstTime=50;
     private boolean playing;
     private Level level;
     private Rect playingField;
@@ -39,6 +40,8 @@ public class Game {
         this.pack = pack;
         this.context=context;
         this.level=level;
+
+        soundPlayer = new SoundPlayer(context);
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -107,8 +110,12 @@ public class Game {
     }
 
     public  void update(){
+        boolean wasMoving = tilesMoving();
         for (Tile t : tiles) {
             t.update();
+        }
+        if(wasMoving && !tilesMoving()){
+            soundPlayer.stopSlideSound();
         }
     }
 
@@ -152,6 +159,7 @@ public class Game {
             }
             if(tilesMoving() && couldSwipe){
                 swipes++;
+                soundPlayer.playSlideSound();
             }
         }
     }
@@ -177,6 +185,15 @@ public class Game {
     public  boolean isTileBesides(int x, int y, Class tileType) {
         for (Tile t : tiles) {
             if (!(t instanceof Spike) && !tileType.isInstance(t) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isAnyTile(int x,int y){
+        for (Tile t : tiles) {
+            if (!(t instanceof Spike) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
                 return true;
             }
         }
@@ -368,9 +385,19 @@ public class Game {
         editor.putString("stars"+level.getName(),""+stars);
         editor.commit();
     }
+
+    public SoundPlayer getSoundPlayer() {
+        return soundPlayer;
+    }
 }
 
+//slide sound longer
+//doublecrate bottem doesnt trigger + check all sides
+//make sounds request game to play so it doesnt double trigger.
+//detection of boxes hitting double crates is bad
+//different hit sounds for walls and spikes and crates
 //MOTION BLUR
+//why is there ghosting on sliding tiles over large distances?
 
 //edit button
 //fix button looks

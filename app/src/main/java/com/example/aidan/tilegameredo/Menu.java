@@ -1,5 +1,6 @@
 package com.example.aidan.tilegameredo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -131,24 +132,28 @@ public class Menu {
                 context.startActivity(i);
             }
             if (buttonTrash.getHover() && !parent.getPack().equals("default")) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                deleteLevel();
-                                break;
+                    public void run() {
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        deleteLevel();
+                                        break;
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                        }
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setMessage("Are you sure you want to delete this level?").setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener).show();
                     }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure you want to delete this level?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-
+                });
             }
         }
     }
