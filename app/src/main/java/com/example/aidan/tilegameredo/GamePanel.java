@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class GamePanel extends SurfaceView implements Runnable{
     private ArrayList<int[]> touches = new ArrayList<int[]>();
+    private ArrayList<Integer> swipes = new ArrayList<>();
     private volatile Boolean playing;
     private Thread gameThread = null;
     private long lastTime;
@@ -49,6 +50,10 @@ public class GamePanel extends SurfaceView implements Runnable{
                     game.touch(touches.get(i)[0],touches.get(i)[1]);
                 }
                 touches.clear();
+                for(int i=0;i<swipes.size();i++){
+                    game.swipe(swipes.get(i));
+                }
+                swipes.clear();
                 draw();
                 game.update();
                 if(System.nanoTime()-lastTime>100000000) {
@@ -92,5 +97,9 @@ public class GamePanel extends SurfaceView implements Runnable{
     }
     public Game getGame() {
         return game;
+    }
+
+    public void swipe(int i) {
+        swipes.add(i);
     }
 }

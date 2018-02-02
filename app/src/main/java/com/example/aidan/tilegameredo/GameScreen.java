@@ -9,6 +9,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class GameScreen extends AppCompatActivity {
     private GamePanel panel;
 
@@ -71,7 +73,7 @@ public class GameScreen extends AppCompatActivity {
     }
 
     private void swipe(int i) {
-        panel.getGame().swipe(i);
+        panel.swipe(i);
     }
 
 }
