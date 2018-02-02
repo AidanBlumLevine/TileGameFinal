@@ -59,15 +59,13 @@ public class Game {
     }
 
     public void draw(Canvas canvas, Paint paint){
-        double lastTime = System.nanoTime();
-
-        if(firstTime>0 || !playing){
-            firstTime--;
-        } else if(menu.live()){
-            canvas.clipRect(playingField.left,0,playingField.right,playingField.bottom);
-        } else {
-            canvas.clipRect(playingField);
-        }
+//        if(firstTime>0 || !playing){
+//            firstTime--;
+//        } else if(menu.live()){
+//            canvas.clipRect(playingField.left,0,playingField.right,playingField.bottom);
+//        } else {
+//            canvas.clipRect(playingField);
+//        }
         canvas.drawColor(Color.argb(200,255,255,255));
         paint.setAlpha(80);
         canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
@@ -106,8 +104,6 @@ public class Game {
         ParticleManager.paint(canvas, paint);
         canvas.restore();
         paint.reset();
-
-        Log.e("f",(System.nanoTime()-lastTime)/1000000000.0+"");
     }
 
     public  void update(){
@@ -316,8 +312,13 @@ public class Game {
         touchY =y;
     }
 
-    public String (){
-
+    public void addSound(String s){
+        for(String string: queuedSounds){
+            if(string.equals(s)){
+                return;
+            }
+        }
+        queuedSounds.add(s);
     }
 
     public  int getFps() {
@@ -393,10 +394,11 @@ public class Game {
     }
 }
 
+//crates dont make noise on bottem lvl 6
 //slide sound longer
-//doublecrate bottem doesnt trigger + check all sides
-//make sounds request game to play so it doesnt double trigger.
-//detection of boxes hitting double crates is bad
+//doublecrate bottem doesnt trigger + check all sides -maybe done still needs check
+//make sounds request game to play so it doesnt double trigger. -done?
+//detection of boxes hitting double crates is bad -check
 //different hit sounds for walls and spikes and crates
 //MOTION BLUR
 //why is there ghosting on sliding tiles over large distances?
@@ -408,7 +410,7 @@ public class Game {
 
 //old==============================================
 //fix white dot in corner of end particel
-//make buttons and grey buttons,
+//make buttons and grey buttons,-
 //fix layout
 //make end particle only be as big as needed
 //fix transitions

@@ -27,7 +27,7 @@ public class SoundPlayer {
             soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
         }
 
-        slideSound = soundPool.load(context,R.raw.slidesound1,1);
+        slideSound = soundPool.load(context,R.raw.slidesound2,1);
         hitSound = soundPool.load(context,R.raw.hitsound1,1);
     }
 
