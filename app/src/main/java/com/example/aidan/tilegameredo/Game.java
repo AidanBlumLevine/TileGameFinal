@@ -35,6 +35,7 @@ public class Game {
     private ArrayList<Tile> tiles = new ArrayList<>();
     private Context context;
     private int[] starLevels= new int[3];
+    private ArrayList<String> queuedSounds = new ArrayList<>();
 
     public Game(Level level,Context context,String pack){
         this.pack = pack;
@@ -117,6 +118,12 @@ public class Game {
         if(wasMoving && !tilesMoving()){
             soundPlayer.stopSlideSound();
         }
+        for(String s:queuedSounds){
+            if(s.equals("hit")){
+                soundPlayer.playHitSound();
+            }
+        }
+        queuedSounds.clear();
     }
 
     public  void swipe(int direction){
@@ -185,15 +192,6 @@ public class Game {
     public  boolean isTileBesides(int x, int y, Class tileType) {
         for (Tile t : tiles) {
             if (!(t instanceof Spike) && !tileType.isInstance(t) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isAnyTile(int x,int y){
-        for (Tile t : tiles) {
-            if (!(t instanceof Spike) && (t.getX() == x && t.getY() == y || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 1 && t.getX() + 30 == x && t.getY() == y) || (t instanceof DoubleCrate && ((DoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 30 == y))) {
                 return true;
             }
         }
@@ -316,6 +314,10 @@ public class Game {
         }
         touchX =x;
         touchY =y;
+    }
+
+    public String (){
+
     }
 
     public  int getFps() {
