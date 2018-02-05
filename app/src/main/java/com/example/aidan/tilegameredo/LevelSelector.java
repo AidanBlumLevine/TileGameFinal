@@ -252,5 +252,6 @@ public class LevelSelector {
         i.putExtra("pack",tab);
         context.startActivity(i);
         ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+        TRANSITUIOSN
     }
 }
