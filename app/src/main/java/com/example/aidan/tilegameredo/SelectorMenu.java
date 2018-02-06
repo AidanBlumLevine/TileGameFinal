@@ -47,7 +47,7 @@ class SelectorMenu {
         popupArea = new Rect(border,border,width-border,height-border);
 
         int buttonWidth =  (popupArea.width()-150)/2;
-        play = new Button(popupArea.left+100+buttonWidth,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(ImageLoader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
+        play = new Button(popupArea.centerX()-buttonWidth/2,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(ImageLoader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
 
         int imageWidth = Math.min(popupArea.height()-300-buttonWidth/2,popupArea.width()-100);
         this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);

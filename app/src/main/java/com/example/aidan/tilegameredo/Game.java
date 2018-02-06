@@ -414,7 +414,8 @@ public class Game {
 //fix layout
 //make end particle only be as big as needed
 //fix transitions
-//add sounds
+//add sounds        overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
+
 
 //old=================================
 
