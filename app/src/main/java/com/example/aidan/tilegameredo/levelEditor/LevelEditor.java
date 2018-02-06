@@ -1,8 +1,6 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -10,9 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
-import android.text.InputType;
-import android.util.Log;
-import android.widget.EditText;
 
 import com.example.aidan.tilegameredo.ImageLoader;
 import com.example.aidan.tilegameredo.Level;

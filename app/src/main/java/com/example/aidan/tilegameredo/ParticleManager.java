@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.aidan.tilegameredo.particles.Particle;
-import com.example.aidan.tilegameredo.particles.endParticle;
 
 import java.util.ArrayList;
 

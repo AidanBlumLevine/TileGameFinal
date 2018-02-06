@@ -1,17 +1,11 @@
 package com.example.aidan.tilegameredo;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 
 public class SelectorPanel extends SurfaceView implements Runnable{
     private  Boolean running;

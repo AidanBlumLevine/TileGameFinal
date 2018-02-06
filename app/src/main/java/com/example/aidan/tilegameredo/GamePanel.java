@@ -46,10 +46,13 @@ public class GamePanel extends SurfaceView implements Runnable{
     public void run() {
         while (playing) {
             if(System.nanoTime()-lastTime>=1000000000/game.getFPS()) {
-                for(int i=0;i<touches.size();i++){
-                    game.touch(touches.get(i)[0],touches.get(i)[1]);
+                if(touches != null) {
+                    for (int i = 0; i < touches.size(); i++) {
+                        game.touch(touches.get(i)[0], touches.get(i)[1]);
+                        //ATTEMP TO READ FROM A NULL ARRAY ERROR HERE
+                    }
+                    touches.clear();
                 }
-                touches.clear();
                 for(int i=0;i<swipes.size();i++){
                     game.swipe(swipes.get(i));
                 }

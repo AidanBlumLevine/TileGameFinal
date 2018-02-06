@@ -1,23 +1,11 @@
 package com.example.aidan.tilegameredo.levelEditor;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.example.aidan.tilegameredo.ImageLoader;
-import com.example.aidan.tilegameredo.LevelGenerator;
-import com.example.aidan.tilegameredo.LevelSelector;
-import com.example.aidan.tilegameredo.Tile;
-import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
 
 import java.util.ArrayList;
 
