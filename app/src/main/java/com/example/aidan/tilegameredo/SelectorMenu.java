@@ -10,13 +10,14 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 class SelectorMenu {
-    private Rect popupArea;
+    private Rect popupArea,starArea;
     private Bitmap preview;
     private Level level;
     private LevelSelector parent;
     private Button play;
     private int textSize;
     private Context context;
+    private Bitmap goldCrate,silverCrate,bronzeCrate;
     public SelectorMenu(Level level, Bitmap preview, LevelSelector parent, Context context) {
         this.level=level;
         this.parent=parent;
@@ -47,6 +48,11 @@ class SelectorMenu {
             p.getTextBounds(level.getName(),0,level.getName().length(),testRect);
         }
         textSize=size;
+        all of this has to be done relatively
+        starArea = new Rect(popupArea.left+225,popupArea.top+350,popupArea.right-225,popupArea.top+480);
+        goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+        silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+        bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
     }
 
     public void draw(Canvas canvas, Paint paint) {
@@ -55,7 +61,7 @@ class SelectorMenu {
 
         play.draw(canvas,paint);
 
-        int imageY = (popupArea.height()-300-(popupArea.width()-150)/2/2-preview.getHeight())/2+popupArea.top+200;
+        int imageY = (popupArea.height()-300-(popupArea.width()-150)/2/2-preview.getHeight())/2+popupArea.top+300;
         canvas.drawBitmap(preview,(popupArea.width()-preview.getWidth())/2+popupArea.left,imageY,paint);
 
         paint.setColor(Color.argb(200,0,0,0));
@@ -67,6 +73,20 @@ class SelectorMenu {
         paint.getTextBounds(level.getName(),0,level.getName().length(),textRect);
         canvas.drawText(level.getName(), xPos, (imageY-popupArea.top)/2+popupArea.top+textRect.height()/2, paint);
         paint.reset();
+
+        if(level.getStarLevels()[0] != 0) {
+            if (level.getStars() > 2) {
+                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+            }
+
+            if (level.getStars() > 1) {
+                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+            }
+
+            if (level.getStars() > 0) {
+                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+            }
+        }
     }
 
     public boolean touch(int x, int y, int type) {
