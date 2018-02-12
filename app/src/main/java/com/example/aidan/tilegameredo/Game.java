@@ -393,6 +393,9 @@ public class Game {
         return soundPlayer;
     }
 }
+//MEMORY LEAK OR PHONE SUCKS- there are two instances of game and selector menu classes
+//spikes are the wrong poosition in the preview
+//stars update instantly when you win
 
 //crates dont make noise on bottem lvl 6
 //slide sound longer

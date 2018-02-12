@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 
 class SelectorMenu {
-    private Rect popupArea,starArea;
+    private Rect popupArea,starArea,textArea,previewArea;
     private Bitmap preview;
     private Level level;
     private LevelSelector parent;
@@ -32,24 +32,30 @@ class SelectorMenu {
         int buttonWidth =  (popupArea.width()-150)/2;
         play = new Button(popupArea.centerX()-buttonWidth/2,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(ImageLoader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
 
-        int imageWidth = Math.min(popupArea.height()-300-buttonWidth/2,popupArea.width()-100);
-        this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
-
-        Rect textArea = new Rect(popupArea.left+20,popupArea.top+20,popupArea.right-20,popupArea.top+180);
+        textArea = new Rect(popupArea.left+20,popupArea.top+100,popupArea.right-20,popupArea.top+260);
         Rect testRect = new Rect();
         int size = 100;
+        String levelName = level.getName();
+        if(parent.getTab().equals("custom")){
+            levelName = levelName.substring(0,levelName.length()-6);
+        }
         Paint p = new Paint();
         p.setTextSize(size);
         p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        p.getTextBounds(level.getName(),0,level.getName().length(),testRect);
+        p.getTextBounds(levelName,0,levelName.length(),testRect);
         while(!(testRect.width()<textArea.width() && testRect.height()<textArea.height())){
             size--;
             p.setTextSize(size);
-            p.getTextBounds(level.getName(),0,level.getName().length(),testRect);
+            p.getTextBounds(levelName,0,levelName.length(),testRect);
         }
         textSize=size;
-        all of this has to be done relatively
-        starArea = new Rect(popupArea.left+225,popupArea.top+350,popupArea.right-225,popupArea.top+480);
+
+        starArea = new Rect(popupArea.centerX()-240,textArea.bottom+20,popupArea.centerX()+240,textArea.bottom+160);
+
+        previewArea = new Rect(popupArea.left,starArea.bottom+50,popupArea.right,popupArea.bottom-100-buttonWidth/2);
+        int imageWidth = Math.min(previewArea.height(),popupArea.width()-100);
+        this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
+
         goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
         bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
@@ -61,7 +67,7 @@ class SelectorMenu {
 
         play.draw(canvas,paint);
 
-        int imageY = (popupArea.height()-300-(popupArea.width()-150)/2/2-preview.getHeight())/2+popupArea.top+300;
+        int imageY = previewArea.centerY()-preview.getHeight()/2;
         canvas.drawBitmap(preview,(popupArea.width()-preview.getWidth())/2+popupArea.left,imageY,paint);
 
         paint.setColor(Color.argb(200,0,0,0));
@@ -69,9 +75,13 @@ class SelectorMenu {
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         int xPos = (popupArea.centerX());
+        String levelName = level.getName();
+        if(parent.getTab().equals("custom")){
+            levelName = levelName.substring(0,levelName.length()-6);
+        }
         Rect textRect = new Rect();
-        paint.getTextBounds(level.getName(),0,level.getName().length(),textRect);
-        canvas.drawText(level.getName(), xPos, (imageY-popupArea.top)/2+popupArea.top+textRect.height()/2, paint);
+        paint.getTextBounds(levelName,0,levelName.length(),textRect);
+        canvas.drawText(levelName, xPos, textArea.centerY()+textRect.height()/2, paint);
         paint.reset();
 
         if(level.getStarLevels()[0] != 0) {

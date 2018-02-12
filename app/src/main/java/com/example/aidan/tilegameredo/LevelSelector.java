@@ -71,7 +71,7 @@ public class LevelSelector {
         paint.reset();
 
         canvas.save();
-        //canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
+        canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
@@ -86,6 +86,9 @@ public class LevelSelector {
                     thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
                 }
                 String levelName = levels.get(i).getName();
+                if(tab.equals("custom")){
+                    levelName = levelName.substring(0,levelName.length()-6);
+                }
                 Rect nameBounds = new Rect();
                 paint.getTextBounds(levelName,0,levelName.length(),nameBounds);
                 if(nameBounds.width()+50>thisLevel.width()){
@@ -238,7 +241,7 @@ public class LevelSelector {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                 if (tiles.split(":")[i].split(",")[0].equals("spike")) {
                     canvas.save();
-                    canvas.rotate(Integer.valueOf(tiles.split(":")[i].split(",")[3]) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) + 15);
+                    canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3])-1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) + 15);
                     canvas.drawBitmap(Bitmap.createScaledBitmap(ImageLoader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
                     canvas.restore();
                 }
@@ -247,11 +250,15 @@ public class LevelSelector {
     }
 
     public void play() {
-        Intent i = new Intent(context,GameScreen.class);
-        i.putExtra("level",selectedLevel.toString());
-        i.putExtra("pack",tab);
+        Intent i = new Intent(context, GameScreen.class);
+        i.putExtra("level", selectedLevel.toString());
+        i.putExtra("pack", tab);
         context.startActivity(i);
-        ((AppCompatActivity)context).overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
+        ((AppCompatActivity) context).overridePendingTransition(R.anim.down_to_mid, R.anim.mid_to_up);
 
+    }
+
+    public String getTab() {
+        return tab;
     }
 }
