@@ -95,6 +95,7 @@ public class LevelGenerator {
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                         String stars = settings.getString("stars"+waveId,"0");
                         String fullLevel = waveId+"|"+stars+"|"+starLevels[0]+","+starLevels[1]+","+starLevels[2]+"|"+width+"|"+level;
+                        Log.e("level",""+fullLevel);
                         returnLevel = new Level(fullLevel);
                         return returnLevel;
                     } else if(tagname.equalsIgnoreCase("type")){

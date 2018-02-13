@@ -77,6 +77,7 @@ class SelectorMenu {
         int xPos = (popupArea.centerX());
         String levelName = level.getName();
         if(parent.getTab().equals("custom")){
+            //STRING OUT OF BOUNDS HERE ++++++++++++!+!+@+@+!@+!++#+!@+#+@#++$#+#!+$!+#+$#+$+!@#+$!+#$+%+$++!$#+$+!#+$+!#$+#+$+!@#$+!@#+!@+#+!@#+!@+#+!@#+@!+$+#@
             levelName = levelName.substring(0,levelName.length()-6);
         }
         Rect textRect = new Rect();
@@ -84,19 +85,31 @@ class SelectorMenu {
         canvas.drawText(levelName, xPos, textArea.centerY()+textRect.height()/2, paint);
         paint.reset();
 
-        if(level.getStarLevels()[0] != 0) {
+        //if(level.getStarLevels()[0] != 0) {
             if (level.getStars() > 2) {
                 canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+            } else {
+                paint.setAlpha(120);
+                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+                paint.reset();
             }
 
             if (level.getStars() > 1) {
                 canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+            } else {
+                paint.setAlpha(120);
+                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                paint.reset();
             }
 
             if (level.getStars() > 0) {
                 canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+            } else {
+                paint.setAlpha(120);
+                canvas.drawBitmap(bronzeCrate,  starArea.left, starArea.top, paint);
+                paint.reset();
             }
-        }
+        //}
     }
 
     public boolean touch(int x, int y, int type) {

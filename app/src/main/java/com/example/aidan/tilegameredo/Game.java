@@ -51,7 +51,7 @@ public class Game {
         levelWidth = level.getWidth();
         starLevels = level.getStarLevels();
         tiles = level.getTiles(context,this);
-        stars = level.getStars();
+        stars = 0;
 
         menu = new Menu(playingField,width,height,context,this);
         playing = true;
@@ -383,10 +383,12 @@ public class Game {
 
     public void saveStars() {
         updateStars();
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("stars"+level.getName(),""+stars);
-        editor.commit();
+        if(stars>level.getStars()) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("stars" + level.getName(), "" + stars);
+            editor.commit();
+        }
     }
 
     public SoundPlayer getSoundPlayer() {
@@ -394,8 +396,6 @@ public class Game {
     }
 }
 //MEMORY LEAK OR PHONE SUCKS- there are two instances of game and selector menu classes
-//spikes are the wrong poosition in the preview
-//stars update instantly when you win
 
 //crates dont make noise on bottem lvl 6
 //slide sound longer
