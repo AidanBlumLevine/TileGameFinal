@@ -20,7 +20,7 @@ package com.example.aidan.tilegameredo;
         import java.util.ArrayList;
 
 public class LevelGenerator {
-    private static final int numberOfDefaultLevels=23;
+    private static final int numberOfDefaultLevels=22;
     public static ArrayList<Level> getAllLevels(String pack,Context context) {
         ArrayList<Level> levels = new ArrayList<>();
         if(pack.equals("default")) {

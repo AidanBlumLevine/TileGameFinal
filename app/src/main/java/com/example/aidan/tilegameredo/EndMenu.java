@@ -33,8 +33,11 @@ public class EndMenu {
             silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
             goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         } else {
-            menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, height/2-buttonArea.height()/2, Bitmap.createScaledBitmap(ImageLoader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
-            replay = new Button(buttonArea.centerX() + buttonArea.height() / 12, height/2-buttonArea.height()/2, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
+            bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+            silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+            goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+            menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
+            replay = new Button(buttonArea.centerX() + buttonArea.height() / 12, buttonArea.top, Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
         }
         this.context=context;
     }
@@ -69,7 +72,7 @@ public class EndMenu {
         menu.draw(canvas,paint);
         replay.draw(canvas,paint);
         if(next!=null){next.draw(canvas,paint);}
-        if(goldCrate!=null) {
+        if(pack.equals("default")) {
             if (stars > 2) {
                 canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);
             } else {

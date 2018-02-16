@@ -2098,7 +2098,7 @@
     <level14>
         <info>
             <stars>
-                0,0,0
+                11,25,40
             </stars>
             <Size>
                 10
@@ -2821,7 +2821,7 @@
     <level15>
         <info>
             <stars>
-                0,0,0
+                13,16,22
             </stars>
             <Size>
                 9
@@ -3374,7 +3374,7 @@
     <level16>
         <info>
             <stars>
-                0,0,0
+                5,10,15
             </stars>
             <Size>
                 6
@@ -3655,7 +3655,7 @@
     <level17>
         <info>
             <stars>
-                0,0,0
+                41,50,70
             </stars>
             <Size>
                 7
@@ -4079,11 +4079,10 @@
     </tile>
     </level17>
 
-    <level18
-        >
+    <level18>
         <info>
             <stars>
-                0,0,0
+                10,14,20
             </stars>
             <Size>
                 9
@@ -4636,7 +4635,7 @@
     <level19>
         <info>
             <stars>
-                0,0,0
+                26,45,70
             </stars>
             <Size>
                 12
@@ -5549,7 +5548,7 @@
     <level20>
         <info>
             <stars>
-                0,0,0
+                6,9,13
             </stars>
             <Size>
                 7
@@ -5800,140 +5799,30 @@
         </posY>
     </tile><tile>
         <type>
-            box
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            3
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            4
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            4
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
             emptyCrate
         </type>
         <posX>
-            1
+            5
         </posX>
         <posY>
-            1
+            5
+        </posY>
+    </tile><tile>
+        <type>
+            box
+        </type>
+        <posX>
+            3
+        </posX>
+        <posY>
+            3
         </posY>
     </tile><tile>
         <type>
             doubleCrate
         </type>
         <posX>
-            5
+            4
         </posX>
         <posY>
             2
@@ -5942,27 +5831,19 @@
         </position>
     </tile><tile>
         <type>
-            crate
+            doubleCrate
         </type>
         <posX>
-            4
+            2
         </posX>
         <posY>
-            3
+            2
         </posY>
+        <position>1
+        </position>
     </tile><tile>
         <type>
-            crate
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            3
-        </posY>
-    </tile><tile>
-        <type>
-            crate
+            doubleCrate
         </type>
         <posX>
             2
@@ -5970,336 +5851,27 @@
         <posY>
             3
         </posY>
+        <position>2
+        </position>
+    </tile><tile>
+        <type>
+            doubleCrate
+        </type>
+        <posX>
+            3
+        </posX>
+        <posY>
+            4
+        </posY>
+        <position>1
+        </position>
     </tile>
     </level20>
 
     <level21>
         <info>
             <stars>
-                0,0,0
-            </stars>
-            <Size>
-                7
-            </Size>
-            <Border>
-                7,7
-            </Border>
-        </info>
-        <tile>
-            <type>
-                wall
-            </type>
-            <posX>
-                0
-            </posX>
-            <posY>
-                0
-            </posY>
-        </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            4
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            5
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            0
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            1
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            4
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            5
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            6
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            1
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            3
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            0
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            1
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            2
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            3
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            4
-        </posY>
-    </tile><tile>
-        <type>
-            wall
-        </type>
-        <posX>
-            6
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            emptyCrate
-        </type>
-        <posX>
-            5
-        </posX>
-        <posY>
-            5
-        </posY>
-    </tile><tile>
-        <type>
-            box
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            3
-        </posY>
-    </tile><tile>
-        <type>
-            doubleCrate
-        </type>
-        <posX>
-            4
-        </posX>
-        <posY>
-            2
-        </posY>
-        <position>2
-        </position>
-    </tile><tile>
-        <type>
-            doubleCrate
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            2
-        </posY>
-        <position>1
-        </position>
-    </tile><tile>
-        <type>
-            doubleCrate
-        </type>
-        <posX>
-            2
-        </posX>
-        <posY>
-            3
-        </posY>
-        <position>2
-        </position>
-    </tile><tile>
-        <type>
-            doubleCrate
-        </type>
-        <posX>
-            3
-        </posX>
-        <posY>
-            4
-        </posY>
-        <position>1
-        </position>
-    </tile>
-    </level21>
-
-    <level22>
-        <info>
-            <stars>
-                0,0,0
+                11,15,25
             </stars>
             <Size>
                 9
@@ -6839,12 +6411,12 @@
             7
         </posY>
     </tile>
-    </level22>
+    </level21>
 
-    <level23>
+    <level22>
         <info>
             <stars>
-                0,0,0
+                12,15,19
             </stars>
             <Size>
                 6
@@ -7122,5 +6694,5 @@
         <position>2
         </position>
     </tile>
-    </level23>
+    </level22>
 </Levels>

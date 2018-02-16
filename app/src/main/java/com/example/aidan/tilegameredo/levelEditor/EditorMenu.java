@@ -223,7 +223,7 @@ public class EditorMenu {
             builder.setTitle("Choose a title for your level");
 
             InputFilter[] FilterArray = new InputFilter[1];
-            FilterArray[0] = new InputFilter.LengthFilter(15);
+            FilterArray[0] = new InputFilter.LengthFilter(50);
 
 
             final EditText input = new EditText(context);
@@ -249,6 +249,7 @@ public class EditorMenu {
                     } else {
                         parent.save(input.getText().toString());
                         Toast.makeText(context, "Level saved", Toast.LENGTH_LONG).show();
+                        Log.e("LevelSaveName",input.getText().toString());
                     }
                 }
             });
