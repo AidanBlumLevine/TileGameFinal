@@ -98,7 +98,6 @@ public class LevelSelector {
                     }
                     levelName = levelName+"...";
                 }
-                Integer value of on custom levels makes errors
                 if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.LTGRAY);
                     canvas.drawRect(thisLevel,paint);

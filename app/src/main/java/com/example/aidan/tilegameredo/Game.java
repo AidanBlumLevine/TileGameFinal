@@ -14,6 +14,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.aidan.tilegameredo.particles.endParticle;
+import com.example.aidan.tilegameredo.particles.truckParticle;
+import com.example.aidan.tilegameredo.tiles.Box;
 import com.example.aidan.tilegameredo.tiles.DoubleCrate;
 import com.example.aidan.tilegameredo.tiles.EmptyCrate;
 import com.example.aidan.tilegameredo.tiles.Spike;
@@ -224,7 +226,9 @@ public class Game {
             }
         }
         saveStars();
-        endParticle f = new endParticle(x,y,size,context,this);
+        //endParticle f = new endParticle(x,y,size,context,this);
+        truckParticle f = new truckParticle(x,y,size,context,this);
+
     }
 
     private  void tileSort(String sort) {
@@ -391,8 +395,13 @@ public class Game {
         }
     }
 
-    public SoundPlayer getSoundPlayer() {
-        return soundPlayer;
+    public void hideGoal() {
+        for(int t=0;t<tiles.size();t++){
+            if(tiles.get(t) instanceof Box || tiles.get(t) instanceof EmptyCrate){
+                tiles.remove(t);
+                t--;
+            }
+        }
     }
 }
 //MEMORY LEAK OR PHONE SUCKS- there are two instances of game and selector menu classes
