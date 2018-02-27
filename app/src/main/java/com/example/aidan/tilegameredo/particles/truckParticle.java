@@ -19,7 +19,7 @@ import com.example.aidan.tilegameredo.SelectorScreen;
 
 public class truckParticle extends Particle{
 
-    private int targetSize,mode,height,width,x=-30,targetY,targetX;
+    private int targetSize,mode,height,width,x=-200,targetY,targetX;
     private Context context;
     private Game parent;
 
@@ -38,23 +38,32 @@ public class truckParticle extends Particle{
         super.setTime(super.getTime()-3000/parent.getFps());
         if(mode==1){
             paint.setColor(Color.YELLOW);
-            canvas.drawRect(x,targetY-20,x+100,targetY+40,paint);
+            canvas.drawRect(x,targetY-20-targetSize/2,x+100+targetSize,targetY+20+targetSize/2,paint);
             x+=700/parent.getFps();
-            if(Math.abs(x+50 - targetX) < 7){
+            if(Math.abs(x+(100+targetSize)/2 - targetX) <= 7){
                 mode=2;
                 super.setTime(300);
             }
         }
 
-        if (super.getTime() <= 0 && mode==2) {
-            mode=3;
-            parent.hideGoal();
-        }
+       if(mode ==2) {
+           paint.setColor(Color.YELLOW);
+           canvas.drawRect(x,targetY-20-targetSize/2,x+100+targetSize,targetY+20+targetSize/2,paint);
+           if (super.getTime() <= 0) {
+               mode = 3;
+               parent.hideGoal();
+           }
+       }
 
         if(mode==3){
             paint.setColor(Color.YELLOW);
-            canvas.drawRect(x,targetY-20,x+100,targetY+40,paint);
+            canvas.drawRect(x,targetY-20-targetSize/2,x+100+targetSize,targetY+20+targetSize/2,paint);
             x+=700/parent.getFps();
+            paint.setColor(Color.BLACK);
+            paint.setAlpha((int)((255-(width-(x+(100+targetSize)/2))*(255/(width-targetX)))));
+            Log.e("alpha",(255-(width-(x+(100+targetSize)/2))*(255/(width-targetX)))+"");
+            canvas.drawRect(-10,-10,width,height,paint);
+            paint.reset();
             if(x>width){
                 mode = 4;
                 parent.saveStars();
