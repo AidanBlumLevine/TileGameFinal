@@ -1,6 +1,7 @@
 package com.example.aidan.tilegameredo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.media.SoundPool;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.particles.Particle;
 import com.example.aidan.tilegameredo.particles.endParticle;
 import com.example.aidan.tilegameredo.particles.truckParticle;
 import com.example.aidan.tilegameredo.tiles.Box;
@@ -400,6 +402,19 @@ public class Game {
             if(tiles.get(t) instanceof Box || tiles.get(t) instanceof EmptyCrate){
                 tiles.remove(t);
                 t--;
+            }
+        }
+    }
+
+    public void paused() {
+        for(Particle p:ParticleManager.getParticles()){
+            if(p instanceof truckParticle){
+                saveStars();
+                Intent i = new Intent(context,EndScreen.class);
+                i.putExtra("stars",getStars());
+                i.putExtra("pack",getPack());
+                i.putExtra("level",getLevel().toString());
+                context.startActivity(i);
             }
         }
     }

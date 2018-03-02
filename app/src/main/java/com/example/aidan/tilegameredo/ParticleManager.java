@@ -9,11 +9,12 @@ import java.util.ArrayList;
 
 public class ParticleManager {
     private static ArrayList<Particle> particles = new ArrayList<Particle>();
+
     public static void paint(Canvas canvas, Paint paint) {
-        for(int p=0;p<particles.size();p++){
-            particles.get(p).paint(canvas,paint);
+        for (int p = 0; p < particles.size(); p++) {
+            particles.get(p).paint(canvas, paint);
         }
-        for(int p=0;p<particles.size();p++) {
+        for (int p = 0; p < particles.size(); p++) {
             if (particles.get(p).isDone()) {
                 particles.remove(p);
                 p--;
@@ -27,5 +28,9 @@ public class ParticleManager {
 
     public static void clear() {
         particles.clear();
+    }
+
+    public static ArrayList<Particle> getParticles() {
+        return particles;
     }
 }

@@ -78,6 +78,7 @@ public class GamePanel extends SurfaceView implements Runnable{
     }
 
     public void pause() {
+        game.paused();
         playing = false;
         try {
             gameThread.join();
