@@ -22,10 +22,10 @@ import com.example.aidan.tilegameredo.SelectorScreen;
 
 public class truckParticle extends Particle{
 
-    private int targetSize,mode,height,width,x=-200,targetY,targetX;
+    private int targetSize,mode,height,width,x=-1000,targetY,targetX;
     private Context context;
     private Game parent;
-    private Bitmap truck;
+    private Bitmap truck,truckFull;
     public truckParticle(int tX, int tY, int tS, Context context,Game parent){
         super(tX,tY,1500);
         this.parent = parent;
@@ -36,40 +36,52 @@ public class truckParticle extends Particle{
         mode=1;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        truck = Bitmap.createScaledBitmap(ImageLoader.getTruck(context),100+targetSize,40+targetSize,false);
+        Bitmap tempTruck = ImageLoader.getTruck(context);
+        Bitmap tempTruckFull = ImageLoader.getTruckFull(context);
+        truck = Bitmap.createScaledBitmap(tempTruck,tempTruck.getWidth()/tempTruck.getHeight()*(2*targetSize),2*targetSize,false);
+        truckFull = Bitmap.createScaledBitmap(tempTruckFull,tempTruckFull.getWidth()/tempTruckFull.getHeight()*(2*targetSize),2*targetSize,false);
+
     }
     public void paint(Canvas canvas, Paint paint){
         super.setTime(super.getTime()-3000/parent.getFps());
         if(mode==1){
-            paint.setColor(Color.YELLOW);
-            canvas.drawBitmap(truck,x,targetY-20-targetSize/2,paint);
-            x+=700/parent.getFps();
-            if(Math.abs(x+(100+targetSize)/2 - targetX) <= 7){
+            paint.reset();
+            canvas.drawBitmap(truck,x,targetY-targetSize,paint);
+            x+=1400/parent.getFps();
+            if(Math.abs(x+truck.getWidth()/2 - targetX) <= 7){
                 mode=2;
                 super.setTime(300);
-                x=targetX-(100+targetSize)/2;
             }
         }
 
        if(mode ==2) {
-           paint.setColor(Color.YELLOW);
-           canvas.drawBitmap(truck,x,targetY-20-targetSize/2,paint);
+            paint.reset();
+           canvas.drawBitmap(truck,x,targetY-targetSize,paint);
            if (super.getTime() <= 0) {
                mode = 3;
+               super.setTime(300);
                parent.hideGoal();
+               ParticleManager.addParticle(new explosionParticle(targetX+15-(int)(truck.getWidth()*.3),targetY+15-truck.getHeight()/4));
            }
        }
+        if(mode == 3) {
+            paint.reset();
+            canvas.drawBitmap(truckFull,x,targetY-targetSize,paint);
+            if (super.getTime() <= 0) {
+                mode = 4;
+            }
+        }
 
-        if(mode==3){
-            paint.setColor(Color.YELLOW);
-            canvas.drawBitmap(truck,x,targetY-20-targetSize/2,paint);
-            x+=700/parent.getFps();
+        if(mode==4){
+            paint.reset();
+            canvas.drawBitmap(truckFull,x,targetY-targetSize,paint);
+            x+=1400/parent.getFps();
             paint.setColor(Color.BLACK);
-            paint.setAlpha((int)map(targetX,width+300,0,255,x+(100+targetSize)/2));
+            paint.setAlpha(Math.max(0,(int)map(targetX,width+500,0,255,x+truck.getWidth()/2)));
             canvas.drawRect(-10,-10,width,height,paint);
             paint.reset();
             if(x>width){
-                mode = 4;
+                mode = 5;
                 parent.saveStars();
                 Intent i = new Intent(context,EndScreen.class);
                 i.putExtra("stars",parent.getStars());
@@ -78,6 +90,7 @@ public class truckParticle extends Particle{
                 context.startActivity(i);
             }
         }
+
     }
 
     private double map(double start1,double stop1,double start2,double stop2,double value){
@@ -85,6 +98,6 @@ public class truckParticle extends Particle{
     }
     @Override
     public boolean isDone() {
-        return mode==4;
+        return mode==5;
     }
 }

@@ -15,7 +15,7 @@ public class ImageLoader {
             buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
             buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
-            buttonDownload,buttonNew,truck;
+            buttonDownload,buttonNew,truck,truckFull;
     private static ArrayList<Bitmap> clouds;
 ;
 
@@ -242,8 +242,14 @@ public class ImageLoader {
 
     public static Bitmap getTruck(Context context) {
         if (truck == null) {
-            truck = BitmapFactory.decodeResource(context.getResources(), R.drawable.truck);
+            truck = BitmapFactory.decodeResource(context.getResources(), R.drawable.smalltruckempty);
         }
         return truck;
+    }
+    public static Bitmap getTruckFull(Context context) {
+        if (truckFull == null) {
+            truckFull = BitmapFactory.decodeResource(context.getResources(), R.drawable.smalltruck);
+        }
+        return truckFull;
     }
 }
