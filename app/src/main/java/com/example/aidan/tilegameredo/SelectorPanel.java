@@ -7,9 +7,12 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class SelectorPanel extends SurfaceView implements Runnable{
     private  Boolean running;
     private Thread gameThread = null;
+    private ArrayList<int[]> touches = new ArrayList<int[]>();
 
     private SurfaceHolder surfaceHolder;
     private android.graphics.Canvas canvas;
@@ -40,6 +43,17 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     public void run() {
         while (running) {
             draw();
+            try {
+                if (touches != null) {
+                    for (int i = 0; i < touches.size(); i++) {
+                        levelSelector.touch(touches.get(i)[0], touches.get(i)[1], touches.get(i)[2]);
+                        //ATTEMP TO READ FROM A NULL ARRAY ERROR HERE
+                    }
+                    touches.clear();
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,14 +74,18 @@ public class SelectorPanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                levelSelector.touch(-1,-1,-1);
+                queueTouch(-1,-1,-1);
                 break;
             case MotionEvent.ACTION_DOWN:
-                levelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),1);
                 break;
             case MotionEvent.ACTION_MOVE:
-                levelSelector.touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
+                queueTouch((int)motionEvent.getRawX(),(int)motionEvent.getRawY(),0);
         }
         return true;
     }
+    private void queueTouch(int x, int y, int z){
+        touches.add(new int[]{x,y,z});
+    }
+
 }

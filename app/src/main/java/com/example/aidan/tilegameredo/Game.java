@@ -419,6 +419,20 @@ public class Game {
         }
     }
 }
+//Sounds for new truck
+//Give buttons icons
+//loading screen truck drifing in circles
+
+
+
+
+
+
+
+
+
+
+
 //MEMORY LEAK OR PHONE SUCKS- there are two instances of game and selector menu classes
 
 //crates dont make noise on bottem lvl 6

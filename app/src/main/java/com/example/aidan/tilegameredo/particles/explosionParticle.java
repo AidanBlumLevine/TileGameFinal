@@ -6,8 +6,10 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class explosionParticle extends Particle {
+    Random generator = new Random();
     private ArrayList<int[]> explosion = new ArrayList<>();
     public explosionParticle(int x,int y){
         super(x,y,0);
@@ -21,10 +23,15 @@ public class explosionParticle extends Particle {
         paint.setColor(Color.WHITE);
         for(int i=0;i<explosion.size();i++){
             if(explosion.get(i)[1]>0){
+//                if(randomSeeded(i)) {
+//                    paint.setColor(Color.WHITE);
+//                } else {
+//                    paint.setColor(Color.YELLOW);
+//                }
                 int x = (int)(Math.sin(i*12)*explosion.get(i)[0]);
                 int y = (int)(Math.cos(i*12)*explosion.get(i)[0]);
                 canvas.drawCircle(x + super.getX(), y + super.getY(), explosion.get(i)[1], paint);
-                explosion.get(i)[0]+=Math.random()*40;
+                explosion.get(i)[0]+=Math.random()*20;
                 explosion.get(i)[1]-=Math.random()*4;
             }
         }
@@ -39,5 +46,11 @@ public class explosionParticle extends Particle {
             }
         }
         return true;
+    }
+
+    boolean randomSeeded(long seed) {
+        generator.setSeed(seed);
+        boolean num = generator.nextBoolean();
+        return num;
     }
 }

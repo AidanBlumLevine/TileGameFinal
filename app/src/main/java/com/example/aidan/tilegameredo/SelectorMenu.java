@@ -9,7 +9,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 
+import java.util.ArrayList;
+
 class SelectorMenu {
+    private ArrayList<int[]> touches = new ArrayList<int[]>();
     private Rect popupArea,starArea,textArea,previewArea;
     private Bitmap preview;
     private Level level;
