@@ -15,7 +15,7 @@ import android.util.Log;
 import com.example.aidan.tilegameredo.EndScreen;
 import com.example.aidan.tilegameredo.Game;
 import com.example.aidan.tilegameredo.HomeScreen;
-import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Loader;
 import com.example.aidan.tilegameredo.ParticleManager;
 import com.example.aidan.tilegameredo.R;
 import com.example.aidan.tilegameredo.SelectorScreen;
@@ -36,8 +36,8 @@ public class truckParticle extends Particle{
         mode=1;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        Bitmap tempTruck = ImageLoader.getTruck(context);
-        Bitmap tempTruckFull = ImageLoader.getTruckFull(context);
+        Bitmap tempTruck = Loader.getTruck(context);
+        Bitmap tempTruckFull = Loader.getTruckFull(context);
         truck = Bitmap.createScaledBitmap(tempTruck,tempTruck.getWidth()/tempTruck.getHeight()*(2*targetSize),2*targetSize,false);
         truckFull = Bitmap.createScaledBitmap(tempTruckFull,tempTruckFull.getWidth()/tempTruckFull.getHeight()*(2*targetSize),2*targetSize,false);
 

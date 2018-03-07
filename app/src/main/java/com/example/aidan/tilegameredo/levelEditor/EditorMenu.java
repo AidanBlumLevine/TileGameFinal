@@ -21,7 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.aidan.tilegameredo.Button;
 import com.example.aidan.tilegameredo.HomeScreen;
-import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Loader;
 import com.example.aidan.tilegameredo.R;
 import com.example.aidan.tilegameredo.Tile;
 import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
@@ -59,11 +59,11 @@ public class EditorMenu {
         int leftRightBuffer = screenWidth / 18;
 
         boxSize = bottomSpaceHeight - topBottomBuffer * 3;
-        buttonTopBack = new Button(leftRightBuffer, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSave(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(leftRightBuffer, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
+        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(Loader.getButtonSave(context),boxSize,boxSize,false));
         int smallBoxSize = boxSize/2;
-        buttonSizeUp = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2,parent.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
-        buttonSizeDown = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(ImageLoader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeUp = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2,parent.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeDown = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
 
         box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
         crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
@@ -79,13 +79,13 @@ public class EditorMenu {
         spike3 = new Rect(6*buffer+5*tileSize+centeringBuffer,buffer,6*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
         spike4 = new Rect(6*buffer+5*tileSize+centeringBuffer,2*buffer+tileSize,6*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
 
-        boxImgRaw = ImageLoader.getBoxImage(context);
-        crateImgRaw = ImageLoader.getCrateImage(context);
-        doubleCrate1ImgRaw = ImageLoader.getDoubleCrate2Image(context);
-        doubleCrate2ImgRaw = ImageLoader.getDoubleCrateImage(context);
-        emptyCrateImgRaw = ImageLoader.getEmptyCrateImage(context);
-        spikeImgRaw = ImageLoader.getSpikeImage(context);
-        wallImgRaw = ImageLoader.getWallImage(context);
+        boxImgRaw = Loader.getBoxImage(context);
+        crateImgRaw = Loader.getCrateImage(context);
+        doubleCrate1ImgRaw = Loader.getDoubleCrate2Image(context);
+        doubleCrate2ImgRaw = Loader.getDoubleCrateImage(context);
+        emptyCrateImgRaw = Loader.getEmptyCrateImage(context);
+        spikeImgRaw = Loader.getSpikeImage(context);
+        wallImgRaw = Loader.getWallImage(context);
         boxImg = Bitmap.createScaledBitmap(boxImgRaw,box.width(),box.height(),false);
         crateImg = Bitmap.createScaledBitmap(crateImgRaw,crate.width(),crate.height(),false);
         doubleCrate1Img = Bitmap.createScaledBitmap(doubleCrate1ImgRaw,doubleCrate.width(),doubleCrate.height(),false);

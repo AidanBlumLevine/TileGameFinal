@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeScreen"
+            android:name=".LoadingScreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +45,9 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".EndScreen"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".HomeScreen"
             android:screenOrientation="portrait"></activity>
     </application>
 

@@ -72,7 +72,7 @@ public class Game {
 //        }
         canvas.drawColor(Color.argb(200,255,255,255));
         paint.setAlpha(80);
-        canvas.drawBitmap(ImageLoader.getBackground(context),-30,-50,paint);
+        canvas.drawBitmap(Loader.getBackground(context),-30,-50,paint);
 
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
@@ -422,9 +422,9 @@ public class Game {
 //Sounds for new truck
 //Give buttons icons
 //loading screen truck drifing in circles
-
-
-
+// make sure added and deleted levels get loaded
+//preview backround used to be on for popup only, fix that
+//somehow big preview was higher quality
 
 
 

@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.aidan.tilegameredo.Game;
-import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Loader;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class hitParticle extends Particle {
         this.parent = parent;
         this.angle = angle;
         for(int i=1;i<9;i++) {
-            clouds.add(Bitmap.createScaledBitmap(ImageLoader.getCloud(i,context),
+            clouds.add(Bitmap.createScaledBitmap(Loader.getCloud(i,context),
                     (int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),
                     (int)(parent.getPlayingField().width()/parent.getLevelWidth()*parent.getSizeMultiplier()),
                     false));

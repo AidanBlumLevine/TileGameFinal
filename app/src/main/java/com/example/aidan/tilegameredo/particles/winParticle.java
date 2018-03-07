@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.aidan.tilegameredo.Game;
-import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Loader;
 import com.example.aidan.tilegameredo.Tile;
 
 public class winParticle  extends Particle {
@@ -14,7 +14,7 @@ public class winParticle  extends Particle {
     public winParticle(int x, int y,Tile type,Game parent) {
         super(x, y, 360);
         this.parent = parent;
-        scaledTexture = Bitmap.createScaledBitmap(ImageLoader.getGlowCenter(parent.getContext()),type.getScaledTexture().getWidth(),type.getScaledTexture().getHeight(),false);
+        scaledTexture = Bitmap.createScaledBitmap(Loader.getGlowCenter(parent.getContext()),type.getScaledTexture().getWidth(),type.getScaledTexture().getHeight(),false);
     }
 
     public void update(){

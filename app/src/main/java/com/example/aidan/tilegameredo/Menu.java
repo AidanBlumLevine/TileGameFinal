@@ -37,18 +37,18 @@ public class Menu {
         int boxBuffer = 40;
         int boxSize = Math.min((width - boxBuffer*7)/4,topHeight/3);
 
-        buttonTopBack = new Button(width/2-3*boxBuffer/2-boxSize*2, boxBuffer, Bitmap.createScaledBitmap(ImageLoader.getButtonBack(context),boxSize,boxSize,false));
-        buttonMiddle = new Button(width/2-boxBuffer/2-boxSize, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonReset(context),boxSize,boxSize,false));
-        buttonTrash = new Button(width/2+boxBuffer/2, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonTrash(context),boxSize,boxSize,false));
-        buttonEdit = new Button(width/2+3*boxBuffer/2+boxSize, boxBuffer,Bitmap.createScaledBitmap(ImageLoader.getButtonEdit(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(width/2-3*boxBuffer/2-boxSize*2, boxBuffer, Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
+        buttonMiddle = new Button(width/2-boxBuffer/2-boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonReset(context),boxSize,boxSize,false));
+        buttonTrash = new Button(width/2+boxBuffer/2, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonTrash(context),boxSize,boxSize,false));
+        buttonEdit = new Button(width/2+3*boxBuffer/2+boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonEdit(context),boxSize,boxSize,false));
 
         int starCenterY = (topHeight-boxBuffer-boxSize)/2+boxBuffer+boxSize;
         starArea = new Rect(width/2-4*boxSize/3,starCenterY-boxSize/3,width/2+4*boxSize/3,starCenterY+boxSize/3);
 
-        goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
-        silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-        bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
-        emptyCrate = Bitmap.createScaledBitmap(ImageLoader.getEmptyStarCrate(context),starArea.height(),starArea.height(),false);
+        goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+        silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+        bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+        emptyCrate = Bitmap.createScaledBitmap(Loader.getEmptyStarCrate(context),starArea.height(),starArea.height(),false);
 
     }
 

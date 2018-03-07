@@ -17,8 +17,11 @@ public class LoadingScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_screen);
+        Log.e("LoadinigScreen","Launched");
         panel = new LoadingPanel(this);
         setContentView(panel);
+
     }
 
     @Override

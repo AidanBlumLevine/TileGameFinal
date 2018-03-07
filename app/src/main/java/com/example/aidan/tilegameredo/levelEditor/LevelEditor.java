@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.preference.PreferenceManager;
 
-import com.example.aidan.tilegameredo.ImageLoader;
+import com.example.aidan.tilegameredo.Loader;
 import com.example.aidan.tilegameredo.Level;
 import com.example.aidan.tilegameredo.LevelGenerator;
 import com.example.aidan.tilegameredo.Tile;
@@ -126,6 +126,7 @@ public class LevelEditor {
         editor.putString("customLevelNames",settings.getString("customLevelNames","")+name+",");
         editor.putString(name+"custom",levelString);
         editor.commit();
+        Loader.loadCustomLevels(context);
     }
 
     public void changeSize(int i) {
@@ -152,7 +153,7 @@ public class LevelEditor {
     public void draw(Canvas canvas, Paint paint,Context context) {
         canvas.drawColor(Color.WHITE);
         paint.setAlpha(80);
-        canvas.drawBitmap(ImageLoader.getBackground(context),-50,-30,paint);
+        canvas.drawBitmap(Loader.getBackground(context),-50,-30,paint);
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
         paint.reset();

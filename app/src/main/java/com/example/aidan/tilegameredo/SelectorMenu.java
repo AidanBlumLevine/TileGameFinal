@@ -33,7 +33,7 @@ class SelectorMenu {
         popupArea = new Rect(border,border,width-border,height-border);
 
         int buttonWidth =  (popupArea.width()-150)/2;
-        play = new Button(popupArea.centerX()-buttonWidth/2,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(ImageLoader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
+        play = new Button(popupArea.centerX()-buttonWidth/2,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(Loader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
 
         textArea = new Rect(popupArea.left+20,popupArea.top+100,popupArea.right-20,popupArea.top+260);
         Rect testRect = new Rect();
@@ -59,9 +59,9 @@ class SelectorMenu {
         int imageWidth = Math.min(previewArea.height(),popupArea.width()-100);
         this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
 
-        goldCrate = Bitmap.createScaledBitmap(ImageLoader.getGoldCrate(context),starArea.height(),starArea.height(),false);
-        silverCrate = Bitmap.createScaledBitmap(ImageLoader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-        bronzeCrate = Bitmap.createScaledBitmap(ImageLoader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+        goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
+        silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
+        bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
     }
 
     public void draw(Canvas canvas, Paint paint) {

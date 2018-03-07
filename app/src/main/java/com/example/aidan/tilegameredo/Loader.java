@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-public class ImageLoader {
+public class Loader {
     private static Bitmap glowCenter,background,
             boxImg,crateImg,wallImg,spikeImg,emptyCrateImg,
             doubleCrateImg,doubleCrateImg2,buttonReset,buttonRight,
@@ -17,7 +21,11 @@ public class ImageLoader {
             buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
             buttonDownload,buttonNew,truck,truckFull;
     private static ArrayList<Bitmap> clouds;
-;
+    private static ArrayList<Level> defaultLevels;
+    private static ArrayList<Bitmap> defaultPreviews = new ArrayList<>();
+    private static ArrayList<Level> customLevels;
+    private static ArrayList<Bitmap> customPreviews = new ArrayList<>();
+
 
     public static Bitmap getGlowCenter(Context context) {
         if(glowCenter == null){
@@ -251,5 +259,78 @@ public class ImageLoader {
             truckFull = BitmapFactory.decodeResource(context.getResources(), R.drawable.smalltruck);
         }
         return truckFull;
+    }
+
+    public static void loadDefaultLevels(Context context) {
+        defaultLevels = LevelGenerator.getAllLevels("default",context);
+        defaultPreviews.clear();
+        //listArea = new Rect(edgeBuffer,tabHeight+(int)(edgeBuffer*1.5),screenWidth-edgeBuffer,screenHeight-edgeBuffer); ===== THIS IS WHERE SCREENWIDTH-2*edgebuffer comes from
+        //int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
+        int edgeBuffer = 20;
+        int levelHeight = 200;
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
+        for(int i=0;i<defaultLevels.size();i++){
+            defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),false,context),imageSize,imageSize,false));
+        }
+    }
+
+    public static void loadCustomLevels(Context context) {
+        customLevels = LevelGenerator.getAllLevels("custom",context);
+        customPreviews.clear();
+        int edgeBuffer = 20;
+        int levelHeight = 200;
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
+        for(int i=0;i<customLevels.size();i++){
+            customPreviews.add(Bitmap.createScaledBitmap(preview(customLevels.get(i),false,context),imageSize,imageSize,false));
+        }
+    }
+
+    public static Bitmap preview(Level level,Boolean background,Context context){
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
+        Canvas canvas = new Canvas(preview);
+        String tiles = level.toString().split("\\|")[4];
+        Paint p = new Paint();
+        if(background) {
+            canvas.drawColor(Color.argb(100, 220, 220, 220));
+        }
+        int tileSize = 29;
+        for(int i=0;i<tiles.split(":").length;i++){
+            if (tiles.split(":")[i].split(",")[0].equals("box"))
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("crate"))
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("emptyCrate"))
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getEmptyCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("wall"))
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1)
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context),tileSize*2,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2)
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+            if (tiles.split(":")[i].split(",")[0].equals("spike")) {
+                canvas.save();
+                canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3])-1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) + 15);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.restore();
+            }
+        }
+        return preview;
+    }
+
+    public static ArrayList<Bitmap> getDefaultPreviews() {
+        return defaultPreviews;
+    }
+    public static ArrayList<Bitmap> getCustomPreviews() {
+        return customPreviews;
+    }
+
+    public static ArrayList<Level> getDefaultLevels() {
+        return defaultLevels;
+    }
+    public static ArrayList<Level> getCustomLevels() {
+        return customLevels;
     }
 }
