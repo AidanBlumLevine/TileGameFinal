@@ -70,6 +70,13 @@ public class LevelSelector {
         canvas.save();
         canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
+            //Attempt to invoke virtual method 'int java.util.ArrayList.size()' on a null object reference======================================================================================
+
+
+
+
+
+
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
                 Rect thisLevel;

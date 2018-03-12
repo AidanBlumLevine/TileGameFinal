@@ -53,6 +53,7 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
                 ((Activity)context).overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
+
             }
         }).start();
         while(loading){
@@ -69,18 +70,20 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
             canvas.rotate((float)angle,width/2,height/2);
             canvas.drawBitmap(truck,width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,paint);
             angle+=3;
-            particles.add(new driftParticle(width/2-truck.getWidth(),height/2-truck.getHeight(),(int)(Math.random()*30),(int)(Math.random()*10)));
-            Log.e(particles.size()+"",particles.size()+"");
             canvas.restore();
-            canvas.drawBitmap(crate,(width-crate.getWidth())/2,(height-crate.getHeight())/2,paint);
+            int trueTruckX =
+            int tureTruckY =
+            particles.add(new driftParticle(width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,(int)(Math.random()*30),(int)(Math.random()*10),angle));
+            Log.e(particles.size()+"",particles.size()+"");
             for(int i=0;i<particles.size();i++){
-                if(particles.get(i).getSize()>0){
+                if(particles.get(i).getSize()<0){
                     particles.remove(i);
                     i--;
                 } else {
                     particles.get(i).draw(canvas,paint);
                 }
             }
+            canvas.drawBitmap(crate,(width-crate.getWidth())/2,(height-crate.getHeight())/2,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
