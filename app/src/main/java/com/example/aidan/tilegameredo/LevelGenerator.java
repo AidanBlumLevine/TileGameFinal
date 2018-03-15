@@ -116,32 +116,32 @@ public class LevelGenerator {
                         int x = Integer.valueOf(text.split(",")[0].trim());
                         int y = Integer.valueOf(text.split(",")[1].trim());
                         for(int i=0;i<x;i++){
-                            level += "wall,"+30*i+","+0+":";
+                            level += "wall,"+i+","+0+":";
                         }
                         for(int i=0;i<x;i++){
-                            level += "wall,"+30*i+","+30*(y-1)+":";
+                            level += "wall,"+i+","+(y-1)+":";
                         }
                         for(int i=1;i<y-1;i++){
-                            level += "wall,"+0+","+30*i+":";
+                            level += "wall,"+0+","+i+":";
                         }
                         for(int i=1;i<y-1;i++) {
-                            level += "wall," + 30 * (x - 1) + "," + 30 * i + ":";
+                            level += "wall," + (x - 1) + "," + i + ":";
                         }
                     } else if(tagname.equalsIgnoreCase("tile") && correctLevel){
                         if(type.equalsIgnoreCase("Wall")) {
-                            level += "wall,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
+                            level += "wall,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+":";
                         } else if(type.equalsIgnoreCase("Crate")){
-                            level += "crate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
+                            level += "crate,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+":";
                         } else if(type.equalsIgnoreCase("EmptyCrate")){
-                            level += "emptyCrate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
+                            level += "emptyCrate,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+":";
                         } else if(type.equalsIgnoreCase("Box")){
-                            level += "box,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+":";
+                            level += "box,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+":";
 
                         } else if(type.equalsIgnoreCase("DoubleCrate")){
-                            level += "doubleCrate,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+","+position.trim()+":";
+                            level += "doubleCrate,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+","+position.trim()+":";
 
                         } else if(type.equalsIgnoreCase("Spike")){
-                            level += "spike,"+Integer.valueOf(posX)*30+","+Integer.valueOf(posY)*30+","+position.trim()+":";
+                            level += "spike,"+Integer.valueOf(posX)+","+Integer.valueOf(posY)+","+position.trim()+":";
 
                         }
                     }

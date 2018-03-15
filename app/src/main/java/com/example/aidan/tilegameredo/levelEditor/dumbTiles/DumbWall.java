@@ -17,7 +17,7 @@ public class DumbWall extends Tile {
 
     }
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,paint);
     }
     @Override
     public void pushLeft() {

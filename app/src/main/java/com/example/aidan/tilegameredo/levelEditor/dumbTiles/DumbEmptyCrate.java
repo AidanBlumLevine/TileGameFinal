@@ -39,7 +39,7 @@ public class DumbEmptyCrate extends Tile {
     }
 
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,(int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,(int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
+        canvas.drawBitmap(scaledTexture,(int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left,(int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,paint);
     }
     public void update(){
     }

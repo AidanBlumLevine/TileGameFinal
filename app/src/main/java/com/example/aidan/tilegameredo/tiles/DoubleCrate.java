@@ -58,134 +58,134 @@ public class DoubleCrate extends Tile {
 
     @Override
     public void paint(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(scaledTexture,(int)oldX * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (int)oldY * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, paint);
+        canvas.drawBitmap(scaledTexture,(int)(oldX * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left), (int)(oldY * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top), paint);
     }
 
     public void update(){
         if(oldX<super.getX()){
-            oldX+=1000/parent.getFps()*acceleration;
+            oldX+=33.3/parent.getFps()*acceleration;
         }
         if(oldX>super.getX()){
-            oldX-=1000/parent.getFps()*acceleration;
+            oldX-=33.3/parent.getFps()*acceleration;
         }
         if(oldY<super.getY()){
-            oldY+=1000/parent.getFps()*acceleration;
+            oldY+=33.3/parent.getFps()*acceleration;
         }
         if(oldY>super.getY()){
-            oldY-=1000/parent.getFps()*acceleration;
+            oldY-=33.3/parent.getFps()*acceleration;
         }
         if(inMotion){
             acceleration+=.2;
         }
-        if(position==1 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX+30, (int)oldY))){
+        if(position==1 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX+1, (int)oldY))){
             if(!dead){
-                dissolveParticle p = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
-                dissolveParticle p2 = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
+                dissolveParticle p = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
+                dissolveParticle p2 = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
             }
             dead=true;
         }
-        if(position==2 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX, (int)oldY+30))){
+        if(position==2 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX, (int)oldY+1))){
             if(!dead){
                 Log.e("s",(int)oldX+","+ (int)oldY);
-                dissolveParticle p = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
-                dissolveParticle p2 = new dissolveParticle((int)oldX*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (int)oldY*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,this,parent);
+                dissolveParticle p = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
+                dissolveParticle p2 = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
             }
             dead=true;
         }
 
-        if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration && oldY!=super.getY() && inMotion ){
+        if(Math.abs(oldY-super.getY())<=33.3/parent.getFps()*acceleration && oldY!=super.getY() && inMotion ){
             if(position==2){
                 if(parent.isTile(super.getX(), super.getY()+60, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, (super.getY()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, (super.getY()+1)*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,2,parent,context);
                     parent.addSound("hit");
                 } else if(parent.isSolidTile(super.getX(), super.getY()+60) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
-                if(parent.isTile(super.getX(), super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
+                if(parent.isTile(super.getX(), super.getY()-1, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,4,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX(), super.getY()-30) && oldY!=super.getY() && inMotion){
+                }else if(parent.isSolidTile(super.getX(), super.getY()-1) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
             }
             if(position==1){
-                if(parent.isTile(super.getX(), super.getY()+30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
+                if(parent.isTile(super.getX(), super.getY()+1, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,2,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX(), super.getY()+30) && oldY!=super.getY() && inMotion){
+                }else if(parent.isSolidTile(super.getX(), super.getY()+1) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
-                if(parent.isTile(super.getX()+30, super.getY()+30, Wall.class)){
-                    hitParticle p = new hitParticle((super.getX()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,2,parent,context);
+                if(parent.isTile(super.getX()+1, super.getY()+1, Wall.class)){
+                    hitParticle p = new hitParticle((super.getX()+1)*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,2,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()+30, super.getY()+30) && oldY!=super.getY() && inMotion){
+                }else if(parent.isSolidTile(super.getX()+1, super.getY()+1) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
 
-                if(parent.isTile(super.getX(), super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
+                if(parent.isTile(super.getX(), super.getY()-1, Wall.class)){
+                    hitParticle p = new hitParticle(super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,4,parent,context);
                     parent.addSound("hit");
-                } else if(parent.isSolidTile(super.getX(), super.getY()-30) && oldY!=super.getY() && inMotion){
+                } else if(parent.isSolidTile(super.getX(), super.getY()-1) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
-                if(parent.isTile(super.getX()+30, super.getY()-30, Wall.class)){
-                    hitParticle p = new hitParticle((super.getX()+30)*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,4,parent,context);
+                if(parent.isTile(super.getX()+1, super.getY()-1, Wall.class)){
+                    hitParticle p = new hitParticle((super.getX()+1)*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left, super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,4,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()+30, super.getY()-30) && oldY!=super.getY() && inMotion){
+                }else if(parent.isSolidTile(super.getX()+1, super.getY()-1) && oldY!=super.getY() && inMotion){
                     parent.addSound("hit");
                 }
             }
         }
-        if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration && oldX!=super.getX() && inMotion ){
+        if(Math.abs(oldX-super.getX())<=33.3/parent.getFps()*acceleration && oldX!=super.getX() && inMotion ){
             if(position==1) {
                 if (parent.isTile(super.getX() + 60, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle((super.getX()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
+                    hitParticle p = new hitParticle((super.getX()+1) * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 1,parent,context);
                     parent.addSound("hit");
                 }else if(parent.isSolidTile(super.getX()+60, super.getY()) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
-                if (parent.isTile(super.getX() - 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
+                if (parent.isTile(super.getX() - 1, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 3,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()-30, super.getY()) && oldX!=super.getX() && inMotion){
+                }else if(parent.isSolidTile(super.getX()-1, super.getY()) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
             }
             if(position==2) {
-                if (parent.isTile(super.getX() + 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
+                if (parent.isTile(super.getX() + 1, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 1,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()+30, super.getY()) && oldX!=super.getX() && inMotion){
+                }else if(parent.isSolidTile(super.getX()+1, super.getY()) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
-                if (parent.isTile(super.getX() + 30, super.getY()+30, Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (super.getY()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 1,parent,context);
+                if (parent.isTile(super.getX() + 1, super.getY()+1, Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, (super.getY()+1) * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 1,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()+30, super.getY()+30) && oldX!=super.getX() && inMotion){
+                }else if(parent.isSolidTile(super.getX()+1, super.getY()+1) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
 
-                if (parent.isTile(super.getX() - 30, super.getY(), Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
+                if (parent.isTile(super.getX() - 1, super.getY(), Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, super.getY() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 3,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()-30, super.getY()) && oldX!=super.getX() && inMotion){
+                }else if(parent.isSolidTile(super.getX()-1, super.getY()) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
-                if (parent.isTile(super.getX() - 30, super.getY()+30, Wall.class)) {
-                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().left, (super.getY()+30) * parent.getPlayingField().height() / parent.getLevelWidth() / 30 + parent.getPlayingField().top, 3,parent,context);
+                if (parent.isTile(super.getX() - 1, super.getY()+1, Wall.class)) {
+                    hitParticle p = new hitParticle(super.getX() * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left, (super.getY()+1) * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top, 3,parent,context);
                     parent.addSound("hit");
-                }else if(parent.isSolidTile(super.getX()-30, super.getY()+30) && oldX!=super.getX() && inMotion){
+                }else if(parent.isSolidTile(super.getX()-1, super.getY()+1) && oldX!=super.getX() && inMotion){
                     parent.addSound("hit");
                 }
             }
         }
-        if(Math.abs(oldY-super.getY())<=1001/parent.getFps()*acceleration){
+        if(Math.abs(oldY-super.getY())<=33.3/parent.getFps()*acceleration){
             if(oldY!=super.getY() && inMotion && !dead){
                 inMotion=false;
             }
             oldY=super.getY();
         }
-        if(Math.abs(oldX-super.getX())<=1001/parent.getFps()*acceleration){
+        if(Math.abs(oldX-super.getX())<=33.3/parent.getFps()*acceleration){
             if(oldX!=super.getX() && inMotion && !dead){
                 inMotion=false;
             }
@@ -199,15 +199,15 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!parent.isSolidTile(super.getX()-i*30,super.getY())){
+            while(!parent.isSolidTile(super.getX()-i,super.getY())){
                 i++;
             }
         } else {
-            while(!parent.isSolidTile(super.getX()-i*30,super.getY()) && !parent.isSolidTile(super.getX()-i*30,super.getY()+30)){
+            while(!parent.isSolidTile(super.getX()-i,super.getY()) && !parent.isSolidTile(super.getX()-i,super.getY()+1)){
                 i++;
             }
         }
-        super.setX(super.getX()-(i-1)*30);
+        super.setX(super.getX()-(i-1));
         inMotion=true;
         acceleration = 1;
     }
@@ -218,15 +218,15 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!parent.isSolidTile(super.getX()+i*30+30,super.getY())){
+            while(!parent.isSolidTile(super.getX()+i+1,super.getY())){
                 i++;
             }
         } else {
-            while(!parent.isSolidTile(super.getX()+i*30,super.getY()) && !parent.isSolidTile(super.getX()+i*30,super.getY()+30)){
+            while(!parent.isSolidTile(super.getX()+i,super.getY()) && !parent.isSolidTile(super.getX()+i,super.getY()+1)){
                 i++;
             }
         }
-        super.setX(super.getX()+(i-1)*30);
+        super.setX(super.getX()+(i-1));
         inMotion=true;
         acceleration = 1;
     }
@@ -237,15 +237,15 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!parent.isSolidTile(super.getX(),super.getY()-i*30) && !parent.isSolidTile(super.getX()+30,super.getY()-i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()-i) && !parent.isSolidTile(super.getX()+1,super.getY()-i)){
                 i++;
             }
         } else {
-            while(!parent.isSolidTile(super.getX(),super.getY()-i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()-i)){
                 i++;
             }
         }
-        super.setY(super.getY()-(i-1)*30);
+        super.setY(super.getY()-(i-1));
         inMotion=true;
         acceleration = 1;
     }
@@ -256,15 +256,15 @@ public class DoubleCrate extends Tile {
         oldY=super.getY();
         int i=1;
         if(position == 1){
-            while(!parent.isSolidTile(super.getX(),super.getY()+i*30) && !parent.isSolidTile(super.getX()+30,super.getY()+i*30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()+i) && !parent.isSolidTile(super.getX()+1,super.getY()+i)){
                 i++;
             }
         } else {
-            while(!parent.isSolidTile(super.getX(),super.getY()+i*30+30)){
+            while(!parent.isSolidTile(super.getX(),super.getY()+i+1)){
                 i++;
             }
         }
-        super.setY(super.getY()+(i-1)*30);
+        super.setY(super.getY()+(i-1));
         inMotion=true;
         acceleration = 1;
     }

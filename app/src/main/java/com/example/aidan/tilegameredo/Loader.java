@@ -299,21 +299,21 @@ public class Loader {
         int tileSize = 29;
         for(int i=0;i<tiles.split(":").length;i++){
             if (tiles.split(":")[i].split(",")[0].equals("box"))
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("crate"))
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("emptyCrate"))
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getEmptyCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getEmptyCrateImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("wall"))
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context),tileSize,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1)
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context),tileSize*2,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context),tileSize*2,tileSize,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2)
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context),tileSize,tileSize*2,false),Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
             if (tiles.split(":")[i].split(",")[0].equals("spike")) {
                 canvas.save();
-                canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3])-1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) + 15);
-                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]), Integer.valueOf(tiles.split(":")[i].split(",")[2]), p);
+                canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3])-1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1])*30 + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30 + 15);
+                canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1])*30, Integer.valueOf(tiles.split(":")[i].split(",")[2])*30, p);
                 canvas.restore();
             }
         }

@@ -63,9 +63,6 @@ public class GamePanel extends SurfaceView implements Runnable{
                 swipes.clear();
                 draw();
                 game.update();
-                if(System.nanoTime()-lastTime>100000000) {
-                    Log.e("dfg",  "LONG");
-                }
                 lastTime = System.nanoTime();
             }
         }

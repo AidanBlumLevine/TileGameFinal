@@ -71,8 +71,6 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
             canvas.drawBitmap(truck,width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,paint);
             angle+=3;
             canvas.restore();
-            int trueTruckX =
-            int tureTruckY =
             particles.add(new driftParticle(width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,(int)(Math.random()*30),(int)(Math.random()*10),angle));
             Log.e(particles.size()+"",particles.size()+"");
             for(int i=0;i<particles.size();i++){

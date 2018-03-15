@@ -24,9 +24,9 @@ public class Spike extends Tile {
     }
     public void paint(Canvas canvas, Paint paint){
         canvas.save();
-        canvas.rotate((direction-1)*90,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2,
-                (super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2));
-        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()/30+parent.getPlayingField().top,paint);
+        canvas.rotate((direction-1)*90,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2,
+                (super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2));
+        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,paint);
         canvas.restore();
     }
 
