@@ -177,7 +177,7 @@ public class LevelSelector {
                     }
                     if (thisLevel.contains(oldX, oldY) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
-                        popup = new SelectorMenu(selectedLevel,Loader.preview(levels.get(i),true,context),this,context);
+                        popup = new SelectorMenu(selectedLevel,Loader.preview(levels.get(i),true,false,context),this,context);
                     }
                 }
             }
