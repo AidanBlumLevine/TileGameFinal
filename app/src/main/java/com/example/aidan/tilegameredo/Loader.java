@@ -269,7 +269,7 @@ public class Loader {
         int edgeBuffer = 20;
         int levelHeight = 200;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
+        int imageSize = (screenWidth-6*edgeBuffer)/3;
         for(int i=0;i<defaultLevels.size();i++){
             defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),false,true,context),imageSize,imageSize,false));
         }

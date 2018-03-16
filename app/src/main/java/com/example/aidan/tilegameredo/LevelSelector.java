@@ -29,7 +29,7 @@ public class LevelSelector {
     private  Context context;
     private SelectorMenu popup = null;
 
-    private  final int levelHeight = 200;
+    private int levelHeight = 200;
     private  final int levelBuffer = 20;
 
     public LevelSelector(Context context) {
@@ -54,6 +54,7 @@ public class LevelSelector {
         maxLevel = settings.getInt("maxLevel",1);
 
         previews = Loader.getDefaultPreviews();
+        levelHeight = previews.get(0).getHeight();
     }
 
     public  void draw(Canvas canvas, Paint paint) {
@@ -106,10 +107,11 @@ public class LevelSelector {
                     paint.setColor(Color.LTGRAY);
                     canvas.drawRect(thisLevel,paint);
                 } else {
-                    paint.setColor(Color.WHITE);
+                    //paint.setColor(Color.WHITE);
                     //canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
                     //canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
-                    canvas.drawRect(thisLevel,paint);
+                    //canvas.drawRect(thisLevel,paint);
+                    paint.reset();
                     try {canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
                     }catch (Exception e){}
                 }
@@ -120,8 +122,8 @@ public class LevelSelector {
                 int xPos = (thisLevel.left+thisLevel.width() / 2);
                 int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
 
-                paint.setColor(Color.argb(100,200,200,200));
-                canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.right,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
+                //paint.setColor(Color.argb(100,200,200,200));
+                //canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.right,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
 
                 paint.setColor(Color.argb(200,0,0,0));
                 canvas.drawText(levelName, xPos, yPos, paint);
