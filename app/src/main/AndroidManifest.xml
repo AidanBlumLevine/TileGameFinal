@@ -42,7 +42,8 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SelectorScreen"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"></activity>
         <activity
             android:name=".EndScreen"
             android:screenOrientation="portrait"></activity>

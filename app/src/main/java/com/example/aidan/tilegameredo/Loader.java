@@ -271,7 +271,7 @@ public class Loader {
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
         for(int i=0;i<defaultLevels.size();i++){
-            defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),false,true,context),imageSize,imageSize,false));
+            defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),true,context),imageSize,imageSize,false));
         }
     }
 
@@ -283,21 +283,18 @@ public class Loader {
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         //int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/7,7*levelHeight/8);
         int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
-        Log.e("IMAGESIZE",""+imageSize);
         for(int i=0;i<customLevels.size();i++){
-            customPreviews.add(Bitmap.createScaledBitmap(preview(customLevels.get(i),false,true,context),imageSize,imageSize,false));
+            customPreviews.add(Bitmap.createScaledBitmap(preview(customLevels.get(i),true,context),imageSize,imageSize,false));
         }
     }
 
-    public static Bitmap preview(Level level,Boolean background,Boolean small,Context context){
+    public static Bitmap preview(Level level,Boolean small,Context context){
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
         Canvas canvas = new Canvas(preview);
         String tiles = level.toString().split("\\|")[4];
         Paint p = new Paint();
-        if(background) {
-            canvas.drawColor(Color.argb(100, 220, 220, 220));
-        }
+        canvas.drawColor(Color.WHITE);
         int tileSize = 29;
         if(small){
             tileSize++;
@@ -305,7 +302,7 @@ public class Loader {
         for(int i=0;i<tiles.split(":").length;i++){
             if (tiles.split(":")[i].split(",")[0].equals("box")){
                 if(small){
-                    p.setColor(Color.YELLOW);
+                    p.setColor(Color.rgb(255,182,72));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
@@ -313,7 +310,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("crate")) {
                 if (small) {
-                    p.setColor(Color.rgb(165, 42, 42));
+                    p.setColor(Color.rgb(65, 99, 135));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
@@ -321,7 +318,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("emptyCrate")) {
                 if (small) {
-                    p.setColor(Color.argb(100,165, 42, 42));
+                    p.setColor(Color.rgb(255, 100, 72));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                     p.reset();
                 } else {
@@ -330,7 +327,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("wall")) {
                 if(small){
-                    p.setColor(Color.LTGRAY);
+                    p.setColor(Color.rgb(186,186,186));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
@@ -338,7 +335,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1) {
                 if(small){
-                    p.setColor(Color.rgb(165, 42, 42));
+                    p.setColor(Color.rgb(65, 99, 135));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize*2,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context), tileSize * 2, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
@@ -346,7 +343,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2) {
                 if(small){
-                    p.setColor(Color.rgb(165, 42, 42));
+                    p.setColor(Color.rgb(65, 99, 135));
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize*2,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context), tileSize, tileSize * 2, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
@@ -362,6 +359,13 @@ public class Loader {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
                     canvas.restore();
                 }
+            }
+            p.setColor(Color.argb(50,134,134,134));
+            for(int x=0;x<level.getWidth();x++){
+                canvas.drawLine(x*30,0,x*30,level.getWidth()*30,p);
+            }
+            for(int y=0;y<level.getWidth();y++){
+                canvas.drawLine(0,y*30,level.getWidth()*30,y*30,p);
             }
         }
         return preview;

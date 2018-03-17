@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -62,10 +63,10 @@ public class LevelSelector {
         paint.setAlpha(80);
         canvas.drawBitmap(Loader.getBackground(context),-30,-50,paint);
 
-        paint.setARGB(50,0,0,0);
-        canvas.drawRect(edgeBuffer,edgeBuffer*2+(screenHeight/12-10),screenWidth-edgeBuffer,screenHeight-edgeBuffer,paint);
-        paint.setARGB(100,0,0,0);
-        canvas.drawRect(edgeBuffer/2,edgeBuffer/2,screenWidth-edgeBuffer/2,edgeBuffer*2+(screenHeight/12-10)-edgeBuffer/2,paint);
+        //paint.setARGB(50,0,0,0);
+        //canvas.drawRect(edgeBuffer,edgeBuffer*2+(screenHeight/12-10),screenWidth-edgeBuffer,screenHeight-edgeBuffer,paint);
+        //paint.setARGB(100,0,0,0);
+        //canvas.drawRect(edgeBuffer/2,edgeBuffer/2,screenWidth-edgeBuffer/2,edgeBuffer*2+(screenHeight/12-10)-edgeBuffer/2,paint);
         paint.reset();
 
         canvas.save();
@@ -74,6 +75,7 @@ public class LevelSelector {
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
                 Rect thisLevel;
+                paint.setAntiAlias(true);
 
                 int levelWidth = (listArea.width()-4*edgeBuffer)/3;
                 if(i%3==0){
@@ -83,11 +85,14 @@ public class LevelSelector {
                 } else {
                     thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
                 }
-                paint.setColor(Color.rgb(65,99,135));
                 if(levels.get(i).getStars()==3){
                     paint.setColor(Color.rgb(255,182,72));
+                } else {
+                    paint.setColor(Color.rgb(65,99,135));
                 }
+                paint.setMaskFilter(new BlurMaskFilter(1, BlurMaskFilter.Blur.NORMAL));
                 canvas.drawRect(thisLevel,paint);
+
                 if(levels.get(i).getStars()==3) {
                     paint.setColor(Color.rgb(75, 75, 75));
                 } else {
@@ -95,7 +100,8 @@ public class LevelSelector {
                 }
                 int iWidth = previews.get(0).getWidth();
                 canvas.drawRect(thisLevel.centerX()-iWidth/2-5,thisLevel.top + iWidth/8-5,thisLevel.centerX()+iWidth/2+5,thisLevel.top + 9*iWidth/8+5,paint);
-
+                paint.reset();
+                paint.setAntiAlias(true);
 
                 String levelName = levels.get(i).getName();
                 if(tab.equals("custom")){
@@ -112,16 +118,21 @@ public class LevelSelector {
                 }
 
                 paint.reset();
+                paint.setAntiAlias(true);
                 canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.top + previews.get(i).getHeight()/8, paint);
 
                 paint.setTextAlign(Paint.Align.LEFT);
                 paint.setTextSize(48);
                 paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                int xPos = (thisLevel.left+(thisLevel.height()-thisLevel.width())/2);
+                int xPos = (thisLevel.left+thisLevel.width()/8);
                 int yPos = (int) (thisLevel.top+9*iWidth/8+(thisLevel.height()-9*iWidth/8)/2 - ((paint.descent() + paint.ascent()) / 2) + 2) ;
                 // THe +2 is from the thin border
 
-                paint.setColor(Color.WHITE);
+                if(levels.get(i).getStars()==3) {
+                    paint.setColor(Color.rgb(75, 75, 75));
+                } else {
+                    paint.setColor(Color.WHITE);
+                }
                 canvas.drawText(levelName, xPos, yPos, paint);
 
                 if(tab.equals("default")){
@@ -135,9 +146,10 @@ public class LevelSelector {
                         } else {
                             paint.setColor(Color.rgb(50,74,99));
                         }
-                        canvas.drawCircle(x, starArea.centerY(), 20, paint);
+                        canvas.drawCircle(x, starArea.centerY(), starArea.height()/5, paint);
                     }
                 }
+                paint.setAntiAlias(false);
 
                 if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.argb(200,0,0,0));
@@ -195,7 +207,7 @@ public class LevelSelector {
                     }
                     if (thisLevel.contains(oldX, oldY) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
                         selectedLevel = levels.get(i);
-                        popup = new SelectorMenu(selectedLevel,Loader.preview(levels.get(i),true,false,context),this,context);
+                        popup = new SelectorMenu(selectedLevel,Loader.preview(levels.get(i),false,context),this,context);
                     }
                 }
             }
