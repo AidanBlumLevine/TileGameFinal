@@ -269,7 +269,7 @@ public class Loader {
         int edgeBuffer = 20;
         int levelHeight = 200;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int imageSize = (screenWidth-6*edgeBuffer)/3;
+        int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
         for(int i=0;i<defaultLevels.size();i++){
             defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),false,true,context),imageSize,imageSize,false));
         }
@@ -281,7 +281,8 @@ public class Loader {
         int edgeBuffer = 20;
         int levelHeight = 200;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
+        //int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/7,7*levelHeight/8);
+        int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
         Log.e("IMAGESIZE",""+imageSize);
         for(int i=0;i<customLevels.size();i++){
             customPreviews.add(Bitmap.createScaledBitmap(preview(customLevels.get(i),false,true,context),imageSize,imageSize,false));
@@ -329,7 +330,7 @@ public class Loader {
             }
             if (tiles.split(":")[i].split(",")[0].equals("wall")) {
                 if(small){
-                    p.setColor(Color.DKGRAY);
+                    p.setColor(Color.LTGRAY);
                     canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
                 } else {
                     canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);

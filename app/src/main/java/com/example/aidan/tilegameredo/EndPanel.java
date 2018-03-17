@@ -56,6 +56,7 @@ public class EndPanel extends SurfaceView implements Runnable{
             gameThread.join();
         } catch (Exception e) {}
         ParticleManager.clear();
+        Loader.loadDefaultLevels(getContext());
     }
 
     @Override

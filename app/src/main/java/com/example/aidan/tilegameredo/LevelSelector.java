@@ -29,7 +29,7 @@ public class LevelSelector {
     private  Context context;
     private SelectorMenu popup = null;
 
-    private int levelHeight = 200;
+    private int levelHeight = 250;
     private  final int levelBuffer = 20;
 
     public LevelSelector(Context context) {
@@ -54,7 +54,7 @@ public class LevelSelector {
         maxLevel = settings.getInt("maxLevel",1);
 
         previews = Loader.getDefaultPreviews();
-        levelHeight = previews.get(0).getHeight();
+        levelHeight = (int)(6*previews.get(0).getHeight()/4);
     }
 
     public  void draw(Canvas canvas, Paint paint) {
@@ -71,13 +71,6 @@ public class LevelSelector {
         canvas.save();
         canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
-            //Attempt to invoke virtual method 'int java.util.ArrayList.size()' on a null object reference======================================================================================
-
-
-
-
-
-
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
             if(yPosition<screenHeight) {
                 Rect thisLevel;
@@ -90,43 +83,66 @@ public class LevelSelector {
                 } else {
                     thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
                 }
+                paint.setColor(Color.rgb(65,99,135));
+                if(levels.get(i).getStars()==3){
+                    paint.setColor(Color.rgb(255,182,72));
+                }
+                canvas.drawRect(thisLevel,paint);
+                if(levels.get(i).getStars()==3) {
+                    paint.setColor(Color.rgb(75, 75, 75));
+                } else {
+                    paint.setColor(Color.rgb(50, 74, 99));
+                }
+                int iWidth = previews.get(0).getWidth();
+                canvas.drawRect(thisLevel.centerX()-iWidth/2-5,thisLevel.top + iWidth/8-5,thisLevel.centerX()+iWidth/2+5,thisLevel.top + 9*iWidth/8+5,paint);
+
+
                 String levelName = levels.get(i).getName();
                 if(tab.equals("custom")){
                     levelName = levelName.substring(0,levelName.length()-6);
                 }
                 Rect nameBounds = new Rect();
                 paint.getTextBounds(levelName,0,levelName.length(),nameBounds);
-                if(nameBounds.width()+50>thisLevel.width()){
-                    while(nameBounds.width()+50>thisLevel.width()){
+                if(nameBounds.width()+100>thisLevel.width()){
+                    while(nameBounds.width()+100>thisLevel.width()){
                         levelName = levelName.substring(0,levelName.length()-1);
                         paint.getTextBounds(levelName+"...",0,levelName.length()+1,nameBounds);
                     }
                     levelName = levelName+"...";
                 }
-                if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
-                    paint.setColor(Color.LTGRAY);
-                    canvas.drawRect(thisLevel,paint);
-                } else {
-                    //paint.setColor(Color.WHITE);
-                    //canvas.drawRect(thisLevel.left,thisLevel.top+thisLevel.height()/10,thisLevel.right,thisLevel.bottom-thisLevel.height()/10,paint);
-                    //canvas.drawRect(thisLevel.left+thisLevel.height()/10,thisLevel.top,thisLevel.right-thisLevel.height()/10,thisLevel.bottom,paint);
-                    //canvas.drawRect(thisLevel,paint);
-                    paint.reset();
-                    try {canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.centerY() - previews.get(i).getHeight()/2, paint);
-                    }catch (Exception e){}
-                }
 
-                paint.setTextAlign(Paint.Align.CENTER);
+                paint.reset();
+                canvas.drawBitmap(previews.get(i), thisLevel.centerX() - previews.get(i).getWidth()/2, thisLevel.top + previews.get(i).getHeight()/8, paint);
+
+                paint.setTextAlign(Paint.Align.LEFT);
                 paint.setTextSize(48);
                 paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-                int xPos = (thisLevel.left+thisLevel.width() / 2);
-                int yPos = (int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2)) ;
+                int xPos = (thisLevel.left+(thisLevel.height()-thisLevel.width())/2);
+                int yPos = (int) (thisLevel.top+9*iWidth/8+(thisLevel.height()-9*iWidth/8)/2 - ((paint.descent() + paint.ascent()) / 2) + 2) ;
+                // THe +2 is from the thin border
 
-                //paint.setColor(Color.argb(100,200,200,200));
-                //canvas.drawRect(thisLevel.left,(int) (thisLevel.centerY() + ((paint.descent() + paint.ascent()) / 2))-20,thisLevel.right,(int) (thisLevel.centerY() - ((paint.descent() + paint.ascent()) / 2))+20,paint);
-
-                paint.setColor(Color.argb(200,0,0,0));
+                paint.setColor(Color.WHITE);
                 canvas.drawText(levelName, xPos, yPos, paint);
+
+                if(tab.equals("default")){
+                    Rect starArea = new Rect(thisLevel.left+thisLevel.width()/3,thisLevel.top+9*iWidth/8,thisLevel.right,thisLevel.bottom);
+                    for(int s=0;s<3;s++){
+                        int x = (s+1)*(int)(starArea.width()/4.5)+ starArea.left;
+                        if(levels.get(i).getStars()==3) {
+                            paint.setColor(Color.rgb(75,75,75));
+                        } else if(levels.get(i).getStars()>s) {
+                            paint.setColor(Color.rgb(255,182,72));
+                        } else {
+                            paint.setColor(Color.rgb(50,74,99));
+                        }
+                        canvas.drawCircle(x, starArea.centerY(), 20, paint);
+                    }
+                }
+
+                if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
+                    paint.setColor(Color.argb(200,0,0,0));
+                    canvas.drawRect(thisLevel,paint);
+                }
             }
         }
         canvas.restore();
