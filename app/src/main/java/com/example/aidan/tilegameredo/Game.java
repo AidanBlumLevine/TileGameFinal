@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class Game {
 
     private final int fps=100 ;
-    private final  double sizeMultiplier = 0.97;
+    private final  double sizeMultiplier = 1;
     private SoundPlayer soundPlayer;
     private String pack;
     private int touchX,touchY,levelWidth,swipes,stars,firstTime=50;
@@ -55,6 +55,11 @@ public class Game {
         levelWidth = level.getWidth();
         starLevels = level.getStarLevels();
         tiles = level.getTiles(context,this);
+        for(Tile t:tiles){
+            if(t instanceof Wall){
+                ((Wall)t).postLoad();
+            }
+        }
         stars = 0;
 
         menu = new Menu(playingField,width,height,context,this);

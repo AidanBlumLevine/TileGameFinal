@@ -271,7 +271,7 @@ public class Loader {
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
         for(int i=0;i<defaultLevels.size();i++){
-            defaultPreviews.add(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),true,context),imageSize,imageSize,false));
+            defaultPreviews.add(line(Bitmap.createScaledBitmap(preview(defaultLevels.get(i),true,context),imageSize,imageSize,false),defaultLevels.get(i).getWidth()));
         }
     }
 
@@ -284,7 +284,7 @@ public class Loader {
         //int imageSize = Math.min((screenWidth-6*edgeBuffer)/3-levelHeight/7,7*levelHeight/8);
         int imageSize = (screenWidth-6*edgeBuffer)/3-levelHeight/4;
         for(int i=0;i<customLevels.size();i++){
-            customPreviews.add(Bitmap.createScaledBitmap(preview(customLevels.get(i),true,context),imageSize,imageSize,false));
+            customPreviews.add(line(Bitmap.createScaledBitmap(preview(customLevels.get(i),true,context),imageSize,imageSize,false),customLevels.get(i).getWidth()));
         }
     }
 
@@ -360,15 +360,22 @@ public class Loader {
                     canvas.restore();
                 }
             }
-            p.setColor(Color.argb(50,134,134,134));
-            for(int x=0;x<level.getWidth();x++){
-                canvas.drawLine(x*30,0,x*30,level.getWidth()*30,p);
-            }
-            for(int y=0;y<level.getWidth();y++){
-                canvas.drawLine(0,y*30,level.getWidth()*30,y*30,p);
-            }
+
         }
         return preview;
+    }
+
+    public static Bitmap line(Bitmap input,int levelWidth){
+        Paint p = new Paint();
+        Canvas canvas = new Canvas(input);
+        p.setColor(Color.argb(50,134,134,134));
+        for(double x=0;x<input.getWidth();x+=(double)input.getWidth()/levelWidth){
+            canvas.drawLine((int)x,0,(int)x,input.getWidth(),p);
+        }
+        for(double y=0;y<input.getWidth();y+=(double)input.getWidth()/levelWidth){
+            canvas.drawLine(0,(int)y,input.getWidth(),(int)y,p);
+        }
+        return input;
     }
 
     public static ArrayList<Bitmap> getDefaultPreviews() {

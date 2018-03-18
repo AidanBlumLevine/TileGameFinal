@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/TileGameFinal.iml" filepath="$PROJECT_DIR$/.idea/TileGameFinal.iml" />
-      <module fileurl="file://C:\Users\aidan_000\AndroidStudioProjects\TileGameFinal\TileGameFinal.iml" filepath="C:\Users\aidan_000\AndroidStudioProjects\TileGameFinal\TileGameFinal.iml" />
       <module fileurl="file://C:\Users\112admin\StudioProjects\TileGameFinal\.idea\TileGameFinal.iml" filepath="C:\Users\112admin\StudioProjects\TileGameFinal\.idea\TileGameFinal.iml" />
+      <module fileurl="file://C:\Users\aidan_000\AndroidStudioProjects\TileGameFinal\TileGameFinal.iml" filepath="C:\Users\aidan_000\AndroidStudioProjects\TileGameFinal\TileGameFinal.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

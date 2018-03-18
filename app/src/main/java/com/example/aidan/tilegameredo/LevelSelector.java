@@ -13,7 +13,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 
 import java.util.ArrayList;
@@ -102,6 +101,9 @@ public class LevelSelector {
                 canvas.drawRect(thisLevel.centerX()-iWidth/2-5,thisLevel.top + iWidth/8-5,thisLevel.centerX()+iWidth/2+5,thisLevel.top + 9*iWidth/8+5,paint);
                 paint.reset();
                 paint.setAntiAlias(true);
+
+                Typeface plain = Typeface.createFromAsset(context.getAssets(), "helvetica.ttf");
+                paint.setTypeface(plain);
 
                 String levelName = levels.get(i).getName();
                 if(tab.equals("custom")){
