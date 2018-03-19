@@ -20,18 +20,20 @@ public class Box extends Tile {
     private Bitmap scaledTexture;
     private Game parent;
     private Context context;
-
     public Box(int xPos, int yPos,Bitmap img,Game parent,Context context) {
         super(xPos, yPos,img);
         this.parent=parent;
         this.context=context;
         oldX=xPos;
         oldY=yPos;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
+        int width = (int)Math.round((double)parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier());
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),width,width,false);
     }
 
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,(int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left),(int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),paint);
+        int x = (int)Math.round(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left);
+        int y = (int)Math.round(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top);
+        canvas.drawBitmap(scaledTexture,x,y,paint);
     }
 
     public boolean isMoving(){

@@ -381,6 +381,11 @@ public class Game {
         tiles = level.getTiles(context,this);
         stars = level.getStars();
         swipes=0;
+        for(Tile t:tiles){
+            if(t instanceof Wall){
+                ((Wall)t).postLoad();
+            }
+        }
     }
 
     public void play(){

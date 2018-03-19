@@ -25,7 +25,8 @@ public class Crate extends Tile {
         this.context=context;
         oldX=xPos;
         oldY=yPos;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
+        int width = (int)Math.round((double)parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier());
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),width,width,false);
     }
     public boolean isMoving(){
         return !((int) oldX == super.getX() && (int) oldY == super.getY());
@@ -37,7 +38,9 @@ public class Crate extends Tile {
     }
 
     public void paint(Canvas canvas, Paint paint){
-        canvas.drawBitmap(scaledTexture,(int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left),(int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),paint);
+        int x = (int)Math.round(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left);
+        int y = (int)Math.round(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top);
+        canvas.drawBitmap(scaledTexture,x,y,paint);
     }
     public void update(){
         if(oldX<super.getX()){

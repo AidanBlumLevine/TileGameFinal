@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Loader {
     private static ArrayList<Bitmap> defaultPreviews = new ArrayList<>();
     private static ArrayList<Level> customLevels;
     private static ArrayList<Bitmap> customPreviews = new ArrayList<>();
-
+    private static Typeface font = null;
 
     public static Bitmap getGlowCenter(Context context) {
         if(glowCenter == null){
@@ -390,5 +391,17 @@ public class Loader {
     }
     public static ArrayList<Level> getCustomLevels() {
         return customLevels;
+    }
+
+    public static Typeface getFont(Context context) {
+        if(font==null) {
+            try {
+                Typeface plain = Typeface.createFromAsset(context.getAssets(), "helvetica.ttf");
+                font = plain;
+            } catch (Exception e) {
+                Log.e("FONT NOT LOADED", "FONT ERRORORORORORR");
+            }
+        }
+        return font;
     }
 }

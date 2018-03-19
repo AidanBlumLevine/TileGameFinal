@@ -30,10 +30,11 @@ public class DoubleCrate extends Tile {
         oldX = xPos;
         oldY = yPos;
         this.position = position;
+        int width = (int)Math.round((double)parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier());
         if (position == 1) {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), 2*width, width, false);
         } else {
-            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * parent.getSizeMultiplier()), (int) (parent.getPlayingField().width() / parent.getLevelWidth() * (2+(1-parent.getSizeMultiplier())) * parent.getSizeMultiplier()), false);
+            scaledTexture = Bitmap.createScaledBitmap(super.getTexture(), width, 2*width, false);
 
         }
     }
@@ -58,7 +59,9 @@ public class DoubleCrate extends Tile {
 
     @Override
     public void paint(Canvas canvas, Paint paint) {
-        canvas.drawBitmap(scaledTexture,(int)(oldX * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().left), (int)(oldY * parent.getPlayingField().height() / parent.getLevelWidth()  + parent.getPlayingField().top), paint);
+        int x = (int)Math.round(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left);
+        int y = (int)Math.round(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top);
+        canvas.drawBitmap(scaledTexture,x,y,paint);
     }
 
     public void update(){

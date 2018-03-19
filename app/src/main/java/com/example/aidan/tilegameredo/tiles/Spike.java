@@ -15,18 +15,22 @@ public class Spike extends Tile {
     //4  ^
     private Bitmap scaledTexture;
     private Game parent;
-
+    private int trueX,trueY,width;
     public Spike(int xPos, int yPos,int direction,Bitmap img,Game parent) {
         super(xPos, yPos,img);
         this.parent=parent;
         this.direction = direction;
-        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),(int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()),false);
+        width = (int)Math.round((double)parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier());
+        trueX = (int)Math.round((double)super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left);
+        trueY = (int)Math.round((double)super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top);
+        scaledTexture = Bitmap.createScaledBitmap(super.getTexture(),width,width,false);
     }
     public void paint(Canvas canvas, Paint paint){
+
         canvas.save();
-        canvas.rotate((direction-1)*90,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2,
-                (super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top+((int)(parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier()))/2));
-        canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,paint);
+        canvas.rotate((direction-1)*90,trueX+width/2,
+                trueY+width/2);
+        canvas.drawBitmap(scaledTexture,trueX,trueY,paint);
         canvas.restore();
     }
 
