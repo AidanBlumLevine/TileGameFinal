@@ -43,19 +43,18 @@ public class LevelSelector {
         screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        int tabHeight = screenHeight /12;
+        int tabHeight = screenHeight / 7;
         listArea = new Rect(edgeBuffer,tabHeight+(int)(edgeBuffer*1.5),screenWidth-edgeBuffer,screenHeight-edgeBuffer);
 
-        int boxSize = tabHeight-10;
-        backButton = new Button(edgeBuffer,edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
-        tabDefault = new Button(screenWidth-boxSize*4-edgeBuffer*3,edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
-        tabCustom = new Button(screenWidth-boxSize*2-edgeBuffer*2,edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),boxSize*5/3,boxSize,false));
+        backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),2*tabHeight/3,2*tabHeight/3,false));
+        tabDefault = new Button(2*tabHeight/3+edgeBuffer*6,edgeBuffer+tabHeight/9,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),tabHeight,tabHeight/3,false));
+        tabCustom = new Button(2*tabHeight/3+edgeBuffer*6,edgeBuffer+5*tabHeight/9,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),tabHeight,tabHeight/3,false));
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
 
         previews = Loader.getDefaultPreviews();
-        levelHeight = (int)(6*previews.get(0).getHeight()/4);
+        levelHeight = 6*previews.get(0).getHeight()/4;
     }
 
     public  void draw(Canvas canvas, Paint paint) {
