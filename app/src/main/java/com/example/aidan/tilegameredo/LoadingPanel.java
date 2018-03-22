@@ -123,6 +123,8 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
         Loader.getTruckFull(context);
         Loader.getWallImage(context);
 
+        Loader.getLock(context);
+
         Loader.loadDefaultLevels(context);
         Loader.loadCustomLevels(context);
 

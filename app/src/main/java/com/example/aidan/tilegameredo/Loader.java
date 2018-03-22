@@ -20,7 +20,7 @@ public class Loader {
             buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
             buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
-            buttonDownload,buttonNew,truck,truckFull;
+            buttonDownload,buttonNew,truck,truckFull,lock;
     private static ArrayList<Bitmap> clouds;
     private static ArrayList<Level> defaultLevels;
     private static ArrayList<Bitmap> defaultPreviews = new ArrayList<>();
@@ -118,7 +118,7 @@ public class Loader {
 
     public static Bitmap getButtonBack(Context context) {
         if (buttonTopBack == null) {
-            buttonTopBack = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonup);
+            buttonTopBack = BitmapFactory.decodeResource(context.getResources(), R.drawable.back);
         }
         return buttonTopBack;
     }
@@ -403,5 +403,12 @@ public class Loader {
             }
         }
         return font;
+    }
+
+    public static Bitmap getLock(Context context) {
+        if (lock == null) {
+            lock = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.lock),50,60,false);
+        }
+        return lock;
     }
 }

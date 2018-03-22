@@ -46,9 +46,15 @@ public class LevelSelector {
         int tabHeight = screenHeight / 7;
         listArea = new Rect(edgeBuffer,tabHeight+(int)(edgeBuffer*1.5),screenWidth-edgeBuffer,screenHeight-edgeBuffer);
 
-        backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),2*tabHeight/3,2*tabHeight/3,false));
-        tabDefault = new Button(2*tabHeight/3+edgeBuffer*6,edgeBuffer+tabHeight/9,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),tabHeight,tabHeight/3,false));
-        tabCustom = new Button(2*tabHeight/3+edgeBuffer*6,edgeBuffer+5*tabHeight/9,Bitmap.createScaledBitmap(Loader.getButtonWideBlank(context),tabHeight,tabHeight/3,false));
+        Typeface tf;
+        if(Loader.getFont(context)!=null) {
+            tf = Loader.getFont(context);
+        }else{
+            tf = Typeface.DEFAULT;
+        }
+        backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),5*tabHeight/6,2*tabHeight/3,false));
+        tabDefault = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+tabHeight/9,3*tabHeight/2,tabHeight/3,Color.rgb(255,100,72),"default",48,tf);
+        tabCustom = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+5*tabHeight/9,3*tabHeight/2,tabHeight/3,Color.rgb(65,99,135),"custom",48,tf);
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
@@ -125,7 +131,7 @@ public class LevelSelector {
 
                 paint.setTextAlign(Paint.Align.LEFT);
                 paint.setTextSize(48);
-                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                //paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 int xPos = (thisLevel.left+thisLevel.width()/8);
                 int yPos = (int) (thisLevel.top+9*iWidth/8+(thisLevel.height()-9*iWidth/8)/2 - ((paint.descent() + paint.ascent()) / 2) + 2) ;
                 // THe +2 is from the thin border
@@ -156,6 +162,7 @@ public class LevelSelector {
                 if(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel){
                     paint.setColor(Color.argb(200,0,0,0));
                     canvas.drawRect(thisLevel,paint);
+                    canvas.drawBitmap(Loader.getLock(context),thisLevel.centerX()-25,thisLevel.top+thisLevel.width()/2-30,paint);
                 }
             }
         }
@@ -183,6 +190,8 @@ public class LevelSelector {
             if(tabDefault.getHover() && !tab.equals("default")){
                 levels = Loader.getDefaultLevels();
                 tab="default";
+                tabDefault.setColor(Color.rgb(255,100,72));
+                tabCustom.setColor(Color.rgb(65,99,135));
                 selectedLevel=null;
                 scrollPosition=0;
                 previews = Loader.getDefaultPreviews();
@@ -190,6 +199,8 @@ public class LevelSelector {
             if(tabCustom.getHover() && !tab.equals("custom")){
                 levels = Loader.getCustomLevels();
                 tab="custom";
+                tabCustom.setColor(Color.rgb(255,100,72));
+                tabDefault.setColor(Color.rgb(65,99,135));
                 selectedLevel=null;
                 scrollPosition=0;
                 previews = Loader.getCustomPreviews();
