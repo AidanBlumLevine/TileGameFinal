@@ -50,8 +50,8 @@ public class Button {
             paint.setTypeface(typeface);
             paint.setTextAlign(Paint.Align.LEFT);
             paint.setTextSize(textSize);
-            int xPos = (x+width/8);
-            int yPos = (int) (y+height/2 - ((paint.descent() + paint.ascent()) / 2) + 2) ;
+            int xPos = (x+height/3);
+            int yPos = (int) (y+height/2 - ((paint.descent() + paint.ascent()) / 2) + 1) ;
             paint.setColor(Color.WHITE);
             canvas.drawText(text,xPos,yPos,paint);
         }

@@ -411,4 +411,9 @@ public class Loader {
         }
         return lock;
     }
+
+    public void drawBackground(Canvas canvas, Paint paint, int width, int height){
+        j
+
+    }
 }
