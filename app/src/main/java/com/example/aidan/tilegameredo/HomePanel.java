@@ -42,9 +42,7 @@ public class HomePanel extends SurfaceView implements Runnable{
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.WHITE);
-            paint.setAlpha(80);
-            canvas.drawBitmap(Loader.getBackground(context),-30,-50,paint);
+            Loader.drawBackground(canvas, paint);
             play.draw(canvas,paint);
             edit.draw(canvas,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);

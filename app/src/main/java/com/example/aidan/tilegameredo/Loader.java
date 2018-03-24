@@ -27,7 +27,7 @@ public class Loader {
     private static ArrayList<Level> customLevels;
     private static ArrayList<Bitmap> customPreviews = new ArrayList<>();
     private static Typeface font = null;
-
+    private static int width =-1, height;
     public static Bitmap getGlowCenter(Context context) {
         if(glowCenter == null){
             glowCenter = BitmapFactory.decodeResource(context.getResources(), R.drawable.glowcenter);
@@ -412,8 +412,18 @@ public class Loader {
         return lock;
     }
 
-    public void drawBackground(Canvas canvas, Paint paint, int width, int height){
-        j
-
+    public static void drawBackground(Canvas canvas, Paint paint){
+        if(width == -1){
+            height = Resources.getSystem().getDisplayMetrics().heightPixels;
+            width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        }
+        canvas.drawColor(Color.rgb(236,236,236));
+        paint.setColor(Color.rgb(219,219,219));
+        int lineWidth = 8;
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(6);
+        for(int i=0;i<height+width;i+=lineWidth*3){
+            canvas.drawLine(i,0,0,i,paint);
+        }
     }
 }

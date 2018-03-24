@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -64,8 +65,7 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            paint.setColor(Color.WHITE);
-            canvas.drawRect(0,0,width,height,paint);
+            Loader.drawBackground(canvas, paint);
             canvas.save();
             canvas.rotate((float)angle,width/2,height/2);
             canvas.drawBitmap(truck,width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,paint);

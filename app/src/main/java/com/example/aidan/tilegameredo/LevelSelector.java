@@ -58,9 +58,7 @@ public class LevelSelector {
     }
 
     public  void draw(Canvas canvas, Paint paint) {
-        canvas.drawColor(Color.WHITE);
-        paint.setAlpha(80);
-        canvas.drawBitmap(Loader.getBackground(context),-30,-50,paint);
+        Loader.drawBackground(canvas, paint);
 
         //paint.setARGB(50,0,0,0);
         //canvas.drawRect(edgeBuffer,edgeBuffer*2+(screenHeight/12-10),screenWidth-edgeBuffer,screenHeight-edgeBuffer,paint);

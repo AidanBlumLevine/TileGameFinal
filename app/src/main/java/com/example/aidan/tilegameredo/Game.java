@@ -75,9 +75,7 @@ public class Game {
 //        } else {
 //            canvas.clipRect(playingField);
 //        }
-        canvas.drawColor(Color.argb(200,255,255,255));
-        paint.setAlpha(80);
-        canvas.drawBitmap(Loader.getBackground(context),-30,-50,paint);
+        Loader.drawBackground(canvas, paint);
 
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);

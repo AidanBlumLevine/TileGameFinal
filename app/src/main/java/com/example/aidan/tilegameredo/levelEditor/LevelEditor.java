@@ -151,9 +151,8 @@ public class LevelEditor {
     }
 
     public void draw(Canvas canvas, Paint paint,Context context) {
-        canvas.drawColor(Color.WHITE);
-        paint.setAlpha(80);
-        canvas.drawBitmap(Loader.getBackground(context),-50,-30,paint);
+        Loader.drawBackground(canvas, paint);
+
         paint.setARGB(180,255,255,255);
         canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
         paint.reset();
