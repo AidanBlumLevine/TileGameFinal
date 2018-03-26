@@ -14,12 +14,15 @@ import com.example.aidan.tilegameredo.Level;
 import com.example.aidan.tilegameredo.LevelGenerator;
 import com.example.aidan.tilegameredo.Tile;
 import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbDoubleCrate;
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbSpike;
+import com.example.aidan.tilegameredo.tiles.DoubleCrate;
+import com.example.aidan.tilegameredo.tiles.Spike;
 
 import java.util.ArrayList;
 
 public class LevelEditor {
     private final int fps=100;
-    private final double sizeMultiplier = 0.97;
+    private final double sizeMultiplier = 1;
 
     private int levelWidth = 12;
     private int touchX,touchY;
@@ -67,6 +70,15 @@ public class LevelEditor {
     public boolean isTile(int x, int y) {
         for (Tile t : tiles) {
             if (t.getX() == x && t.getY() == y || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 1 && t.getX() + 1 == x && t.getY() == y) || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 1 == y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public  boolean isTile(int x, int y, Class tileType) {
+        for (Tile t : tiles) {
+            if (!(t instanceof DumbSpike) && tileType.isInstance(t) && (t.getX() == x && t.getY() == y || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 1 && t.getX() + 1 == x && t.getY() == y) || (t instanceof DumbDoubleCrate && ((DumbDoubleCrate) t).getPosition() == 2 && t.getX() == x && t.getY() + 1 == y))) {
                 return true;
             }
         }
