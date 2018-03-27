@@ -55,14 +55,14 @@ public class Loader {
 
     public static Bitmap getBoxImage(Context context) {
         if (boxImg == null) {
-            boxImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.boxpixelated);
+            boxImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.yellowbox);
         }
         return boxImg;
     }
 
     public static Bitmap getCrateImage(Context context) {
         if (crateImg == null) {
-            crateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.cratepixelated);
+            crateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.bluebox);
         }
         return crateImg;
     }
@@ -97,7 +97,7 @@ public class Loader {
 
     public static Bitmap getEmptyCrateImage(Context context) {
         if (emptyCrateImg == null) {
-            emptyCrateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.emptycratepixelated);
+            emptyCrateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.redbox);
         }
         return emptyCrateImg;
     }
@@ -251,13 +251,13 @@ public class Loader {
 
     public static Bitmap getTruck(Context context) {
         if (truck == null) {
-            truck = BitmapFactory.decodeResource(context.getResources(), R.drawable.smalltruckempty);
+            truck = BitmapFactory.decodeResource(context.getResources(), R.drawable.truckunloaded);
         }
         return truck;
     }
     public static Bitmap getTruckFull(Context context) {
         if (truckFull == null) {
-            truckFull = BitmapFactory.decodeResource(context.getResources(), R.drawable.smalltruck);
+            truckFull = BitmapFactory.decodeResource(context.getResources(), R.drawable.truckloaded);
         }
         return truckFull;
     }

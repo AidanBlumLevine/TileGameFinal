@@ -38,8 +38,8 @@ public class truckParticle extends Particle{
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         Bitmap tempTruck = Loader.getTruck(context);
         Bitmap tempTruckFull = Loader.getTruckFull(context);
-        truck = Bitmap.createScaledBitmap(tempTruck,tempTruck.getWidth()/tempTruck.getHeight()*(2*targetSize),2*targetSize,false);
-        truckFull = Bitmap.createScaledBitmap(tempTruckFull,tempTruckFull.getWidth()/tempTruckFull.getHeight()*(2*targetSize),2*targetSize,false);
+        truck = Bitmap.createScaledBitmap(tempTruck,(int)((double)tempTruck.getWidth()/tempTruck.getHeight()*(2*targetSize)),2*targetSize,false);
+        truckFull = Bitmap.createScaledBitmap(tempTruckFull,(int)((double)tempTruckFull.getWidth()/tempTruckFull.getHeight()*(2*targetSize)),2*targetSize,false);
 
     }
     public void paint(Canvas canvas, Paint paint){
@@ -61,7 +61,7 @@ public class truckParticle extends Particle{
                mode = 3;
                super.setTime(300);
                parent.hideGoal();
-               ParticleManager.addParticle(new explosionParticle(targetX+15-(int)(truck.getWidth()*.3),targetY+15-truck.getHeight()/4));
+               ParticleManager.addParticle(new explosionParticle(targetX+15-(int)(truck.getWidth()*.2),targetY+15-truck.getHeight()/4));
            }
        }
         if(mode == 3) {

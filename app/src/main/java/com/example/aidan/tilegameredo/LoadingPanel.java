@@ -37,9 +37,9 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        Bitmap tempTruck = BitmapFactory.decodeResource(context.getResources(), R.drawable.trucktop);
-        truck = Bitmap.createScaledBitmap(tempTruck,width/3,width*tempTruck.getHeight()/tempTruck.getWidth()/3, false);
-        crate = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cratepixelated),width/10,width/10,false);
+        Bitmap tempTruck = BitmapFactory.decodeResource(context.getResources(), R.drawable.truckloaded);
+        truck = Bitmap.createScaledBitmap(tempTruck,width/3,(int)(width*(double)tempTruck.getHeight()/tempTruck.getWidth()/3), false);
+        //crate = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cratepixelated),width/10,width/10,false);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
             canvas.drawBitmap(truck,width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,paint);
             angle+=3;
             canvas.restore();
-            particles.add(new driftParticle(width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,(int)(Math.random()*30),(int)(Math.random()*10),angle));
+            //particles.add(new driftParticle(width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,(int)(Math.random()*30),(int)(Math.random()*10),angle));
             Log.e(particles.size()+"",particles.size()+"");
             for(int i=0;i<particles.size();i++){
                 if(particles.get(i).getSize()<0){
@@ -81,7 +81,7 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
                     particles.get(i).draw(canvas,paint);
                 }
             }
-            canvas.drawBitmap(crate,(width-crate.getWidth())/2,(height-crate.getHeight())/2,paint);
+            //canvas.drawBitmap(crate,(width-crate.getWidth())/2,(height-crate.getHeight())/2,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }

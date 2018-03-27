@@ -158,6 +158,10 @@ public class LevelSelector {
                 }
             }
         }
+        paint.setMaskFilter(new BlurMaskFilter(5, BlurMaskFilter.Blur.NORMAL));
+        paint.setColor(Color.argb(150,100,100,100));
+        canvas.drawRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.top+edgeBuffer/2+2,paint);
+        paint.reset();
         canvas.restore();
         paint.reset();
 
