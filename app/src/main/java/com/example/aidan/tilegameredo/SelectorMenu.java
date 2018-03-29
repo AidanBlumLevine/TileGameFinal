@@ -17,7 +17,7 @@ class SelectorMenu {
     private Bitmap preview;
     private Level level;
     private LevelSelector parent;
-    private Button play;
+    private Button play,edit,delete,back;
     private int textSize;
     private Context context;
     private Bitmap goldCrate,silverCrate,bronzeCrate;
@@ -32,10 +32,21 @@ class SelectorMenu {
         int border = width/12;
         popupArea = new Rect(border,border,width-border,height-border);
 
-        int buttonWidth =  (popupArea.width()-150)/2;
-        play = new Button(popupArea.centerX()-buttonWidth/2,popupArea.bottom-50-buttonWidth/2,Bitmap.createScaledBitmap(Loader.getButtonShare(context),buttonWidth,buttonWidth/2,false));
+        previewArea = new Rect(popupArea.left,popupArea.centerY()-popupArea.height()/4,popupArea.right,popupArea.centerY()+popupArea.height()/4);
+        int imageWidth = Math.min(previewArea.height()-100,popupArea.width()-100);
+        this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
 
-        textArea = new Rect(popupArea.left+20,popupArea.top+100,popupArea.right-20,popupArea.top+260);
+
+        textArea = new Rect(popupArea.left+20+popupArea.width()/4,popupArea.top+border*2,popupArea.right-20,previewArea.top-2*border);
+
+        back = new Button(popupArea.left+border,textArea.top,Bitmap.createScaledBitmap(Loader.getButtonBack(context),textArea.height(),textArea.left-popupArea.left,false));
+
+        play = new Button(popupArea.left+border,previewArea.bottom+border, popupArea.centerX()-border,popupArea.bottom-border,Color.YELLOW,"PLAY",48,Loader.getFont(context));
+        if(parent.getTab() =)
+        edit  = new Button(popupArea.centerX()+popupArea.width()/2+popupArea.width()/3-height-previewArea.bottom/4,previewArea.bottom+border,Bitmap.createScaledBitmap(Loader.getButtonEdit(context),height-previewArea.bottom/2,height-previewArea.bottom/2,false));
+
+
+
         Rect testRect = new Rect();
         int size = 100;
         String levelName = level.getName();
@@ -53,11 +64,7 @@ class SelectorMenu {
         }
         textSize=size;
 
-        starArea = new Rect(popupArea.centerX()-240,textArea.bottom+20,popupArea.centerX()+240,textArea.bottom+160);
-
-        previewArea = new Rect(popupArea.left,starArea.bottom+50,popupArea.right,popupArea.bottom-100-buttonWidth/2);
-        int imageWidth = Math.min(previewArea.height(),popupArea.width()-100);
-        this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
+        starArea = new Rect(popupArea.left,textArea.bottom,popupArea.right,popupArea.top);
 
         goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);

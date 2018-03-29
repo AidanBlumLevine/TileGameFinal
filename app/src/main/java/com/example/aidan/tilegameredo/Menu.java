@@ -19,10 +19,8 @@ import com.example.aidan.tilegameredo.particles.fadeParticle;
 
 public class Menu {
 
-    private Button buttonTrash;
     private Button buttonTopBack;
     private Button buttonMiddle;
-    private Button buttonEdit;
     private Rect starArea;
     private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
     private Context context;
@@ -39,8 +37,6 @@ public class Menu {
 
         buttonTopBack = new Button(width/2-3*boxBuffer/2-boxSize*2, boxBuffer, Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
         buttonMiddle = new Button(width/2-boxBuffer/2-boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonReset(context),boxSize,boxSize,false));
-        buttonTrash = new Button(width/2+boxBuffer/2, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonTrash(context),boxSize,boxSize,false));
-        buttonEdit = new Button(width/2+3*boxBuffer/2+boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonEdit(context),boxSize,boxSize,false));
 
         int starCenterY = (topHeight-boxBuffer-boxSize)/2+boxBuffer+boxSize;
         starArea = new Rect(width/2-4*boxSize/3,starCenterY-boxSize/3,width/2+4*boxSize/3,starCenterY+boxSize/3);
@@ -55,8 +51,6 @@ public class Menu {
     public void paint(Canvas canvas, Paint paint) {
         buttonMiddle.draw(canvas,paint);
         buttonTopBack.draw(canvas,paint);
-        buttonTrash.draw(canvas,paint);
-        buttonEdit.draw(canvas,paint);
         update();
         if(parent.getPack().equals("default")) {
             if (parent.getStars() > 2) {
@@ -96,22 +90,7 @@ public class Menu {
         int tY=parent.getTouchY();
         buttonMiddle.touch(tX,tY);
         buttonTopBack.touch(tX,tY);
-        buttonTrash.touch(tX,tY);
-        buttonEdit.touch(tX,tY);
-    }
 
-
-    public boolean live(){
-        if(buttonMiddle.getHover() || buttonEdit.getHover() || buttonTopBack.getHover() || buttonTrash.getHover() || oldSwipes != parent.getSwipes()){
-            liveTime=5;
-        }
-        oldSwipes = parent.getSwipes();
-        if(liveTime>0){
-            liveTime--;
-            return true;
-        }
-
-        return false;
     }
 
     public void released() {
