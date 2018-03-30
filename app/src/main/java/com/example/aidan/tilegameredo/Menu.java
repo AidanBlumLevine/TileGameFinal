@@ -103,49 +103,8 @@ public class Menu {
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if (buttonEdit.getHover()){
-                Intent i = new Intent(context,LevelEditorScreen.class);
-                i.putExtra("level",parent.getLevel().toString());
-                context.startActivity(i);
-            }
-            if (buttonTrash.getHover() && !parent.getPack().equals("default")) {
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        deleteLevel();
-                                        break;
 
-                                    case DialogInterface.BUTTON_NEGATIVE:
-                                        break;
-                                }
-                            }
-                        };
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setMessage("Are you sure you want to delete this level?").setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
-                    }
-                });
-            }
         }
     }
 
-    private void deleteLevel(){
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = settings.edit();
-        Level deleteLevel = parent.getLevel();
-        editor.remove(deleteLevel.getName());
-        String newNamesList = settings.getString(parent.getPack()+"LevelNames","");
-        editor.putString(parent.getPack()+"LevelNames",newNamesList.replace(deleteLevel.getName()+",",""));
-        editor.remove(deleteLevel.getName()+parent.getPack());
-        editor.commit();
-        Intent i = new Intent(context,SelectorScreen.class);
-        context.startActivity(i);
-        ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
-    }
 }
