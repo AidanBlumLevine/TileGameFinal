@@ -69,28 +69,28 @@ public class Loader {
 
     public static Bitmap getDoubleCrateImage(Context context) {
         if (doubleCrateImg == null) {
-            doubleCrateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate1pixelated);
+            doubleCrateImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.doubleblock);
         }
         return doubleCrateImg;
     }
 
     public static Bitmap getDoubleCrate2Image(Context context) {
         if (doubleCrateImg2 == null) {
-            doubleCrateImg2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.doublecrate2pixelated);
+            doubleCrateImg2 = BitmapFactory.decodeResource(context.getResources(), R.drawable.doubleblock2);
         }
         return doubleCrateImg2;
     }
 
     public static Bitmap getSpikeImage(Context context) {
         if (spikeImg == null) {
-            spikeImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.spikespixelated);
+            spikeImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.spikes);
         }
         return spikeImg;
     }
 
     public static Bitmap getWallImage(Context context) {
         if (wallImg == null) {
-            wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wallpixelated);
+            wallImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
         }
         return wallImg;
     }
@@ -104,7 +104,7 @@ public class Loader {
 
     public static Bitmap getButtonReset(Context context) {
         if (buttonReset == null) {
-            buttonReset = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonReset = BitmapFactory.decodeResource(context.getResources(), R.drawable.restart);
         }
         return buttonReset;
     }
@@ -125,7 +125,7 @@ public class Loader {
 
     public static Bitmap getButtonTrash(Context context) {
         if (buttonTrash == null) {
-            buttonTrash = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonTrash = BitmapFactory.decodeResource(context.getResources(), R.drawable.delete);
         }
         return buttonTrash;
     }
@@ -139,14 +139,14 @@ public class Loader {
 
     public static Bitmap getButtonSizeUp(Context context) {
         if (buttonSizeUp == null) {
-            buttonSizeUp = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonSizeUp = BitmapFactory.decodeResource(context.getResources(), R.drawable.increase);
         }
         return buttonSizeUp;
     }
 
     public static Bitmap getButtonSizeDown(Context context) {
         if (buttonSizeDown == null) {
-            buttonSizeDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonSizeDown = BitmapFactory.decodeResource(context.getResources(), R.drawable.decrease);
         }
         return buttonSizeDown;
     }
@@ -209,7 +209,7 @@ public class Loader {
 
     public static Bitmap getButtonEdit(Context context) {
         if (buttonEdit == null) {
-            buttonEdit = BitmapFactory.decodeResource(context.getResources(), R.drawable.buttonblank);
+            buttonEdit = BitmapFactory.decodeResource(context.getResources(), R.drawable.edit);
         }
         return buttonEdit;
     }

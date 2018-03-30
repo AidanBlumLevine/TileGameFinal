@@ -108,7 +108,7 @@ class SelectorMenu {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(textSize);
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        int xPos = (popupArea.centerX());
+        int xPos = (textArea.centerX());
         String levelName = level.getName();
         if(parent.getTab().equals("custom")){
             //STRING OUT OF BOUNDS HERE ++++++++++++!+!+@+@+!@+!++#+!@+#+@#++$#+#!+$!+#+$#+$+!@#+$!+#$+%+$++!$#+$+!#+$+!#$+#+$+!@#$+!@#+!@+#+!@#+!@+#+!@#+@!+$+#@
