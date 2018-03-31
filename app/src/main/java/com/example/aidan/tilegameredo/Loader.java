@@ -11,6 +11,9 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.Log;
 
+import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
+import com.example.aidan.tilegameredo.particles.Particle;
+
 import java.util.ArrayList;
 
 public class Loader {
@@ -291,75 +294,81 @@ public class Loader {
 
     public static Bitmap preview(Level level,Boolean small,Context context){
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-        Bitmap preview = Bitmap.createBitmap(level.getWidth()*30, level.getWidth()*30, conf);
+        int tileSize = 60;
+        if(small){tileSize = 30;}
+        Bitmap preview = Bitmap.createBitmap(level.getWidth() * tileSize, level.getWidth() * tileSize, conf);
         Canvas canvas = new Canvas(preview);
         String tiles = level.toString().split("\\|")[4];
         Paint p = new Paint();
         canvas.drawColor(Color.WHITE);
-        int tileSize = 29;
-        if(small){
-            tileSize++;
-        }
+        ArrayList<DumbWall> walls = new ArrayList<>();
         for(int i=0;i<tiles.split(":").length;i++){
             if (tiles.split(":")[i].split(",")[0].equals("box")){
                 if(small){
                     p.setColor(Color.rgb(255,182,72));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getBoxImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                 }
             }
             if (tiles.split(":")[i].split(",")[0].equals("crate")) {
                 if (small) {
                     p.setColor(Color.rgb(65, 99, 135));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getCrateImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                 }
             }
             if (tiles.split(":")[i].split(",")[0].equals("emptyCrate")) {
                 if (small) {
                     p.setColor(Color.rgb(255, 100, 72));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                     p.reset();
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getEmptyCrateImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getEmptyCrateImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                 }
             }
             if (tiles.split(":")[i].split(",")[0].equals("wall")) {
                 if(small){
                     p.setColor(Color.rgb(186,186,186));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getWallImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    walls. add(new DumbWall(Integer.valueOf(tiles.split(":")[i].split(",")[1]),Integer.valueOf(tiles.split(":")[i].split(",")[2]),level.getWidth(),level.getWidth() * 60));
                 }
+                //Log.e("WALLADDED","WALLEDAEDED");
             }
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 1) {
                 if(small){
                     p.setColor(Color.rgb(65, 99, 135));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize*2,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize*2,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context), tileSize * 2, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrateImage(context), tileSize * 2, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                 }
             }
             if (tiles.split(":")[i].split(",")[0].equals("doubleCrate") && Integer.valueOf(tiles.split(":")[i].split(",")[3]) == 2) {
                 if(small){
                     p.setColor(Color.rgb(65, 99, 135));
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize*2,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize*2,p);
                 } else {
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context), tileSize, tileSize * 2, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getDoubleCrate2Image(context), tileSize, tileSize * 2, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                 }
             }
             if (tiles.split(":")[i].split(",")[0].equals("spike")) {
                 if(small){
                     p.setColor(Color.LTGRAY);
-                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30+tileSize,p);
+                    canvas.drawRect(Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+ tileSize,Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize,p);
                 } else {
                     canvas.save();
-                    canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3]) - 1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30 + 15, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30 + 15);
-                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * 30, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * 30, p);
+                    canvas.rotate((Integer.valueOf(tiles.split(":")[i].split(",")[3]) - 1) * 90, Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize+tileSize/2, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize+tileSize/2);
+                    canvas.drawBitmap(Bitmap.createScaledBitmap(Loader.getSpikeImage(context), tileSize, tileSize, false), Integer.valueOf(tiles.split(":")[i].split(",")[1]) * tileSize, Integer.valueOf(tiles.split(":")[i].split(",")[2]) * tileSize, p);
                     canvas.restore();
                 }
+            }
+            for(DumbWall w:walls){
+                w.update(walls);
+            }
+            for(DumbWall w:walls){
+                w.paint(canvas,p);
             }
 
         }
@@ -413,17 +422,34 @@ public class Loader {
     }
 
     public static void drawBackground(Canvas canvas, Paint paint){
+        int a = paint.getAlpha();
         if(width == -1){
             height = Resources.getSystem().getDisplayMetrics().heightPixels;
             width = Resources.getSystem().getDisplayMetrics().widthPixels;
         }
-        canvas.drawColor(Color.rgb(236,236,236));
-        paint.setColor(Color.rgb(219,219,219));
+        canvas.drawColor(Color.argb(a,236,236,236));
+        paint.setColor(Color.argb(a,219,219,219));
         int lineWidth = 8;
         paint.setAntiAlias(true);
         paint.setStrokeWidth(6);
         for(int i=0;i<height+width;i+=lineWidth*3){
             canvas.drawLine(i,0,0,i,paint);
+        }
+    }
+
+    public static void drawShiftBackground(Canvas canvas, Paint paint) {
+        int a = paint.getAlpha();
+        if(width == -1){
+            height = Resources.getSystem().getDisplayMetrics().heightPixels;
+            width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        }
+        canvas.drawColor(Color.argb(a,236,236,236));
+        paint.setColor(Color.argb(a,219,219,219));
+        int lineWidth = 8;
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(6);
+        for(int i=0;i<height+width;i+=lineWidth*3){
+            canvas.drawLine(width-i,0,width,i,paint);
         }
     }
 }

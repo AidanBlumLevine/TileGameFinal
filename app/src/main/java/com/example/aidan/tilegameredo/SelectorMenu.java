@@ -40,7 +40,7 @@ class SelectorMenu {
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         int border = width/12;
-        popupArea = new Rect(border,border,width-border,height-border);
+        popupArea = new Rect(border/2,border/2,width-border/2,height-border/2);
 
         previewArea = new Rect(popupArea.left,popupArea.centerY()-popupArea.height()/4,popupArea.right,popupArea.centerY()+popupArea.height()/4);
         int imageWidth = Math.min(previewArea.height()-100,popupArea.width()-100);
@@ -49,12 +49,12 @@ class SelectorMenu {
 
         textArea = new Rect(popupArea.left+20+popupArea.width()/4,popupArea.top+border,popupArea.right-20,previewArea.top-border);
 
-        back = new Button(popupArea.left+border,textArea.top,Bitmap.createScaledBitmap(Loader.getButtonBack(context),textArea.height(),textArea.left-popupArea.left,false));
+        back = new Button(popupArea.left+border/2,textArea.top+border/2,Bitmap.createScaledBitmap(Loader.getButtonBack(context),textArea.height()-border,textArea.height()-border,false));
 
-        play = new Button(popupArea.left+border,previewArea.bottom+border, (popupArea.centerX()-border)-(popupArea.left+border),(popupArea.bottom-border)-(previewArea.bottom+border),Color.YELLOW,"PLAY",48,Loader.getFont(context));
+        play = new Button(popupArea.left+border,previewArea.bottom+border, (popupArea.centerX()-border)-(popupArea.left+border),(popupArea.bottom-border)-(previewArea.bottom+border),Color.rgb(65,99,135),"PLAY",48,Loader.getFont(context));
         if(parent.getTab() == "custom") {
-            edit = new Button(popupArea.centerX() + popupArea.width() / 6 - (popupArea.height()/8)/2, previewArea.bottom + border, Bitmap.createScaledBitmap(Loader.getButtonEdit(context), popupArea.height()/8, popupArea.height()/8, false));
-            delete = new Button(popupArea.centerX() + 2 * popupArea.width() / 6 - (popupArea.height()/8)/2, previewArea.bottom + border, Bitmap.createScaledBitmap(Loader.getButtonTrash(context), popupArea.height()/8, popupArea.height()/8, false));
+            edit = new Button(popupArea.centerX() + popupArea.width() / 6 - (popupArea.height()/10)/2, previewArea.bottom + border, Bitmap.createScaledBitmap(Loader.getButtonEdit(context), popupArea.height()/10, popupArea.height()/10, false));
+            delete = new Button(popupArea.centerX() + 2 * popupArea.width() / 6 - (popupArea.height()/10)/2, previewArea.bottom + border, Bitmap.createScaledBitmap(Loader.getButtonTrash(context), popupArea.height()/10, popupArea.height()/10, false));
         } else {
             edit = new Button(popupArea.centerX() + popupArea.width() / 4 - (popupArea.height()/8)/2, previewArea.bottom + border, Bitmap.createScaledBitmap(Loader.getButtonEdit(context), popupArea.height()/8, popupArea.height()/8, false));
         }
@@ -77,7 +77,7 @@ class SelectorMenu {
         }
         textSize=size;
 
-        starArea = new Rect(popupArea.left,textArea.bottom,popupArea.right,popupArea.top);
+        starArea = new Rect(popupArea.left,textArea.bottom,popupArea.right,previewArea.top);
 
         goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
@@ -85,15 +85,18 @@ class SelectorMenu {
     }
 
     public void draw(Canvas canvas, Paint paint) {
-        paint.setColor(Color.argb(230,255,255,255));
-        canvas.drawRect(popupArea,paint);
+        canvas.save();
+        canvas.clipRect(popupArea);
+        paint.setAlpha(240);
+        Loader.drawShiftBackground(canvas,paint);
+        canvas.restore();
+        paint.setStrokeWidth(10);
+        paint.setColor(Color.DKGRAY);
+        canvas.drawLine(popupArea.left-5,popupArea.top,popupArea.right+5,popupArea.top,paint);
+        canvas.drawLine(popupArea.left-5,popupArea.bottom,popupArea.right+5,popupArea.bottom,paint);
+        canvas.drawLine(popupArea.left,popupArea.top-5,popupArea.left,popupArea.bottom+5,paint);
+        canvas.drawLine(popupArea.right,popupArea.top-5,popupArea.right,popupArea.bottom+5,paint);
 
-        paint.setColor(Color.GREEN);
-        canvas.drawRect(previewArea,paint);
-        paint.setColor(Color.RED);
-        canvas.drawRect(starArea,paint);
-        paint.setColor(Color.BLUE);
-        canvas.drawRect(textArea,paint);
         play.draw(canvas,paint);
         edit.draw(canvas,paint);
         back.draw(canvas,paint);
@@ -121,10 +124,10 @@ class SelectorMenu {
 
         //if(level.getStarLevels()[0] != 0) {
             if (level.getStars() > 2) {
-                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+                canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height(), starArea.top, paint);
             } else {
                 paint.setAlpha(120);
-                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+                canvas.drawBitmap(goldCrate, starArea.centerX() +starArea.height(), starArea.top, paint);
                 paint.reset();
             }
 
@@ -137,10 +140,10 @@ class SelectorMenu {
             }
 
             if (level.getStars() > 0) {
-                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+                canvas.drawBitmap(bronzeCrate, starArea.centerX() - 2*starArea.height(), starArea.top, paint);
             } else {
                 paint.setAlpha(120);
-                canvas.drawBitmap(bronzeCrate,  starArea.left, starArea.top, paint);
+                canvas.drawBitmap(bronzeCrate,   - 2*starArea.height(), starArea.top, paint);
                 paint.reset();
             }
         //}
@@ -148,6 +151,9 @@ class SelectorMenu {
 
     public boolean touch(int x, int y, int type) {
         if(type == -1){
+            if(back.getHover()){
+                parent.closePopup();
+            }
             if(play.getHover()){
                 parent.play();
             }

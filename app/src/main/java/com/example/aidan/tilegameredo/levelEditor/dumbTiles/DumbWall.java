@@ -5,21 +5,35 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.Tile;
 import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
+import com.example.aidan.tilegameredo.tiles.DoubleCrate;
+import com.example.aidan.tilegameredo.tiles.Spike;
 import com.example.aidan.tilegameredo.tiles.Wall;
+
+import java.util.ArrayList;
 
 public class DumbWall extends Tile {
     private int trueX,trueY,width;
     private LevelEditor parent;
     private boolean[][] surroundData = new boolean[3][3];
+    boolean preview = false;
     public DumbWall(int xPos, int yPos,Bitmap img,LevelEditor parent) {
         super(xPos, yPos,img);
         this.parent=parent;
         trueX = (int)Math.round((double)super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left);
         trueY = (int)Math.round((double)super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top);
         width = (int)Math.round((double)parent.getPlayingField().height()/parent.getLevelWidth()*parent.getSizeMultiplier());
+    }
+    public DumbWall(int xPos, int yPos,int levelWidth,int previewHeight) {
+        super(xPos, yPos,null);
+        Log.e("DUMBWAL","CREATED");
+        preview = true;
+        trueX = (int)Math.round((double)super.getX()*previewHeight/levelWidth);
+        trueY = (int)Math.round((double)super.getY()*previewHeight/levelWidth);
+        width = (int)Math.round((double)previewHeight/levelWidth);
     }
     public void paint(Canvas canvas, Paint paint){
         //canvas.drawBitmap(scaledTexture,super.getX()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left,super.getY()*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top,paint);
@@ -90,6 +104,15 @@ public class DumbWall extends Tile {
     }
 
     @Override
+    public void update() {
+        for(int x=0;x<3;x++){
+            for(int y=0;y<3;y++){
+                surroundData[x][y] = (parent.isTile(x + super.getX() - 1, y + super.getY() - 1, DumbWall.class));
+            }
+        }
+    }
+
+    @Override
     public boolean isMoving() {
         return false;
     }
@@ -119,15 +142,22 @@ public class DumbWall extends Tile {
         return false;
     }
 
-    @Override
-    public void update() {
+    public void update(ArrayList<DumbWall> walls) {
         for(int x=0;x<3;x++){
             for(int y=0;y<3;y++){
-                surroundData[x][y] = (parent.isTile(x+super.getX()-1,y+super.getY()-1,DumbWall.class));
+                surroundData[x][y] = (isTile(x + super.getX() - 1, y + super.getY() - 1,walls));
             }
         }
 }
 
+    private boolean isTile(int x, int y, ArrayList<DumbWall> walls) {
+        for (DumbWall w : walls) {
+            if ((w.getX() == x && w.getY() == y)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

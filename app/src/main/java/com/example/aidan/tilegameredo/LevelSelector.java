@@ -178,12 +178,12 @@ public class LevelSelector {
     public  void touch(int x, int y,int type) {
         int imageSize = Math.min((listArea.width()-4*edgeBuffer)/3-levelHeight/3,7*levelHeight/8);
         if(type==-1){
-            if(backButton.getHover()){
+            if(backButton.getHover() && popup==null){
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
                 ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
-            if(tabDefault.getHover() && !tab.equals("default")){
+            if(tabDefault.getHover() && !tab.equals("default") && popup==null){
                 levels = Loader.getDefaultLevels();
                 tab="default";
                 tabDefault.setColor(Color.rgb(255,100,72));
@@ -192,7 +192,7 @@ public class LevelSelector {
                 scrollPosition=0;
                 previews = Loader.getDefaultPreviews();
             }
-            if(tabCustom.getHover() && !tab.equals("custom")){
+            if(tabCustom.getHover() && !tab.equals("custom") && popup==null){
                 levels = Loader.getCustomLevels();
                 tab="custom";
                 tabCustom.setColor(Color.rgb(255,100,72));
@@ -214,9 +214,11 @@ public class LevelSelector {
                     } else {
                         thisLevel = new Rect(listArea.left + 2*levelWidth+3*edgeBuffer, yPosition, listArea.right-edgeBuffer, yPosition + levelHeight);
                     }
-                    if (thisLevel.contains(oldX, oldY) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel)) {
+                    if (thisLevel.contains(oldX, oldY) && !(tab.equals("default") && Integer.valueOf(levels.get(i).getName())>maxLevel && popup==null)) {
                         selectedLevel = levels.get(i);
+                        Log.e("POPUPCREATION","STARTED");
                         popup = new SelectorMenu(selectedLevel,Loader.preview(levels.get(i),false,context),this,context);
+                        Log.e("POPUPCREATION","FISHIHED");
                     }
                 }
             }
@@ -262,5 +264,9 @@ public class LevelSelector {
 
     public String getTab() {
         return tab;
+    }
+
+    public void closePopup() {
+        popup = null;
     }
 }
