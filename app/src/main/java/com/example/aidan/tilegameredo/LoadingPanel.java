@@ -89,7 +89,7 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
     private void load() {
         Loader.getBackground(context);
         Loader.getBoxImage(context);
-        Loader.getBronzeCrate(context);
+        Loader.getStarBlue(context);
         Loader.getButtonBack(context);
         Loader.getButtonDownload(context);
         Loader.getButtonEdit(context);
@@ -114,10 +114,11 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
         Loader.getDoubleCrate2Image(context);
         Loader.getDoubleCrateImage(context);
         Loader.getEmptyCrateImage(context);
-        Loader.getEmptyStarCrate(context);
+        Loader.getStarBlueBorder(context);
         Loader.getGlowCenter(context);
-        Loader.getGoldCrate(context);
-        Loader.getSilverCrate(context);
+        Loader.getStarBorder(context);
+        Loader.getStarGrey(context);
+        Loader.getStarYellow(context);
         Loader.getSpikeImage(context);
         Loader.getTruck(context);
         Loader.getTruckFull(context);

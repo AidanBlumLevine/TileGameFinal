@@ -22,7 +22,7 @@ public class Menu {
     private Button buttonTopBack;
     private Button buttonMiddle;
     private Rect starArea;
-    private Bitmap goldCrate,silverCrate,bronzeCrate,emptyCrate;
+    private Bitmap starFull,starEmpty;
     private Context context;
     private Game parent;
     private int liveTime=0,oldSwipes=-1;
@@ -41,10 +41,8 @@ public class Menu {
         int starCenterY = (topHeight-boxBuffer-boxSize)/2+boxBuffer+boxSize;
         starArea = new Rect(width/2-4*boxSize/3,starCenterY-boxSize/3,width/2+4*boxSize/3,starCenterY+boxSize/3);
 
-        goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
-        silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-        bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
-        emptyCrate = Bitmap.createScaledBitmap(Loader.getEmptyStarCrate(context),starArea.height(),starArea.height(),false);
+        starEmpty = Bitmap.createScaledBitmap(Loader.getStarBlueBorder(context),starArea.height(),starArea.height(),false);
+        starFull = Bitmap.createScaledBitmap(Loader.getStarBorder(context),starArea.height(),starArea.height(),false);
 
     }
 
@@ -54,33 +52,27 @@ public class Menu {
         update();
         if(parent.getPack().equals("default")) {
             if (parent.getStars() > 2) {
-                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.right - starArea.height(), starArea.top, paint);
             } else if (parent.getSwipes() <= parent.getStarLevels()[0]) {
-                paint.setAlpha(120);
-                canvas.drawBitmap(goldCrate, starArea.right - starArea.height(), starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.right - starArea.height(), starArea.top, paint);
             } else {
-                canvas.drawBitmap(emptyCrate, starArea.right - starArea.height(), starArea.top, paint);
+                //canvas.drawBitmap(emptyCrate, starArea.right - starArea.height(), starArea.top, paint);
             }
 
             if (parent.getStars() > 1) {
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
             } else if (parent.getSwipes() <= parent.getStarLevels()[1]) {
-                paint.setAlpha(120);
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
             } else {
-                canvas.drawBitmap(emptyCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                //canvas.drawBitmap(emptyCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
             }
 
             if (parent.getStars() > 0) {
-                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.left, starArea.top, paint);
             } else if (parent.getSwipes() <= parent.getStarLevels()[2]) {
-                paint.setAlpha(120);
-                canvas.drawBitmap(bronzeCrate, starArea.left, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.left, starArea.top, paint);
             } else {
-                canvas.drawBitmap(emptyCrate, starArea.left, starArea.top, paint);
+                //canvas.drawBitmap(emptyCrate, starArea.left, starArea.top, paint);
             }
         }
     }

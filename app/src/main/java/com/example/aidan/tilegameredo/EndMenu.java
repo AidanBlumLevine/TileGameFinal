@@ -13,7 +13,7 @@ public class EndMenu {
     private Button menu,replay,next;
     private int stars;
     private Rect starArea,buttonArea;
-    private Bitmap goldCrate,silverCrate,bronzeCrate;
+    private Bitmap starFull,starEmpty;
     private Context context;
     private String level,pack;
     public EndMenu(int stars, Context context,String level,String pack) {
@@ -29,17 +29,13 @@ public class EndMenu {
             menu = new Button(buttonArea.centerX() - buttonArea.height() * 5 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() - buttonArea.height() / 2, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
             next = new Button(buttonArea.centerX() + buttonArea.height() * 2 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonRight(context), buttonArea.height(), buttonArea.height(), false));
-            bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
-            silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-            goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
         } else {
-            bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
-            silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-            goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
             menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() + buttonArea.height() / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
         }
         this.context=context;
+        starEmpty = Bitmap.createScaledBitmap(Loader.getStarBlueBorder(context),starArea.height(),starArea.height(),false);
+        starFull = Bitmap.createScaledBitmap(Loader.getStarBorder(context),starArea.height(),starArea.height(),false);
     }
 
     public void touch(int x, int y) {
@@ -74,27 +70,21 @@ public class EndMenu {
         if(next!=null){next.draw(canvas,paint);}
         if(pack.equals("default")) {
             if (stars > 2) {
-                canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);
             } else {
-                paint.setAlpha(100);
-                canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);
             }
 
             if (stars > 1) {
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
             } else {
-                paint.setAlpha(100);
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
             }
 
             if (stars > 0) {
-                canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height() * 5 / 3, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() - starArea.height() * 5 / 3, starArea.top, paint);
             } else {
-                paint.setAlpha(100);
-                canvas.drawBitmap(bronzeCrate, starArea.centerX() - starArea.height() * 5 / 3, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.height() * 5 / 3, starArea.top, paint);
             }
         }
     }

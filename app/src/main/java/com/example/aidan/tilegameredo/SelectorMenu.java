@@ -30,7 +30,7 @@ class SelectorMenu {
     private Button play,edit,delete,back;
     private int textSize;
     private Context context;
-    private Bitmap goldCrate,silverCrate,bronzeCrate;
+    private Bitmap starEmpty,starFull;
     public SelectorMenu(Level level, Bitmap preview, LevelSelector parent, Context context) {
         this.level=level;
         this.parent=parent;
@@ -46,9 +46,11 @@ class SelectorMenu {
         int imageWidth = Math.min(previewArea.height()-100,popupArea.width()-100);
         this.preview = Bitmap.createScaledBitmap(preview,imageWidth,imageWidth,false);
 
-
-        textArea = new Rect(popupArea.left+20+popupArea.width()/4,popupArea.top+border,popupArea.right-20,previewArea.top-border);
-
+        if(parent.getTab() == "custom") {
+            textArea = new Rect(popupArea.left + 20 + popupArea.width() / 4, popupArea.top + border, popupArea.right - 20, previewArea.top - border);
+        } else {
+            textArea = new Rect(popupArea.right-border/2-(previewArea.top-popupArea.top-2*border), popupArea.top + border, popupArea.right - border/2, previewArea.top - border);
+        }
         back = new Button(popupArea.left+border/2,textArea.top+border/2,Bitmap.createScaledBitmap(Loader.getButtonBack(context),textArea.height()-border,textArea.height()-border,false));
 
         play = new Button(popupArea.left+border,previewArea.bottom+border, (popupArea.centerX()-border)-(popupArea.left+border),(popupArea.bottom-border)-(previewArea.bottom+border),Color.rgb(65,99,135),"PLAY",48,Loader.getFont(context));
@@ -61,7 +63,7 @@ class SelectorMenu {
 
 
         Rect testRect = new Rect();
-        int size = 100;
+        int size = 300;
         String levelName = level.getName();
         if(parent.getTab().equals("custom")){
             levelName = levelName.substring(0,levelName.length()-6);
@@ -70,18 +72,17 @@ class SelectorMenu {
         p.setTextSize(size);
         p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         p.getTextBounds(levelName,0,levelName.length(),testRect);
-        while(!(testRect.width()<textArea.width() && testRect.height()<textArea.height())){
+        while(!(testRect.width()<textArea.width() && testRect.height()<textArea.height()-border)){
             size--;
             p.setTextSize(size);
             p.getTextBounds(levelName,0,levelName.length(),testRect);
         }
         textSize=size;
 
-        starArea = new Rect(popupArea.left,textArea.bottom,popupArea.right,previewArea.top);
+        starArea = new Rect(popupArea.left+textArea.height(),textArea.top,textArea.left,textArea.bottom);
 
-        goldCrate = Bitmap.createScaledBitmap(Loader.getGoldCrate(context),starArea.height(),starArea.height(),false);
-        silverCrate = Bitmap.createScaledBitmap(Loader.getSilverCrate(context),starArea.height(),starArea.height(),false);
-        bronzeCrate = Bitmap.createScaledBitmap(Loader.getBronzeCrate(context),starArea.height(),starArea.height(),false);
+        starEmpty = Bitmap.createScaledBitmap(Loader.getStarBlueBorder(context),starArea.width()/5,starArea.width()/5,false);
+        starFull = Bitmap.createScaledBitmap(Loader.getStarBorder(context),starArea.width()/5,starArea.width()/5,false);
     }
 
     public void draw(Canvas canvas, Paint paint) {
@@ -122,31 +123,25 @@ class SelectorMenu {
         canvas.drawText(levelName, xPos, textArea.centerY()+textRect.height()/2, paint);
         paint.reset();
 
-        //if(level.getStarLevels()[0] != 0) {
-            if (level.getStars() > 2) {
-                canvas.drawBitmap(goldCrate, starArea.centerX() + starArea.height(), starArea.top, paint);
+        if(parent.getTab() == "default") {
+            if (level.getStars() > 0) {
+                canvas.drawBitmap(starFull, starArea.left+starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
             } else {
-                paint.setAlpha(120);
-                canvas.drawBitmap(goldCrate, starArea.centerX() +starArea.height(), starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.left+starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
             }
 
             if (level.getStars() > 1) {
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() - starArea.width() / 10, starArea.centerX()-starArea.width()/10, paint);
             } else {
-                paint.setAlpha(120);
-                canvas.drawBitmap(silverCrate, starArea.centerX() - starArea.height() / 2, starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.width() / 10, starArea.centerX()-starArea.width()/10, paint);
             }
 
-            if (level.getStars() > 0) {
-                canvas.drawBitmap(bronzeCrate, starArea.centerX() - 2*starArea.height(), starArea.top, paint);
+            if (level.getStars() > 2) {
+                canvas.drawBitmap(starFull, starArea.right-starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
             } else {
-                paint.setAlpha(120);
-                canvas.drawBitmap(bronzeCrate,   - 2*starArea.height(), starArea.top, paint);
-                paint.reset();
+                canvas.drawBitmap(starEmpty,   starArea.right-starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
             }
-        //}
+        }
     }
 
     public boolean touch(int x, int y, int type) {

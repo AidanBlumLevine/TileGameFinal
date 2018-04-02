@@ -23,7 +23,7 @@ public class Loader {
             buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
             buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
-            buttonDownload,buttonNew,truck,truckFull,lock;
+            buttonDownload,buttonNew,truck,truckFull,lock,starBlue,starBorder,starBlueBorder,starGrey,starYellow;
     private static ArrayList<Bitmap> clouds;
     private static ArrayList<Level> defaultLevels;
     private static ArrayList<Bitmap> defaultPreviews = new ArrayList<>();
@@ -154,33 +154,33 @@ public class Loader {
         return buttonSizeDown;
     }
 
-    public static Bitmap getGoldCrate(Context context) {
-        if (goldCrate == null) {
-            goldCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.goldcrate);
-        }
-        return goldCrate;
-    }
-
-    public static Bitmap getSilverCrate(Context context) {
-        if (silverCrate == null) {
-            silverCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.silvercrate);
-        }
-        return silverCrate;
-    }
-
-    public static Bitmap getBronzeCrate(Context context) {
-        if (bronzeCrate == null) {
-            bronzeCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.bronzecrate);
-        }
-        return bronzeCrate;
-    }
-
-    public static Bitmap getEmptyStarCrate(Context context) {
-        if (emptyStarCrate == null) {
-            emptyStarCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.emptystarcrate);
-        }
-        return emptyStarCrate;
-    }
+//    public static Bitmap getGoldCrate(Context context) {
+//        if (goldCrate == null) {
+//            goldCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.goldcrate);
+//        }
+//        return goldCrate;
+//    }
+//
+//    public static Bitmap getSilverCrate(Context context) {
+//        if (silverCrate == null) {
+//            silverCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.silvercrate);
+//        }
+//        return silverCrate;
+//    }
+//
+//    public static Bitmap getBronzeCrate(Context context) {
+//        if (bronzeCrate == null) {
+//            bronzeCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.bronzecrate);
+//        }
+//        return bronzeCrate;
+//    }
+//
+//    public static Bitmap getEmptyStarCrate(Context context) {
+//        if (emptyStarCrate == null) {
+//            emptyStarCrate = BitmapFactory.decodeResource(context.getResources(), R.drawable.emptystarcrate);
+//        }
+//        return emptyStarCrate;
+//    }
 
     public static Bitmap getButtonPlay(Context context) {
         if (buttonPlay == null) {
@@ -451,5 +451,37 @@ public class Loader {
         for(int i=0;i<height+width;i+=lineWidth*3){
             canvas.drawLine(width-i,0,width,i,paint);
         }
+    }
+
+    public static Bitmap getStarBlue(Context context) {
+        if (starBlue == null) {
+            starBlue = BitmapFactory.decodeResource(context.getResources(), R.drawable.starblue);
+        }
+        return starBlue;
+    }
+
+    public static Bitmap getStarBlueBorder(Context context) {
+        if (starBlueBorder == null) {
+            starBlueBorder = BitmapFactory.decodeResource(context.getResources(), R.drawable.starborderblue);
+        }
+        return starBlueBorder;
+    }
+    public static Bitmap getStarBorder(Context context) {
+        if (starBorder == null) {
+            starBorder = BitmapFactory.decodeResource(context.getResources(), R.drawable.starborder);
+        }
+        return starBorder;
+    }
+    public static Bitmap getStarGrey(Context context) {
+        if (starGrey == null) {
+            starGrey = BitmapFactory.decodeResource(context.getResources(), R.drawable.stargrey);
+        }
+        return starGrey;
+    }
+    public static Bitmap getStarYellow(Context context) {
+        if (starYellow == null) {
+            starYellow = BitmapFactory.decodeResource(context.getResources(), R.drawable.staryellow);
+        }
+        return starYellow;
     }
 }
