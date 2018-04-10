@@ -70,7 +70,7 @@ class SelectorMenu {
         }
         Paint p = new Paint();
         p.setTextSize(size);
-        p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        p.setTypeface(Loader.getFont(context));
         p.getTextBounds(levelName,0,levelName.length(),testRect);
         while(!(testRect.width()<textArea.width() && testRect.height()<textArea.height()-border)){
             size--;
@@ -111,7 +111,7 @@ class SelectorMenu {
         paint.setColor(Color.argb(200,0,0,0));
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(textSize);
-        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paint.setTypeface(Loader.getFont(context));
         int xPos = (textArea.centerX());
         String levelName = level.getName();
         if(parent.getTab().equals("custom")){

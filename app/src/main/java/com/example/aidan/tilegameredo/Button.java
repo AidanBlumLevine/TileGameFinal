@@ -34,6 +34,29 @@ public class Button {
         this.typeface = typeface;
     }
 
+    public Button(int x, int y, int width, int height, int color, String text, Typeface typeface) {
+        this.x=x;
+        this.y=y;
+        this.width = width;
+        this.height=height;
+        this.color=color;
+        this.text=text;
+        this.typeface = typeface;
+
+        Rect testRect = new Rect();
+        int size = 300;
+        Paint p = new Paint();
+        p.setTextSize(size);
+        p.setTypeface(typeface);
+        p.getTextBounds(text,0,text.length(),testRect);
+        while(!(testRect.width()<width*0.9 && testRect.height()<height*0.9)){
+            size--;
+            p.setTextSize(size);
+            p.getTextBounds(text,0,text.length(),testRect);
+        }
+        textSize=size;
+    }
+
     public void draw(Canvas canvas,Paint paint){
         if(color == -666) {
             if (hover) {

@@ -405,7 +405,7 @@ public class Loader {
     public static Typeface getFont(Context context) {
         if(font==null) {
             try {
-                Typeface plain = Typeface.createFromAsset(context.getAssets(), "helvetica.ttf");
+                Typeface plain = Typeface.createFromAsset(context.getAssets(), "ariblk.ttf");
                 font = plain;
             } catch (Exception e) {
                 Log.e("FONT NOT LOADED", "FONT ERRORORORORORR");

@@ -38,7 +38,7 @@ public class LevelEditor {
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int buffer = 40;
+        int buffer = width/10;
 
         playingField = new Rect(buffer, (height - width + 2 * buffer) / 2, width - buffer, (height + width - 2 * buffer) / 2);
 
@@ -54,7 +54,7 @@ public class LevelEditor {
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int buffer = 40;
+        int buffer = width/12;
 
         playingField = new Rect(buffer, (height - width + 2 * buffer) / 2, width - buffer, (height + width - 2 * buffer) / 2);
 
@@ -165,8 +165,8 @@ public class LevelEditor {
     public void draw(Canvas canvas, Paint paint,Context context) {
         Loader.drawBackground(canvas, paint);
 
-        paint.setARGB(180,255,255,255);
-        canvas.drawRect(playingField.left-10,playingField.top-10,playingField.right+10,playingField.bottom+10,paint);
+        paint.setARGB(255,255,255,255);
+        canvas.drawRect(playingField.left,playingField.top,playingField.right,playingField.bottom,paint);
         paint.reset();
         editorMenu.paint(canvas,paint);
         paint.reset();
