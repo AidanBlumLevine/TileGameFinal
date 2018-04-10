@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Looper;
@@ -56,25 +57,30 @@ public class EditorMenu {
         iconArea = new Rect(screenWidth/2  -  bottomHeight*3/2,levelArea.bottom+edgeBuffer,screenWidth/2  +  bottomHeight*3/2,screenHeight-edgeBuffer);
 
         buttonTopBack = new Button(buttonArea.left+edgeBuffer, buttonArea.left + edgeBuffer*3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),edgeBuffer*3,edgeBuffer*3,false));
-        buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(Loader.getButtonSave(context),boxSize,boxSize,false));
+        buttonSave = new Button(buttonArea.centerX()-edgeBuffer*2,buttonArea.centerY()-edgeBuffer,edgeBuffer*4,edgeBuffer*2,Color.BLUE,"SAVE",48,Loader.getFont(context));
         buttonSizeUp = new Button(buttonArea.right-3*edgeBuffer,buttonArea.top+edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeUp(context),edgeBuffer*2,edgeBuffer*2,false));
-        buttonSizeDown = new Button(buttonArea.right-3*edgeBuffer,buttonArea.bottom-3*edgeBuffer, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),edgeBuffer*2,edgeBuffer*2,false));
+        buttonSizeDown = new Button(buttonArea.right-3*edgeBuffer,buttonArea.bottom-3*edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),edgeBuffer*2,edgeBuffer*2,false));
 
 
+        int bufferX = iconArea.width()/30;
+        int iconWidth = (iconArea.width()-7*bufferX)/6;
+        int bufferY = (iconArea.height()-iconWidth*2)/3;
+        int left = iconArea.left;
+        int top = iconArea.top;
+        int buffer = Math.min(bufferX,bufferY);
+        box = new Rect(buffer+left,buffer+top,iconWidth+buffer+left,iconWidth+buffer+top);
+        crate = new Rect(2*buffer+iconWidth+left,buffer+top,2*buffer+2*iconWidth+left,buffer+iconWidth+top);
+        doubleCrate2 = new Rect(buffer+left,2*buffer+iconWidth+top,2*iconWidth+2*buffer+left,2*iconWidth+2*buffer+top);
+        doubleCrate = new Rect(3*buffer+2*iconWidth+left,buffer+top,3*iconWidth+3*buffer+left,2*iconWidth+2*buffer+top);
 
-        box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
-        crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
-        doubleCrate2 = new Rect((int)(1.5*buffer)+centeringBuffer,2*buffer+tileSize,2*(tileSize+(int)(.7*buffer))+centeringBuffer,2*(tileSize+buffer));
-        doubleCrate = new Rect(3*buffer+2*tileSize+centeringBuffer,(int)(1.5*buffer),3*tileSize+3*buffer+centeringBuffer,2*tileSize+2*(int)(.7*buffer));
+        emptyCrate = new Rect(4*buffer+3*iconWidth+left,buffer+top,4*(iconWidth+buffer)+left,iconWidth+buffer+top);
+        wall = new Rect(4*buffer+3*iconWidth+left,2*buffer+iconWidth+top,4*(iconWidth+buffer)+left,2*(iconWidth+buffer)+top);
 
-        emptyCrate = new Rect(4*buffer+3*tileSize+centeringBuffer,buffer,4*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
-        wall = new Rect(4*buffer+3*tileSize+centeringBuffer,2*buffer+tileSize,4*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
+        spike = new Rect(5*buffer+4*iconWidth+left,3*buffer/2+top+iconWidth/2,5*(iconWidth+buffer)+left,3*buffer/2+top+3*iconWidth/2);
+        spike2 = new Rect(11*buffer/2+9*iconWidth/2+left,buffer+top,11*buffer/2+11*iconWidth/2+left,buffer+iconWidth+top);
 
-        spike = new Rect(5*buffer+4*tileSize+centeringBuffer,buffer,5*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
-        spike2 = new Rect(5*buffer+4*tileSize+centeringBuffer,2*buffer+tileSize,5*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
-
-        spike3 = new Rect(6*buffer+5*tileSize+centeringBuffer,buffer,6*(tileSize+buffer)+centeringBuffer,tileSize+buffer);
-        spike4 = new Rect(6*buffer+5*tileSize+centeringBuffer,2*buffer+tileSize,6*(tileSize+buffer)+centeringBuffer,2*(tileSize+buffer));
+        spike3 = new Rect(6*buffer+5*iconWidth+left,3*buffer/2+top+iconWidth/2,6*iconWidth+6*buffer+left,3*buffer/2+top+3*iconWidth/2);
+        spike4 = new Rect(11*buffer/2+9*iconWidth/2+left,2*buffer+iconWidth+top,11*iconWidth/2+11*buffer/2+left,2*(iconWidth+buffer)+top);
 
         boxImgRaw = Loader.getBoxImage(context);
         crateImgRaw = Loader.getCrateImage(context);
