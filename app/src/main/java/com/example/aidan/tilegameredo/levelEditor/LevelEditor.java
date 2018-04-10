@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class LevelEditor {
     private final int fps=100;
-    private final double sizeMultiplier = 1;
+    private final double sizeMultiplier = 1.01;
 
     private int levelWidth = 12;
     private int touchX,touchY;

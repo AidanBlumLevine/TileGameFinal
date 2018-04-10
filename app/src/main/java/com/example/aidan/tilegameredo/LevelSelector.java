@@ -46,9 +46,9 @@ public class LevelSelector {
         int tabHeight = screenHeight / 7;
         listArea = new Rect(edgeBuffer,tabHeight+(int)(edgeBuffer*1.5),screenWidth-edgeBuffer,screenHeight-edgeBuffer);
 
-        backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),5*tabHeight/6,2*tabHeight/3,false));
-        tabDefault = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+tabHeight/9,3*tabHeight/2,tabHeight/3,Color.rgb(255,100,72),"default",48,Loader.getFont(context));
-        tabCustom = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+5*tabHeight/9,3*tabHeight/2,tabHeight/3,Color.rgb(65,99,135),"custom",48,Loader.getFont(context));
+        backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),2*tabHeight/3,2*tabHeight/3,false));
+        tabDefault = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(255,100,72),"DEFAULT LEVELS",48,Loader.getFont(context));
+        tabCustom = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+5*tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(65,99,135),"CUSTOM LEVELS",48,Loader.getFont(context));
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
@@ -64,8 +64,8 @@ public class LevelSelector {
         //canvas.drawRect(edgeBuffer,edgeBuffer*2+(screenHeight/12-10),screenWidth-edgeBuffer,screenHeight-edgeBuffer,paint);
         //paint.setARGB(100,0,0,0);
         //canvas.drawRect(edgeBuffer/2,edgeBuffer/2,screenWidth-edgeBuffer/2,edgeBuffer*2+(screenHeight/12-10)-edgeBuffer/2,paint);
-        paint.reset();
-
+        paint.setColor(Color.rgb(230,230,230));
+        canvas.drawRect(listArea.left,listArea.top+edgeBuffer/2+3,listArea.right,listArea.top+edgeBuffer/2+3,paint);
         canvas.save();
         canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
@@ -158,10 +158,8 @@ public class LevelSelector {
                 }
             }
         }
-        paint.setMaskFilter(new BlurMaskFilter(5, BlurMaskFilter.Blur.NORMAL));
-        paint.setColor(Color.argb(150,100,100,100));
-        canvas.drawRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.top+edgeBuffer/2+2,paint);
-        paint.reset();
+        paint.setColor(Color.rgb(230,230,230));
+        canvas.drawRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.top+edgeBuffer/2+3,paint);
         canvas.restore();
         paint.reset();
 

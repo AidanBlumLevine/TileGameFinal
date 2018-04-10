@@ -125,21 +125,21 @@ class SelectorMenu {
 
         if(parent.getTab() == "default") {
             if (level.getStars() > 0) {
-                canvas.drawBitmap(starFull, starArea.left+starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starFull, starArea.left+starArea.width()/10, starArea.centerY()-starArea.width()/10, paint);
             } else {
-                canvas.drawBitmap(starEmpty, starArea.left+starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starEmpty, starArea.left+starArea.width()/10, starArea.centerY()-starArea.width()/10, paint);
             }
 
             if (level.getStars() > 1) {
-                canvas.drawBitmap(starFull, starArea.centerX() - starArea.width() / 10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starFull, starArea.centerX() - starArea.width() / 10, starArea.centerY()-starArea.width()/10, paint);
             } else {
-                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.width() / 10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starEmpty, starArea.centerX() - starArea.width() / 10, starArea.centerY()-starArea.width()/10, paint);
             }
 
             if (level.getStars() > 2) {
-                canvas.drawBitmap(starFull, starArea.right-starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starFull, starArea.right-3*starArea.width()/10, starArea.centerY()-starArea.width()/10, paint);
             } else {
-                canvas.drawBitmap(starEmpty,   starArea.right-starArea.width()/10, starArea.centerX()-starArea.width()/10, paint);
+                canvas.drawBitmap(starEmpty,   starArea.right-3*starArea.width()/10, starArea.centerY()-starArea.width()/10, paint);
             }
         }
     }

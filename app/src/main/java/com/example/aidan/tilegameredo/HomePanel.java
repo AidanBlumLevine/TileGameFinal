@@ -35,7 +35,7 @@ public class HomePanel extends SurfaceView implements Runnable{
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         play = new Button(100,height*3/4,width/5,width/12,Color.rgb(65,99,135),"PLAY",48,Loader.getFont(context));
-        edit = new Button(100,height*3/4+width/9,width/2,width/12,Color.rgb(65,99,135),"LEVEL EDITOR",48,Loader.getFont(context));
+        edit = new Button(100,height*3/4+width/9,7*width/18,width/12,Color.rgb(65,99,135),"LEVEL EDITOR",48,Loader.getFont(context));
 
     }
 

@@ -26,11 +26,11 @@ public class EndMenu {
         buttonArea = new  Rect(width/5,height/2+25,width/5*4,height/2+200);
 
         if(pack.equals("default") && Integer.valueOf(new Level(level).getName())+1<=LevelGenerator.numberOfLevels()) {
-            menu = new Button(buttonArea.centerX() - buttonArea.height() * 5 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
+            menu = new Button(buttonArea.centerX() - buttonArea.height() * 5 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonBack(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() - buttonArea.height() / 2, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
             next = new Button(buttonArea.centerX() + buttonArea.height() * 2 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonRight(context), buttonArea.height(), buttonArea.height(), false));
         } else {
-            menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonMenu(context), buttonArea.height(), buttonArea.height(), false));
+            menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonBack(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() + buttonArea.height() / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
         }
         this.context=context;

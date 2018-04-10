@@ -34,12 +34,12 @@ import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
 
 public class EditorMenu {
     private String selectedItem = "null";
-    private int boxSize;
     private Button buttonSave,buttonTopBack,buttonSizeUp,buttonSizeDown;
     private Rect box,crate,doubleCrate,emptyCrate,spike,wall,spike2,spike3,spike4,doubleCrate2;
 
     private Bitmap boxImg,crateImg,doubleCrate1Img,doubleCrate2Img,emptyCrateImg,spikeImg,wallImg,
             boxImgRaw,crateImgRaw,doubleCrate1ImgRaw,doubleCrate2ImgRaw,emptyCrateImgRaw,spikeImgRaw,wallImgRaw;
+    private Rect buttonArea, levelArea, iconArea;
     private Context context;
     private LevelEditor parent;
     AlertDialog.Builder builder;
@@ -49,21 +49,18 @@ public class EditorMenu {
         int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        int buffer = 20;
-        int height = parent.getPlayingField().top;
-        int tileSize = Math.min((height-3*buffer)/2,(screenWidth-7*buffer)/6);
-        int centeringBuffer = (screenWidth-buffer*7-tileSize*6)/2;
+        int edgeBuffer = screenWidth/20;
+        levelArea = parent.getPlayingField();
+        buttonArea = new Rect(edgeBuffer,edgeBuffer,screenWidth-edgeBuffer,levelArea.top-edgeBuffer);
+        int bottomHeight = screenHeight-levelArea.bottom-edgeBuffer*2;
+        iconArea = new Rect(screenWidth/2  -  bottomHeight*3/2,levelArea.bottom+edgeBuffer,screenWidth/2  +  bottomHeight*3/2,screenHeight-edgeBuffer);
 
-        int bottomSpaceHeight = screenHeight - parent.getPlayingField().bottom;
-        int topBottomBuffer = bottomSpaceHeight / 8;
-        int leftRightBuffer = screenWidth / 18;
-
-        boxSize = bottomSpaceHeight - topBottomBuffer * 3;
-        buttonTopBack = new Button(leftRightBuffer, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
+        buttonTopBack = new Button(buttonArea.left+edgeBuffer, buttonArea.left + edgeBuffer*3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),edgeBuffer*3,edgeBuffer*3,false));
         buttonSave = new Button(screenWidth-leftRightBuffer-boxSize, parent.getPlayingField().bottom + topBottomBuffer,Bitmap.createScaledBitmap(Loader.getButtonSave(context),boxSize,boxSize,false));
-        int smallBoxSize = boxSize/2;
-        buttonSizeUp = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2,parent.getPlayingField().bottom + leftRightBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeUp(context),smallBoxSize,smallBoxSize,false));
-        buttonSizeDown = new Button(parent.getPlayingField().centerX()-(smallBoxSize)/2, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),smallBoxSize,smallBoxSize,false));
+        buttonSizeUp = new Button(buttonArea.right-3*edgeBuffer,buttonArea.top+edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeUp(context),edgeBuffer*2,edgeBuffer*2,false));
+        buttonSizeDown = new Button(buttonArea.right-3*edgeBuffer,buttonArea.bottom-3*edgeBuffer, parent.getPlayingField().bottom + leftRightBuffer+smallBoxSize,Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),edgeBuffer*2,edgeBuffer*2,false));
+
+
 
         box = new Rect(buffer+centeringBuffer,buffer,tileSize+buffer+centeringBuffer,tileSize+buffer);
         crate = new Rect(2*buffer+tileSize+centeringBuffer,buffer,2*buffer+2*tileSize+centeringBuffer,buffer+tileSize);
