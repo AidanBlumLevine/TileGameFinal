@@ -53,12 +53,12 @@ public class EditorMenu {
         int edgeBuffer = screenWidth/20;
         levelArea = parent.getPlayingField();
         buttonArea = new Rect(edgeBuffer,edgeBuffer,screenWidth-edgeBuffer,levelArea.top-edgeBuffer);
-        int bottomHeight = screenHeight-levelArea.bottom-edgeBuffer*2;
+        //int bottomHeight = screenHeight-levelArea.bottom-edgeBuffer*2;
         // iconArea = new Rect(screenWidth/2  -  bottomHeight*3/2,levelArea.bottom+edgeBuffer,screenWidth/2  +  bottomHeight*3/2,screenHeight-edgeBuffer);
         iconArea = new Rect(levelArea.left+edgeBuffer/2,levelArea.bottom+edgeBuffer,levelArea.right-edgeBuffer/2,screenHeight-edgeBuffer);
 
         buttonTopBack = new Button(buttonArea.left+edgeBuffer, buttonArea.centerY() - 5*edgeBuffer/4,Bitmap.createScaledBitmap(Loader.getButtonBack(context),edgeBuffer*3,5*edgeBuffer/2,false));
-        buttonSave = new Button(buttonArea.left+edgeBuffer*5,buttonArea.centerY()-5*edgeBuffer/4,edgeBuffer*6,5*edgeBuffer/2,Color.rgb(65,99,135),"SAVE",Loader.getFont(context));
+        buttonSave = new Button(buttonArea.left+edgeBuffer*5,buttonArea.centerY()-5*edgeBuffer/4,edgeBuffer*6,5*edgeBuffer/2,Color.rgb(65,99,135),"Save",Loader.getFont(context));
         buttonSizeDown = new Button(buttonArea.right-4*edgeBuffer,buttonArea.centerY(),Bitmap.createScaledBitmap(Loader.getButtonSizeDown(context),edgeBuffer*3,edgeBuffer*3,false));
         buttonSizeUp = new Button(buttonArea.right-4*edgeBuffer,buttonArea.centerY()-3*edgeBuffer,Bitmap.createScaledBitmap(Loader.getButtonSizeUp(context),edgeBuffer*3,edgeBuffer*3,false));
 
