@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -25,6 +26,7 @@ public class HomePanel extends SurfaceView implements Runnable{
     private Paint paint;
     private Button play,edit;
     private Context context;
+    private Bitmap logo;
     public HomePanel(Context context){
         super(context);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
@@ -36,6 +38,9 @@ public class HomePanel extends SurfaceView implements Runnable{
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         play = new Button(100,height*3/4,width/5,width/12,Color.rgb(65,99,135),"PLAY",48,Loader.getFont(context));
         edit = new Button(100,height*3/4+width/9,7*width/18,width/12,Color.rgb(65,99,135),"LEVEL EDITOR",48,Loader.getFont(context));
+        Bitmap temp = Loader.getLogo(context);
+        logo = Bitmap.createScaledBitmap(temp,(int)(width*.8),(int)((double)temp.getHeight()/temp.getWidth()*width*.8),false);
+
 
     }
 
@@ -45,6 +50,7 @@ public class HomePanel extends SurfaceView implements Runnable{
             Loader.drawBackground(canvas, paint);
             play.draw(canvas,paint);
             edit.draw(canvas,paint);
+            canvas.drawBitmap(logo,(int)(logo.getWidth()/1.6-logo.getWidth()/2),100,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }

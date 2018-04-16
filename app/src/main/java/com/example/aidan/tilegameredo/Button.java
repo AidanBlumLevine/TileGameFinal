@@ -32,6 +32,17 @@ public class Button {
         this.text=text;
         this.textSize=textSize;
         this.typeface = typeface;
+
+        Rect testRect = new Rect();
+        Paint p = new Paint();
+        p.setTextSize(textSize);
+        p.setTypeface(typeface);
+        p.getTextBounds(text,0,text.length(),testRect);
+        while(!(testRect.width()<width*0.9 && testRect.height()<height*0.9)){
+            width++;
+        }
+
+        this.width = width;
     }
 
     public Button(int x, int y, int width, int height, int color, String text, Typeface typeface) {

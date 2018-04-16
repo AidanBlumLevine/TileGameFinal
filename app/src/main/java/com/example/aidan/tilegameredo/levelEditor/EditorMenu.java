@@ -165,6 +165,8 @@ public class EditorMenu {
         buttonSizeUp.draw(canvas,paint);
         buttonTopBack.draw(canvas,paint);
 
+        //canvas.drawRect(re);
+
         int tX=parent.getTouchX();
         int tY=parent.getTouchY();
         buttonSave.touch(tX,tY);
