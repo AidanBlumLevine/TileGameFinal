@@ -70,7 +70,7 @@ public class LevelSelector {
         canvas.clipRect(listArea.left,listArea.top+edgeBuffer/2,listArea.right,listArea.bottom-edgeBuffer/2);
         for(int i=0;i<levels.size();i++){
             int yPosition = (i-i%3)/3*(levelHeight+levelBuffer)+levelBuffer+listArea.top-scrollPosition;
-            if(yPosition<screenHeight) {
+            if(yPosition<screenHeight && previews.size()>i) {
                 Rect thisLevel;
                 paint.setAntiAlias(true);
 

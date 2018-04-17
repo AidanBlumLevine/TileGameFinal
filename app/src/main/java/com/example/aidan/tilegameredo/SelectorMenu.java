@@ -120,6 +120,7 @@ class SelectorMenu {
         }
         Rect textRect = new Rect();
         paint.getTextBounds(levelName,0,levelName.length(),textRect);
+        paint.setColor(Color.rgb(65,99,135));
         canvas.drawText(levelName, xPos, textArea.centerY()+textRect.height()/2, paint);
         paint.reset();
 
@@ -199,13 +200,13 @@ class SelectorMenu {
         SharedPreferences.Editor editor = settings.edit();
         Level deleteLevel = level;
         editor.remove(deleteLevel.getName());
+        String fixedDeleteName = deleteLevel.getName().substring(0,deleteLevel.getName().length()-6);
         String newNamesList = settings.getString(parent.getTab()+"LevelNames","");
-        editor.putString(parent.getTab()+"LevelNames",newNamesList.replace(deleteLevel.getName()+",",""));
+        editor.putString(parent.getTab()+"LevelNames",newNamesList.replace(fixedDeleteName+",",""));
         editor.remove(deleteLevel.getName()+parent.getTab());
         editor.commit();
         Intent i = new Intent(context,SelectorScreen.class);
         context.startActivity(i);
-        ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         Loader.loadCustomLevels(context);
     }
 }

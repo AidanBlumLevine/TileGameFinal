@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/cratepixelated"
+        android:icon="@drawable/yellowbox"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/cratepixelated"
+        android:roundIcon="@drawable/yellowbox"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

@@ -65,7 +65,9 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
+            paint.setAlpha(100);
             Loader.drawBackground(canvas, paint);
+            paint.reset();
             canvas.save();
             canvas.rotate((float)angle,width/2,height/2);
             canvas.drawBitmap(truck,width/2-truck.getWidth(),height/2-truck.getHeight()/2-width/4,paint);
