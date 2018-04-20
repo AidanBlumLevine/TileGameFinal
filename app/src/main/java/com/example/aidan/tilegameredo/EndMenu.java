@@ -28,7 +28,7 @@ public class EndMenu {
         if(pack.equals("default") && Integer.valueOf(new Level(level).getName())+1<=LevelGenerator.numberOfLevels()) {
             menu = new Button(buttonArea.centerX() - buttonArea.height() * 5 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonBack(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() - buttonArea.height() / 2, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
-            next = new Button(buttonArea.centerX() + buttonArea.height() * 2 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonRight(context), buttonArea.height(), buttonArea.height(), false));
+            next = new Button(buttonArea.centerX() + buttonArea.height() * 2 / 3, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonNext(context), buttonArea.height(), buttonArea.height(), false));
         } else {
             menu = new Button(buttonArea.centerX() - buttonArea.height() * 13 / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonBack(context), buttonArea.height(), buttonArea.height(), false));
             replay = new Button(buttonArea.centerX() + buttonArea.height() / 12, buttonArea.top, Bitmap.createScaledBitmap(Loader.getButtonReset(context), buttonArea.height(), buttonArea.height(), false));
@@ -64,10 +64,12 @@ public class EndMenu {
     }
 
     public void draw(Canvas canvas, Paint paint) {
-        canvas.drawColor(Color.BLACK);
+        Loader.drawBackground(canvas,paint);
         menu.draw(canvas,paint);
         replay.draw(canvas,paint);
-        if(next!=null){next.draw(canvas,paint);}
+        if(next!=null){
+            next.draw(canvas,paint);
+        }
         if(pack.equals("default")) {
             if (stars > 2) {
                 canvas.drawBitmap(starFull, starArea.centerX() + starArea.height() * 2 / 3, starArea.top, paint);

@@ -36,7 +36,7 @@ public class Menu {
         int boxSize = Math.min((width - boxBuffer*7)/4,topHeight/3);
 
         buttonTopBack = new Button(width/2-3*boxBuffer/2-boxSize*2, boxBuffer, Bitmap.createScaledBitmap(Loader.getButtonBack(context),boxSize,boxSize,false));
-        buttonMiddle = new Button(width/2-boxBuffer/2-boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonReset(context),boxSize,boxSize,false));
+        buttonMiddle = new Button(width/2+3*boxBuffer/2+boxSize, boxBuffer,Bitmap.createScaledBitmap(Loader.getButtonReset(context),boxSize,boxSize,false));
 
         int starCenterY = (topHeight-boxBuffer-boxSize)/2+boxBuffer+boxSize;
         starArea = new Rect(width/2-4*boxSize/3,starCenterY-boxSize/3,width/2+4*boxSize/3,starCenterY+boxSize/3);

@@ -23,7 +23,7 @@ public class Loader {
             buttonTopBack,buttonTrash,buttonSave,buttonSizeUp,buttonSizeDown,
             goldCrate,silverCrate,bronzeCrate,emptyStarCrate,buttonPlay,buttonWideBlank,
             buttonShare,buttonMenu,buttonEdit,buttonTopRated,buttonSearch,buttonMostPlayed,
-            buttonDownload,buttonNew,truck,truckFull,lock,starBlue,starBorder,starBlueBorder,starGrey,starYellow,logo;
+            buttonDownload,buttonNew,truck,truckFull,lock,starBlue,starBorder,starBlueBorder,starGrey,starYellow,logo,next;
     private static ArrayList<Bitmap> clouds;
     private static ArrayList<Level> defaultLevels;
     private static ArrayList<Bitmap> defaultPreviews = new ArrayList<>();
@@ -490,5 +490,12 @@ public class Loader {
             logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo2);
         }
         return logo;
+    }
+
+    public static Bitmap getButtonNext(Context context) {
+        if (next == null) {
+            next = BitmapFactory.decodeResource(context.getResources(), R.drawable.next);
+        }
+        return next;
     }
 }

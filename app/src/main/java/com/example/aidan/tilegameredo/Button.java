@@ -106,4 +106,18 @@ public class Button {
     public boolean getHover(){
         return hover;
     }
+
+    public float centerX() {
+        if(color == -666) {
+            return x + image.getWidth() / 2;
+        }
+        return x+width/2;
+    }
+
+    public float centerY() {
+        if(color == -666) {
+            return y + image.getHeight() / 2;
+        }
+        return y+height/2;
+    }
 }
