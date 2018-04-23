@@ -47,8 +47,8 @@ public class LevelSelector {
         listArea = new Rect(edgeBuffer,tabHeight+(int)(edgeBuffer*1.5),screenWidth-edgeBuffer,screenHeight-edgeBuffer);
 
         backButton = new Button(edgeBuffer*3,tabHeight/2+edgeBuffer-tabHeight/3,Bitmap.createScaledBitmap(Loader.getButtonBack(context),2*tabHeight/3,2*tabHeight/3,false));
-        tabDefault = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(255,100,72),"DEFAULT LEVELS",48,Loader.getFont(context));
-        tabCustom = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+5*tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(65,99,135),"CUSTOM LEVELS",48,Loader.getFont(context));
+        tabDefault = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(255,100,72),"Default Levels",48,Loader.getFont(context));
+        tabCustom = new Button(5*tabHeight/6+edgeBuffer*6,edgeBuffer+5*tabHeight/9,7*tabHeight/4,tabHeight/3,Color.rgb(65,99,135),"Custom Levels",48,Loader.getFont(context));
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         maxLevel = settings.getInt("maxLevel",1);
