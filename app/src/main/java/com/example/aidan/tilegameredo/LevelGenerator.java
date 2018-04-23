@@ -6,7 +6,6 @@ package com.example.aidan.tilegameredo;
         import android.content.res.Resources;
         import android.content.res.XmlResourceParser;
         import android.preference.PreferenceManager;
-        import android.util.Log;
 
         import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbBox;
         import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbCrate;
@@ -25,8 +24,6 @@ public class LevelGenerator {
         ArrayList<Level> levels = new ArrayList<>();
         if(pack.equals("default")) {
             for(int i=1;i<=numberOfDefaultLevels;i++){
-                Log.e("T",getLevel(i,context).toString());
-
                 levels.add(getLevel(i,context));
             }
         } else {
@@ -95,7 +92,6 @@ public class LevelGenerator {
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
                         String stars = settings.getString("stars"+waveId,"0");
                         String fullLevel = waveId+"|"+stars+"|"+starLevels[0]+","+starLevels[1]+","+starLevels[2]+"|"+width+"|"+level;
-                        Log.e("level",""+fullLevel);
                         returnLevel = new Level(fullLevel);
                         return returnLevel;
                     } else if(tagname.equalsIgnoreCase("type")){
@@ -158,7 +154,6 @@ public class LevelGenerator {
                 e.printStackTrace();
             }
         }
-        Log.e("Test","Cannot find level");
         return null;
     }
 

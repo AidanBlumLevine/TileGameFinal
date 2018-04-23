@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.example.aidan.tilegameredo.levelEditor.dumbTiles.DumbWall;
 import com.example.aidan.tilegameredo.particles.Particle;
@@ -408,7 +407,6 @@ public class Loader {
                 Typeface plain = Typeface.createFromAsset(context.getAssets(), "ariblk.ttf");
                 font = plain;
             } catch (Exception e) {
-                Log.e("FONT NOT LOADED", "FONT ERRORORORORORR");
             }
         }
         return font;
@@ -494,7 +492,7 @@ public class Loader {
 
     public static Bitmap getButtonNext(Context context) {
         if (next == null) {
-            next = BitmapFactory.decodeResource(context.getResources(), R.drawable.next);
+            next = BitmapFactory.decodeResource(context.getResources(), R.drawable.bluebox);
         }
         return next;
     }

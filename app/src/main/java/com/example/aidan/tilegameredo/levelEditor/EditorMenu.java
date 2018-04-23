@@ -222,7 +222,7 @@ public class EditorMenu {
         if (buttonTopBack.getHover()) {
             Intent i = new Intent(context,HomeScreen.class);
             context.startActivity(i);
-            ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+            //((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
         }
         if (buttonSave.getHover()) {
             builder = new AlertDialog.Builder(context);

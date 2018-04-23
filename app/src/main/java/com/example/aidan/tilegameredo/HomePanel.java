@@ -18,6 +18,8 @@ import com.example.aidan.tilegameredo.levelEditor.LevelEditor;
 import com.example.aidan.tilegameredo.levelEditor.LevelEditorScreen;
 import com.example.aidan.tilegameredo.particles.Particle;
 
+import java.util.ArrayList;
+
 public class HomePanel extends SurfaceView implements Runnable{
     private volatile Boolean playing;
     private Thread gameThread = null;
@@ -27,6 +29,7 @@ public class HomePanel extends SurfaceView implements Runnable{
     private Button play,edit;
     private Context context;
     private Bitmap logo;
+    private ArrayList<int[]> touches = new ArrayList<>();
     public HomePanel(Context context){
         super(context);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);
@@ -59,6 +62,17 @@ public class HomePanel extends SurfaceView implements Runnable{
     public void run() {
         while (playing) {
             draw();
+            try {
+                if (touches != null) {
+                    for (int i = 0; i < touches.size(); i++) {
+                        touch(touches.get(i)[0], touches.get(i)[1]);
+                        Log.e("Tounch on thread",Thread.currentThread().getName());
+                    }
+                    touches.clear();
+                }
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -94,13 +108,13 @@ public class HomePanel extends SurfaceView implements Runnable{
     public boolean onTouchEvent(MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
-                touch(-1,-1);
+                touches.add(new int[]{-1,-1});
                 break;
             case MotionEvent.ACTION_DOWN:
-                touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                touches.add(new int[]{(int)motionEvent.getRawX(),(int)motionEvent.getRawY()});
                 break;
             case MotionEvent.ACTION_MOVE:
-                touch((int)motionEvent.getRawX(),(int)motionEvent.getRawY());
+                touches.add(new int[]{(int)motionEvent.getRawX(),(int)motionEvent.getRawY()});
         }
         return true;
     }

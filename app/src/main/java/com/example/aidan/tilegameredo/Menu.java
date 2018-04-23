@@ -93,7 +93,7 @@ public class Menu {
             if (buttonTopBack.getHover()) {
                 Intent i = new Intent(context,SelectorScreen.class);
                 context.startActivity(i);
-                ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+                //((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
 
         }

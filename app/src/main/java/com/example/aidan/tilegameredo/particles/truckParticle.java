@@ -47,7 +47,7 @@ public class truckParticle extends Particle{
         if(mode==1){
             paint.reset();
             canvas.drawBitmap(truck,x,targetY-targetSize,paint);
-            x+=1400/parent.getFps();
+            x+=5000/parent.getFps();
             if(Math.abs(x+truck.getWidth()/2 - targetX) <= 7){
                 mode=2;
                 super.setTime(300);

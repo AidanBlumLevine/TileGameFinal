@@ -54,7 +54,8 @@ public class LevelSelector {
         maxLevel = settings.getInt("maxLevel",1);
 
         previews = Loader.getDefaultPreviews();
-        levelHeight = 6*previews.get(0).getHeight()/4;
+        if(previews.get(0) != null)
+            levelHeight = 6*previews.get(0).getHeight()/4;
     }
 
     public  void draw(Canvas canvas, Paint paint) {
@@ -179,7 +180,7 @@ public class LevelSelector {
             if(backButton.getHover() && popup==null){
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
-                ((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
+                //((AppCompatActivity)context).overridePendingTransition(R.anim.up_to_mid,R.anim.mid_to_down);
             }
             if(tabDefault.getHover() && !tab.equals("default") && popup==null){
                 levels = Loader.getDefaultLevels();
@@ -256,7 +257,7 @@ public class LevelSelector {
         i.putExtra("level", selectedLevel.toString());
         i.putExtra("pack", tab);
         context.startActivity(i);
-        ((AppCompatActivity) context).overridePendingTransition(R.anim.down_to_mid, R.anim.mid_to_up);
+        //((AppCompatActivity) context).overridePendingTransition(R.anim.down_to_mid, R.anim.mid_to_up);
 
     }
 

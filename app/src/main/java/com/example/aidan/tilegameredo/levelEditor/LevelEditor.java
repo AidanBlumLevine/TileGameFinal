@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Debug;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.aidan.tilegameredo.Loader;
 import com.example.aidan.tilegameredo.Level;
@@ -34,6 +36,8 @@ public class LevelEditor {
 
 
     public LevelEditor(Context context){
+        Log.e("SDF","LOEVEL EDITOR start");
+
         this.context=context;
 
         int height = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -46,7 +50,7 @@ public class LevelEditor {
         if(tiles.isEmpty()){
             editorMenu.generateBorder();
         }
-
+        Log.e("SDF","LOEVEL EDITOR ENDED");
     }
 
     public LevelEditor(Context context, String level) {
