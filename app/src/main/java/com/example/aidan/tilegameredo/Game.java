@@ -415,15 +415,19 @@ public class Game {
     }
 
     public void paused() {
-        for(Particle p:ParticleManager.getParticles()){
-            if(p instanceof truckParticle){
-                saveStars();
-                Intent i = new Intent(context,EndScreen.class);
-                i.putExtra("stars",getStars());
-                i.putExtra("pack",getPack());
-                i.putExtra("level",getLevel().toString());
-                context.startActivity(i);
+        try {
+            for (Particle p : ParticleManager.getParticles()) {
+                if (p instanceof truckParticle) {
+                    saveStars();
+                    Intent i = new Intent(context, EndScreen.class);
+                    i.putExtra("stars", getStars());
+                    i.putExtra("pack", getPack());
+                    i.putExtra("level", getLevel().toString());
+                    context.startActivity(i);
+                }
             }
+        }catch(Exception e){
+            +
         }
     }
 }

@@ -94,6 +94,7 @@ public class HomePanel extends SurfaceView implements Runnable{
     public void resume() {
         playing = true;
         gameThread = new Thread(this);
+        gameThread.setName("HOMESCREENTHREAD");
         gameThread.start();
     }
 

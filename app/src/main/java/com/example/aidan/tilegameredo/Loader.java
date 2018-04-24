@@ -492,7 +492,7 @@ public class Loader {
 
     public static Bitmap getButtonNext(Context context) {
         if (next == null) {
-            next = BitmapFactory.decodeResource(context.getResources(), R.drawable.bluebox);
+            next = BitmapFactory.decodeResource(context.getResources(), R.drawable.next);
         }
         return next;
     }
