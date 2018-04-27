@@ -26,6 +26,7 @@ public class Level {
     public Level(Context context,String n){
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         level = settings.getString(n, "");
+        Log.e("LEVELSTRINGonInitiate",""+level);
         name = n;
     }
     public Level(String level){

@@ -26,7 +26,7 @@ public class HomePanel extends SurfaceView implements Runnable{
     private SurfaceHolder surfaceHolder;
     private android.graphics.Canvas canvas;
     private Paint paint;
-    private Button play,edit;
+    private Button play,edit,about;
     private Context context;
     private Bitmap logo;
     private ArrayList<int[]> touches = new ArrayList<>();
@@ -41,6 +41,8 @@ public class HomePanel extends SurfaceView implements Runnable{
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
         play = new Button(100,height*3/4,width/5,width/12,Color.rgb(65,99,135),"Play",48,Loader.getFont(context));
         edit = new Button(100,height*3/4+width/9,7*width/18,width/12,Color.rgb(65,99,135),"Level Editor",48,Loader.getFont(context));
+        edit = new Button(100,height*3/4+2*width/9,7*width/18,width/12,Color.rgb(65,99,135),"About",48,Loader.getFont(context));
+
         Bitmap temp = Loader.getLogo(context);
         logo = Bitmap.createScaledBitmap(temp,(int)(width*.8),(int)((double)temp.getHeight()/temp.getWidth()*width*.8),false);
 
@@ -53,6 +55,7 @@ public class HomePanel extends SurfaceView implements Runnable{
             Loader.drawBackground(canvas, paint);
             play.draw(canvas,paint);
             edit.draw(canvas,paint);
+            about.draw(canvas,paint);
             canvas.drawBitmap(logo,(int)(logo.getWidth()/1.6-logo.getWidth()/2),100,paint);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -86,9 +89,14 @@ public class HomePanel extends SurfaceView implements Runnable{
                 Intent i = new Intent(context,LevelEditorScreen.class);
                 context.startActivity(i);
             }
+            if(about.getHover()){
+                Intent i = new Intent(context,AboutScreen.class);
+                context.startActivity(i);
+            }
         }
         play.touch(x,y);
         edit.touch(x,y);
+        about.touch(x,y);
     }
 
     public void resume() {
