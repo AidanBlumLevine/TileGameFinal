@@ -41,6 +41,9 @@
             android:name=".levelEditor.LevelEditorScreen"
             android:screenOrientation="portrait"></activity>
         <activity
+            android:name=".AboutScreen"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".SelectorScreen"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="false"></activity>

@@ -37,7 +37,7 @@ public class hitParticle extends Particle {
             canvas.drawBitmap(cloud, super.getX()+cloud.getWidth()/10, super.getY(), paint);
             canvas.restore();
         }
-        super.setTime(super.getTime() + 32.0 / parent.getFps());
+        super.setTime(super.getTime() + 64.0 / parent.getFps());
     }
 
     @Override

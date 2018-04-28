@@ -53,6 +53,8 @@ public class LoadingPanel  extends SurfaceView implements Runnable{
                 Log.e("DoneLoading","DoneLoading");
                 Intent i = new Intent(context,HomeScreen.class);
                 context.startActivity(i);
+                Log.e("DoneLoading","Launched");
+
                 //((Activity)context).overridePendingTransition(R.anim.down_to_mid,R.anim.mid_to_up);
 
             }

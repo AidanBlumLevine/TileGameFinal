@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Crate Loader</string>
-    </resources>
+
+    <string name="aboutText">
+        <![CDATA[
+            <p> <b>Crate Loader</b> \n People are always going to be playing games on their phone, which is why I designed Crate Loader. Crate Loader is a fun alternative to other games, which also teaches cognitive and logic skills.
+               \n\Learn how to play: VIDEO LINK</p>
+        ]]>
+    </string>
+</resources>

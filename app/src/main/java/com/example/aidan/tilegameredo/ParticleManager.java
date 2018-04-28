@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.aidan.tilegameredo.particles.Particle;
+import com.example.aidan.tilegameredo.particles.winParticle;
 
 import java.util.ArrayList;
 
@@ -32,5 +33,14 @@ public class ParticleManager {
 
     public static ArrayList<Particle> getParticles() {
         return particles;
+    }
+
+    public static void pickup() {
+        for (int p = 0; p < particles.size(); p++) {
+            if (particles.get(p) instanceof winParticle) {
+                particles.remove(p);
+                p--;
+            }
+        }
     }
 }

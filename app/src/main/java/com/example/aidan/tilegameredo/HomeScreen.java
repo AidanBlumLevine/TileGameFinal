@@ -15,7 +15,9 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("HOMESCREEN","LAINCJED");
         panel = new HomePanel(this);
+        Log.e("HOMESCREEN","LAINCJED");
 
         setContentView(panel);
     }

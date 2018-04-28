@@ -62,6 +62,7 @@ public class truckParticle extends Particle{
                super.setTime(300);
                parent.hideGoal();
                ParticleManager.addParticle(new explosionParticle(targetX+15-(int)(truck.getWidth()*.2),targetY+15-truck.getHeight()/4));
+               ParticleManager.pickup();
            }
        }
         if(mode == 3) {

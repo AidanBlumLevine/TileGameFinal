@@ -8,31 +8,44 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="320dp"
-        android:layout_height="180dp"
+        android:layout_width="288dp"
+        android:layout_height="490dp"
         android:layout_marginBottom="204dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center"
-        android:text="Crate loader is a puzzle game designed to be a more educational alternative to many other phone games.\n\n\n\n\Learn how to play: VIDEO LINK\n\nThanks to:\n\n\n Made in Android Studio"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:font=""
         android:id="@+id/textView2"
-        android:layout_width="321dp"
-        android:layout_height="69dp"
-        android:layout_marginBottom="327dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="171dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="About"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp" />
+        android:layout_marginLeft="36dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="back"
+        android:text="Back"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.325"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.595" />
+
 </android.support.constraint.ConstraintLayout>
