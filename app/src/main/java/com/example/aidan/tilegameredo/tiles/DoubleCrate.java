@@ -80,14 +80,14 @@ public class DoubleCrate extends Tile {
         if(inMotion){
             acceleration+=.2;
         }
-        if(position==1 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX+1, (int)oldY))){
+        if(position==1 && ((parent.isSpike((int)oldX, (int)oldY))  && oldY==super.getY() && oldX == super.getX()|| parent.isSpike((int)oldX+1, (int)oldY) && oldY==super.getY() && oldX == super.getX())){
             if(!dead){
                 dissolveParticle p = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
                 dissolveParticle p2 = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
             }
             dead=true;
         }
-        if(position==2 && ((parent.isSpike((int)oldX, (int)oldY)) || parent.isSpike((int)oldX, (int)oldY+1))){
+        if(position==2 && ((parent.isSpike((int)oldX, (int)oldY)) && oldY==super.getY() && oldX == super.getX() || parent.isSpike((int)oldX, (int)oldY+1) && oldY==super.getY() && oldX == super.getX())){
             if(!dead){
                 Log.e("s",(int)oldX+","+ (int)oldY);
                 dissolveParticle p = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);

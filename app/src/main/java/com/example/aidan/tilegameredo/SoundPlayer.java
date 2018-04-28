@@ -32,7 +32,7 @@ public class SoundPlayer {
     }
 
     public void playSlideSound(){
-        soundPool.play(slideSound,0.2f,0.2f,1,0,1.0f);
+        soundPool.play(slideSound,0.2f,0.2f,1,0,0.5f);
     }
     public void stopSlideSound(){
         soundPool.stop(slideSound);

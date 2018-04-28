@@ -67,7 +67,7 @@ public class Box extends Tile {
         if(inMotion){
             acceleration+=.2;
         }
-        if(parent.isSpike((int)oldX, (int)oldY)){
+        if(parent.isSpike((int)oldX, (int)oldY) && oldY==super.getY() && oldX == super.getX()){
             if(!dead){
                 dissolveParticle p = new dissolveParticle((int)(oldX*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().left), (int)(oldY*parent.getPlayingField().height()/parent.getLevelWidth()+parent.getPlayingField().top),this,parent);
             }
