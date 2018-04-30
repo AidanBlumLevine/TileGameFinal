@@ -4,11 +4,11 @@
     <string name="aboutText">
         <![CDATA[
             <p> <b>Crate Loader</b> <br> People are always going to be playing games on their phone, which is why I designed Crate Loader. Crate Loader is a fun alternative to other games, which also teaches cognitive and logic skills.
-               <br><br> Learn how to play: VIDEO LINK <br><br>
+               <br><br> Learn how to play: <a href=\"http://youtu.be/aO54bKVibXg\">Video</a> <br><br>
                <b>Thanks to:</b> <br><br>
 
-
-                Mr. Borland - General Help.
+                Orkhan Nadirli - Graphics and Design help<br>
+                Mr. Borland - General Help.<br>
                 Matthew Keast - Level Design<br>
 
 
