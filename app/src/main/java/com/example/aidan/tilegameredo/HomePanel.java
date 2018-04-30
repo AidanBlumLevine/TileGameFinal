@@ -100,12 +100,19 @@ public class HomePanel extends SurfaceView implements Runnable{
     }
 
     public void resume() {
+
+        Log.e("thread",Thread.currentThread().getName());
+
         playing = true;
         gameThread = new Thread(this);
         gameThread.start();
+        Log.e("thread",Thread.currentThread().getName());
+
     }
 
     public void pause() {
+        Log.e("thread",Thread.currentThread().getName());
+
         playing = false;
         try {
             gameThread.join();
@@ -114,6 +121,7 @@ public class HomePanel extends SurfaceView implements Runnable{
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        Log.e("threadTouch",Thread.currentThread().getName());
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 touches.add(new int[]{-1,-1});

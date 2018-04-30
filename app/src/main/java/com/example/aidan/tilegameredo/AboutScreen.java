@@ -13,7 +13,6 @@ public class AboutScreen extends AppCompatActivity {
         setContentView(R.layout.activity_aboutscreen);
         TextView tv=(TextView)findViewById(R.id.textView);
         tv.setText(Html.fromHtml(getString(R.string.aboutText)));
-        android.widget.Button b = (android.widget.Button)findViewById(R.id.button);
     }
 
     public void back(View view){

@@ -3,8 +3,16 @@
 
     <string name="aboutText">
         <![CDATA[
-            <p> <b>Crate Loader</b> \n People are always going to be playing games on their phone, which is why I designed Crate Loader. Crate Loader is a fun alternative to other games, which also teaches cognitive and logic skills.
-               \n\Learn how to play: VIDEO LINK</p>
+            <p> <b>Crate Loader</b> <br> People are always going to be playing games on their phone, which is why I designed Crate Loader. Crate Loader is a fun alternative to other games, which also teaches cognitive and logic skills.
+               <br><br> Learn how to play: VIDEO LINK <br><br>
+               <b>Thanks to:</b> <br><br>
+
+
+                Mr. Borland - General Help.
+                Matthew Keast - Level Design<br>
+
+
+               <br><br><br><br><br>Made in Android Studio</p>
         ]]>
     </string>
 </resources>
